@@ -1,6 +1,38 @@
 // NeuroVision Elite: Client Application Script
 let currentResult = null;
 
+// Backend API URL Configuration (Render / Localhost)
+let API_BASE_URL = localStorage.getItem('neurovision_api_url') || '';
+const apiBaseUrlInput = document.getElementById('apiBaseUrlInput');
+const currentBackendDisplay = document.getElementById('currentBackendDisplay');
+const saveBackendUrlBtn = document.getElementById('saveBackendUrlBtn');
+
+function updateBackendDisplay() {
+    if (API_BASE_URL) {
+        currentBackendDisplay.textContent = API_BASE_URL.replace('https://', '').replace('http://', '');
+        apiBaseUrlInput.value = API_BASE_URL;
+    } else {
+        currentBackendDisplay.textContent = "Auto (Same Origin / Render)";
+        apiBaseUrlInput.value = "";
+    }
+}
+updateBackendDisplay();
+
+if (saveBackendUrlBtn) {
+    saveBackendUrlBtn.addEventListener('click', () => {
+        let url = apiBaseUrlInput.value.trim().replace(/\/$/, "");
+        if (url) {
+            localStorage.setItem('neurovision_api_url', url);
+            API_BASE_URL = url;
+        } else {
+            localStorage.removeItem('neurovision_api_url');
+            API_BASE_URL = '';
+        }
+        updateBackendDisplay();
+        alert("Backend target updated to: " + (API_BASE_URL || "Same Origin"));
+    });
+}
+
 const fileInput = document.getElementById('fileInput');
 const dropZone = document.getElementById('dropZone');
 const fileNameDisplay = document.getElementById('fileName');
@@ -60,7 +92,8 @@ analyzeBtn.addEventListener('click', async () => {
     const pixelSpacing = document.getElementById('pixelSpacing').value || 0.8;
 
     try {
-        const response = await fetch(`/api/v1/diagnose?slice_thickness_mm=${sliceThickness}&pixel_spacing_mm=${pixelSpacing}`, {
+        const targetUrl = API_BASE_URL ? `${API_BASE_URL}/api/v1/diagnose` : `/api/v1/diagnose`;
+        const response = await fetch(`${targetUrl}?slice_thickness_mm=${sliceThickness}&pixel_spacing_mm=${pixelSpacing}`, {
             method: 'POST',
             body: formData
         });
