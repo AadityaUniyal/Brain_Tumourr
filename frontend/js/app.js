@@ -1,8 +1,9 @@
 // NeuroVision Elite: Client Application Script
 let currentResult = null;
 
-// Backend API URL Configuration (Render / Localhost)
-let API_BASE_URL = localStorage.getItem('neurovision_api_url') || '';
+// Backend API URL Configuration (Default: Render cloud backend)
+const DEFAULT_CLOUD_BACKEND = "https://neurovision-elite-backend.onrender.com";
+let API_BASE_URL = localStorage.getItem('neurovision_api_url') || DEFAULT_CLOUD_BACKEND;
 const apiBaseUrlInput = document.getElementById('apiBaseUrlInput');
 const currentBackendDisplay = document.getElementById('currentBackendDisplay');
 const saveBackendUrlBtn = document.getElementById('saveBackendUrlBtn');
@@ -12,7 +13,7 @@ function updateBackendDisplay() {
         currentBackendDisplay.textContent = API_BASE_URL.replace('https://', '').replace('http://', '');
         apiBaseUrlInput.value = API_BASE_URL;
     } else {
-        currentBackendDisplay.textContent = "Auto (Same Origin / Render)";
+        currentBackendDisplay.textContent = "Auto (Same Origin)";
         apiBaseUrlInput.value = "";
     }
 }
