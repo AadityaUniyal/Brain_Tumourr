@@ -1,0 +1,14 @@
+services:
+  neurovision-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: neurovision_elite_service
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    environment:
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./reports:/app/reports
+      - ./models/checkpoints:/app/models/checkpoints

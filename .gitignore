@@ -1,0 +1,74 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+
+# PyTorch / Deep Learning checkpoints
+*.pt
+*.pth
+*.onnx
+*.engine
+*.tflite
+# Allow small test/dummy weights if tracked explicitly
+!models/checkpoints/.gitkeep
+
+# Large Datasets & Raw Storage
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+*.mat
+*.nii
+*.nii.gz
+*.dcm
+*.tar.gz
+*.zip
+
+# Legacy cloned bundle
+Machine-Learning-Projects/
+
+# IDE / Editor artifacts
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS specific
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs & Experiment Tracking
+logs/
+mlruns/
+wandb/
+.pytest_cache/
+.coverage
+htmlcov/

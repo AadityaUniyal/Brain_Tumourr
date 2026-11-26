@@ -1,0 +1,36 @@
+# NeuroVision Elite: Configuration File
+project:
+  name: "NeuroVision-Elite"
+  version: "2.0.0"
+  random_seed: 42
+
+data:
+  target_size: [256, 256]
+  num_classes: 3
+  class_names: ["Meningioma", "Glioma", "Pituitary"]
+  n_splits: 5
+  test_size: 0.15
+  batch_size: 16
+  num_workers: 0
+
+model:
+  backbone: "resnet50"
+  pretrained: true
+  dropout_rate: 0.3
+  segmentation_decoder: "fpn"
+  loss:
+    ce_weight: 1.0
+    dice_weight: 1.0
+    focal_weight: 0.5
+
+training:
+  epochs: 30
+  learning_rate: 0.0003
+  weight_decay: 0.0001
+  warmup_epochs: 3
+  scheduler: "cosine"
+  patience: 7
+
+safety:
+  ood_energy_threshold: -7.0
+  conformal_alpha: 0.05
