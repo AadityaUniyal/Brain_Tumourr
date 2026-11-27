@@ -12,6 +12,7 @@ from src.models.dual_head_net import DualHeadBrainTumorNet
 from src.inference.explainability import GradCAM
 from src.inference.ood_detector import EnergyOODDetector
 from src.inference.conformal import ConformalPredictor
+from src.inference.selective_classifier import SelectiveClassifier
 
 CLASS_NAMES = ["Meningioma", "Glioma", "Pituitary"]
 
@@ -40,6 +41,7 @@ class ClinicalPredictor:
         self.grad_cam = GradCAM(self.model)
         self.ood_detector = EnergyOODDetector(energy_threshold=ood_threshold)
         self.conformal = ConformalPredictor(alpha=conformal_alpha, class_names=CLASS_NAMES)
+        self.selective_classifier = SelectiveClassifier(confidence_threshold=0.80, energy_threshold=ood_threshold)
 
     def predict(self, file_source, filename="scan.jpg", slice_thickness_mm=3.0, pixel_spacing_mm=0.8):
         """
@@ -94,6 +96,16 @@ class ClinicalPredictor:
 
         class_distribution = {name: float(probs[i]) for i, name in enumerate(CLASS_NAMES)}
 
+        # Evaluate Conformal Risk-Controlled Selective Classification & Triage
+        selective_res = self.selective_classifier.evaluate_decision(
+            predicted_class=pred_label,
+            class_probabilities=class_distribution,
+            conformal_set=conformal_res["prediction_set"],
+            energy_score=energy_score,
+            is_ood=is_ood,
+            tumor_volume_cm3=tumor_volume_cm3,
+        )
+
         return {
             "status": "success",
             "filename": filename,
@@ -113,6 +125,7 @@ class ClinicalPredictor:
                 "tumor_area_mm2": round(tumor_area_mm2, 2),
                 "estimated_volume_cm3": round(tumor_volume_cm3, 3),
             },
+            "selective_triage": selective_res,
             "visualizations": {
                 "raw_slice": preprocessed_2d,
                 "seg_mask": seg_mask,

@@ -173,6 +173,46 @@ analyzeBtn.addEventListener('click', async () => {
 });
 
 function displayResults(diag, rad) {
+    // Selective Classification & Neuropathologist Triage
+    const triageBanner = document.getElementById('triageBanner');
+    const triageBadge = document.getElementById('triagePriorityBadge');
+    const triageTitle = document.getElementById('triageActionTitle');
+    const triageGuidance = document.getElementById('triageGuidanceText');
+    const abstentionList = document.getElementById('abstentionReasonsList');
+
+    if (diag.selective_triage && triageBanner) {
+        const st = diag.selective_triage;
+        triageTitle.textContent = st.action_label;
+        triageGuidance.textContent = st.clinical_guidance;
+
+        if (st.g_selection === 1) {
+            triageBanner.style.background = "linear-gradient(135deg, #064e3b 0%, #022c22 100%)";
+            triageBadge.className = "badge bg-success fs-6 px-3 py-1";
+            triageBadge.innerHTML = '<i class="fa-solid fa-check-circle me-1"></i> AUTOMATED SIGN-OFF';
+            abstentionList.classList.add('d-none');
+            abstentionList.innerHTML = '';
+        } else {
+            triageBanner.style.background = "linear-gradient(135deg, #7f1d1d 0%, #450a0a 100%)";
+            if (st.triage_priority.includes('STAT')) {
+                triageBadge.className = "badge bg-danger fs-6 px-3 py-1";
+                triageBadge.innerHTML = '<i class="fa-solid fa-triangle-exclamation me-1"></i> STAT / URGENT TRIAGE';
+            } else if (st.triage_priority.includes('ELEVATED')) {
+                triageBadge.className = "badge bg-warning text-dark fs-6 px-3 py-1";
+                triageBadge.innerHTML = '<i class="fa-solid fa-bell me-1"></i> ELEVATED REVIEW';
+            } else {
+                triageBadge.className = "badge bg-secondary fs-6 px-3 py-1";
+                triageBadge.innerHTML = '<i class="fa-solid fa-clock me-1"></i> ROUTINE SECOND OPINION';
+            }
+
+            if (st.abstention_reasons && st.abstention_reasons.length > 0) {
+                abstentionList.classList.remove('d-none');
+                abstentionList.innerHTML = st.abstention_reasons.map(r => `<li>${r}</li>`).join('');
+            } else {
+                abstentionList.classList.add('d-none');
+            }
+        }
+    }
+
     // Top Diagnostics
     document.getElementById('predictedClass').textContent = diag.diagnostic.predicted_tumor_type;
     document.getElementById('confidenceScore').textContent = `${(diag.diagnostic.confidence * 100).toFixed(1)}%`;

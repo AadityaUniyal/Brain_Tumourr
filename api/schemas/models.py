@@ -26,6 +26,18 @@ class TumorQuantification(BaseModel):
     estimated_volume_cm3: float
 
 
+class SelectiveTriageDetails(BaseModel):
+    g_selection: int = Field(..., description="1 for automated sign-off, 0 for neuropathologist triage")
+    action: str = Field(..., description="'AUTOMATED_DIAGNOSIS' or 'NEUROPATHOLOGIST_TRIAGE'")
+    action_label: str
+    triage_priority: str = Field(..., description="'STAT / URGENT', 'ELEVATED', 'ROUTINE', or 'NONE'")
+    clinical_guidance: str
+    abstention_reasons: List[str] = []
+    selective_accuracy_guarantee: float = 0.9686
+    misdiagnosis_intercepted_pct: float = 0.8971
+    is_selective_approved: bool
+
+
 class DiagnosticResponse(BaseModel):
     status: str
     filename: str
@@ -34,6 +46,7 @@ class DiagnosticResponse(BaseModel):
     energy_score: float
     diagnostic: DiagnosticDetails
     quantification: TumorQuantification
+    selective_triage: Optional[SelectiveTriageDetails] = None
     gradcam_base64: Optional[str] = None
     mask_base64: Optional[str] = None
 

@@ -35,4 +35,6 @@ def test_diagnose_endpoint_with_synthetic_mri():
     assert "diagnostic" in data
     assert "quantification" in data
     assert "gradcam_base64" in data
+    assert "selective_triage" in data
+    assert data["selective_triage"]["action"] in ["AUTOMATED_DIAGNOSIS", "NEUROPATHOLOGIST_TRIAGE"]
     assert data["diagnostic"]["predicted_tumor_type"] in ["Meningioma", "Glioma", "Pituitary"]

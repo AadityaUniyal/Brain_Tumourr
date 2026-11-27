@@ -80,10 +80,17 @@ def main():
     
     # Load Benchmark Model
     model = DualHeadBrainTumorNet(num_classes=3)
-    weights_path = Path("models/dual_head_best.pt")
+    weights_path = Path("models/checkpoints/neurovision_dualhead_best.pt")
     if weights_path.exists():
-        model.load_state_dict(torch.load(weights_path, map_location=torch.device("cpu")))
+        ckpt = torch.load(weights_path, map_location=torch.device("cpu"))
+        if "model_state_dict" in ckpt:
+            model.load_state_dict(ckpt["model_state_dict"])
+        else:
+            model.load_state_dict(ckpt)
     model.eval()
+
+    from src.data.dataset import get_medical_transforms
+    val_tf = get_medical_transforms(is_train=False)
 
     # Load 100 held-out test scans from split
     split_df = pd.read_csv("data/splits/patient_stratified_5folds.csv")
@@ -151,9 +158,10 @@ def main():
     def evaluate_cohort(img_list):
         preds = []
         for img in img_list:
-            resized = cv2.resize(img, (128, 128), interpolation=cv2.INTER_AREA)
-            norm = preprocessor.normalize(resized)
-            t = torch.tensor(norm, dtype=torch.float32).unsqueeze(0).unsqueeze(0).repeat(1, 3, 1, 1)
+            norm = (img - img.min()) / (img.max() - img.min() + 1e-6)
+            resized = cv2.resize(norm, (128, 128), interpolation=cv2.INTER_LINEAR)
+            img_3c = np.repeat(resized[:, :, None], 3, axis=-1)
+            t = val_tf(image=img_3c)["image"].unsqueeze(0)
             with torch.no_grad():
                 out = model(t)
                 logits = out["logits"]

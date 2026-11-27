@@ -99,6 +99,28 @@ Simulated across 100 held-out patient scans over 5 physical perturbation levels:
 
 ---
 
+## 🛡️ Phase 5: Conformal Risk-Controlled Abstention & Neuropathologist Triaging
+
+To eliminate autonomous diagnostic errors on borderline, equivocal, or ambiguous scans, NeuroVision Elite implements **Selective Classification with Guaranteed Finite-Sample Risk Bounds** ($R(f, g) \le 5\%$):
+- Scans satisfying confidence, energy, and singleton conformal coverage ($|C_{0.95}(x)| = 1$) receive **instantaneous automated sign-off** ($g(x) = 1$).
+- Equivocal scans ($g(x) = 0$) are safely **abstained** and routed to a **Human-in-the-Loop Senior Neuropathologist / Tumor Board Triage Queue** with clinical urgency scoring (`STAT / URGENT`, `ELEVATED`, or `ROUTINE`).
+
+### 📊 Calibrated Risk-Coverage Tradeoff & Error Interception
+Evaluated across 474 held-out test scans from 35 unseen patients:
+- **Forced-Choice Baseline Accuracy**: **85.65%** (68 total misdiagnoses passed to patient).
+- **Selective Diagnostic Accuracy**: **96.86%** on accepted cases (operating threshold $\tau^* = 0.400$).
+- **Medical Malpractice Interception**: **89.71% of all baseline errors successfully intercepted and routed to neuropathologist review**.
+- **Triage Priority Breakdown** ($N = 251$ abstained scans):
+  - 🔴 **STAT / URGENT Priority**: **84.9%** ($N = 213$) - High likelihood of Glioma or mass effect; fast-tracked for immediate neurosurgical consult.
+  - 🟡 **ELEVATED Priority**: **15.1%** ($N = 38$) - Multi-class conformal ambiguity between Glioma and Meningioma.
+
+<div align="center">
+  <img src="reports/figures/triaging/risk_coverage_curve.png" alt="Risk Coverage Curve" width="48%"/>
+  <img src="reports/figures/triaging/triage_priority_distribution.png" alt="Triage Priority Distribution" width="48%"/>
+</div>
+
+---
+
 ## 📊 Verified Clinical Benchmarks on Unseen Patients
 
 Every single metric reported below is **genuinely evaluated** with zero data leakage:

@@ -77,6 +77,7 @@ async def diagnose_scan(
             energy_score=result["energy_score"],
             diagnostic=result["diagnostic"],
             quantification=result["quantification"],
+            selective_triage=result.get("selective_triage"),
             gradcam_base64=cam_overlay_b64,
             mask_base64=mask_b64,
         )
