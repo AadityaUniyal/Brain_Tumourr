@@ -1,0 +1,73 @@
+# Data Version Control (DVC) Machine Learning Pipeline
+stages:
+  curate_tcga_groundtruth:
+    cmd: python scripts/curate_tcga_groundtruth.py
+    deps:
+      - scripts/curate_tcga_groundtruth.py
+    outs:
+      - data/processed/tcga_clinical_molecular_survival.csv
+
+  extract_radiomics:
+    cmd: python scripts/extract_radiomics.py
+    deps:
+      - scripts/extract_radiomics.py
+      - data/raw/mat_files
+    outs:
+      - data/processed/radiomic_features_patient_level.csv
+      - data/processed/radiomic_features_slice_level.csv
+
+  train_dualhead_benchmark:
+    cmd: python scripts/train_benchmark.py
+    deps:
+      - scripts/train_benchmark.py
+      - data/splits/patient_stratified_5folds.csv
+      - src/models/dual_head_net.py
+    outs:
+      - models/checkpoints/neurovision_dualhead_best.pt
+    metrics:
+      - reports/metrics/benchmark_results.json:
+          cache: false
+
+  train_multimodal_survival:
+    cmd: python scripts/train_multimodal_survival.py
+    deps:
+      - scripts/train_multimodal_survival.py
+      - data/processed/tcga_clinical_molecular_survival.csv
+      - data/processed/radiomic_features_patient_level.csv
+    outs:
+      - models/multimodal_radiogenomics_net.pt
+    metrics:
+      - reports/metrics/deep_radiogenomics_results.json:
+          cache: false
+
+  evaluate_robustness_and_fairness:
+    cmd: python scripts/stress_test_physics.py && python scripts/audit_subgroup_fairness.py
+    deps:
+      - scripts/stress_test_physics.py
+      - scripts/audit_subgroup_fairness.py
+      - models/checkpoints/neurovision_dualhead_best.pt
+      - models/multimodal_radiogenomics_net.pt
+    metrics:
+      - reports/metrics/physics_robustness_results.json:
+          cache: false
+      - reports/metrics/subgroup_fairness_results.json:
+          cache: false
+
+  calibrate_selective_abstention:
+    cmd: python scripts/calibrate_risk_coverage.py
+    deps:
+      - scripts/calibrate_risk_coverage.py
+      - models/checkpoints/neurovision_dualhead_best.pt
+      - src/inference/selective_classifier.py
+    metrics:
+      - reports/metrics/selective_risk_coverage_calibration.json:
+          cache: false
+
+  regression_gate:
+    cmd: python scripts/ci_regression_gate.py
+    deps:
+      - scripts/ci_regression_gate.py
+      - reports/metrics/benchmark_results.json
+      - reports/metrics/deep_radiogenomics_results.json
+      - reports/metrics/subgroup_fairness_results.json
+      - reports/metrics/selective_risk_coverage_calibration.json

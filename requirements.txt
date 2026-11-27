@@ -22,3 +22,4 @@ pyyaml>=6.0
 pytest>=7.4.0
 scikit-image>=0.20.0
 lifelines>=0.29.0
+shap>=0.45.0

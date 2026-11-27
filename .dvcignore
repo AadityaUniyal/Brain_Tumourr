@@ -1,0 +1,8 @@
+# DVC Ignore Rules
+.git/
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+reports/figures/*

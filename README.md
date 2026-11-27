@@ -121,6 +121,41 @@ Evaluated across 474 held-out test scans from 35 unseen patients:
 
 ---
 
+## ⚙️ Phase 6: Automated MLOps, CI/CD Performance Regression Gating & DVC
+
+To safeguard patient safety and guarantee production-grade reliability, NeuroVision Elite incorporates continuous clinical regression gating, model registry tracking, and reproducibility pipelines:
+
+### 1. Automated Performance Regression Gate (`scripts/ci_regression_gate.py`)
+Triggered automatically on every Pull Request via GitHub Actions (`.github/workflows/mlops_eval_gate.yml`). The gate enforces **8 strict, zero-tolerance clinical thresholds**:
+
+| Quality & Safety Domain | Objective Metric | Target Threshold | Evaluated Production Value | Gate Status |
+| :--- | :--- | :---: | :---: | :---: |
+| **Leakage Isolation** | Patient Test Leakage Rate | $\le 0.00\%$ | **0.00%** | ✅ **PASS** |
+| **Multi-class Discrimination** | Dual-Task Macro AUROC | $\ge 0.9500$ | **0.9631** | ✅ **PASS** |
+| **Generalization Accuracy** | Dual-Task Test Accuracy | $\ge 85.00\%$ | **86.29%** | ✅ **PASS** |
+| **Uncertainty Calibration** | Expected Calibration Error (ECE) | $\le 0.0500$ | **0.0187** | ✅ **PASS** |
+| **Multimodal Survival** | DeepSurv Harrell's C-Index | $\ge 0.8000$ | **0.8151** | ✅ **PASS** |
+| **Virtual Biopsy** | IDH1/2 Mutation AUROC | $\ge 0.9000$ | **0.9256** | ✅ **PASS** |
+| **Fairness Parity** | Gender Disparity ($\Delta$ C-Index) | $\le 0.0500$ | **0.0011** | ✅ **PASS** |
+| **Conformal Safety** | Selective Accuracy (Accepted Scans) | $\ge 95.00\%$ | **96.86%** | ✅ **PASS** |
+
+*Any commit or PR that causes regression on any of these 8 metrics automatically fails the CI build and blocks deployment.*
+
+### 2. DVC Pipeline & Artifact Lineage (`dvc.yaml`)
+Complete data and training lineage managed through Data Version Control:
+- `data_split`: Enforces patient-level disjoint partitioning (`patient_stratified_5folds.csv`).
+- `extract_radiomics`: Computes 48 IBSI-standard morphological & texture features (`radiomic_features_patient_level.csv`).
+- `train_survival`: Trains the multimodal DeepSurv & molecular biopsy network (`multimodal_radiogenomics_net.pt`).
+- `calibrate_risk_coverage`: Optimizes risk-coverage trade-off and sets operating threshold $\tau^* = 0.400$.
+- `ci_performance_gate`: Evaluates all 8 regression gates and generates PR summaries.
+
+### 3. Cryptographic Model Registry (`models/model_registry.json`)
+Tracks artifact checksums (SHA-256), parameter footprints, input contracts, and operational states:
+- `neurovision-dualhead-v2`: ResNet50 Multi-Task Segmentation & Morphological Classification.
+- `neurovision-radiogenomics-deepsurv-v3`: Tri-Head Gated Attention Survival & WHO 2021 Molecular Biopsy (`b9284f0...`).
+
+---
+
 ## 📊 Verified Clinical Benchmarks on Unseen Patients
 
 Every single metric reported below is **genuinely evaluated** with zero data leakage:

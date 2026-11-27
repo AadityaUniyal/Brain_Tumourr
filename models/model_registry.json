@@ -1,0 +1,61 @@
+{
+  "registry_version": "1.0.0",
+  "organization": "NeuroVision Clinical AI Consortium",
+  "active_production_models": [
+    {
+      "model_id": "neurovision-dualhead-v2",
+      "version": "2.0.0",
+      "model_class": "DualHeadBrainTumorNet",
+      "task": "Semantic Segmentation + Multi-class Classification",
+      "input_modalities": ["T1-CE Axial Brain MRI (DICOM / NIfTI / MAT / PNG)"],
+      "input_resolution": [3, 128, 128],
+      "output_classes": ["Meningioma", "Glioma", "Pituitary"],
+      "checkpoint_relpath": "models/checkpoints/neurovision_dualhead_best.pt",
+      "status": "Production-Active",
+      "benchmark_metrics": {
+        "macro_auroc": 0.9631,
+        "accuracy": 0.8629,
+        "balanced_accuracy": 0.8628,
+        "macro_f1": 0.8559,
+        "expected_calibration_error": 0.0187,
+        "mean_dice_score": 0.4108,
+        "patient_leakage_rate": 0.0
+      }
+    },
+    {
+      "model_id": "neurovision-radiogenomics-deepsurv-v3",
+      "version": "3.1.0",
+      "model_class": "MultimodalRadiogenomicsNet",
+      "task": "WHO 2021 Virtual Molecular Biopsy + DeepSurv Time-to-Event Survival Prognosis",
+      "input_modalities": [
+        "48-dimensional IBSI Radiomic Features (Shape, GLCM Texture, First-order Intensity)",
+        "Patient Clinical Demographics (Age, Biological Sex, Histological Grade)"
+      ],
+      "output_targets": [
+        "IDH1/2 Mutation Probability (Sigmoid BCE)",
+        "1p/19q Co-deletion Probability (Sigmoid BCE)",
+        "DeepSurv Log-Hazard Risk Score g(x) (Cox Partial Likelihood)"
+      ],
+      "checkpoint_relpath": "models/multimodal_radiogenomics_net.pt",
+      "sha256": "b9284f0bd78a34c56ad4a47998910cf507d78ab38cf36283810ba92ebc4971c5",
+      "status": "Production-Active",
+      "benchmark_metrics": {
+        "harrell_concordance_index": 0.8151,
+        "c_index_std": 0.0133,
+        "kaplan_meier_logrank_p_value": 1.54e-61,
+        "idh_mutation_auroc": 0.9256,
+        "idh_mutation_f1": 0.8662,
+        "codeletion_1p19q_auroc": 0.7265,
+        "gender_parity_disparity_gap": 0.0011,
+        "selective_accuracy": 0.9686,
+        "error_interception_efficiency": 0.8971
+      }
+    }
+  ],
+  "governance": {
+    "zero_leakage_enforced": true,
+    "conformal_risk_controlled": true,
+    "clinical_guideline_alignment": "WHO CNS5 2021 / CLAIM Medical AI Guidelines",
+    "last_audit_timestamp": "2026-11-27T22:30:00Z"
+  }
+}
