@@ -538,6 +538,8 @@ function displayResults(diag, rad) {
     document.getElementById('biopsyIdhVal').textContent = `${idhPct}%`;
     document.getElementById('biopsyIdhBar').style.width = `${idhPct}%`;
     document.getElementById('biopsyIdhStatus').textContent = rad.idh_status;
+    const idhGuidance = document.getElementById('biopsyIdhGuidance');
+    if (idhGuidance) idhGuidance.textContent = rad.idh_clinical_guidance;
 
     const codelPct = (rad.codeletion_1p19q_probability * 100).toFixed(1);
     document.getElementById('biopsy1p19qVal').textContent = `${codelPct}%`;
@@ -563,7 +565,7 @@ function displayResults(diag, rad) {
     const svgPath = document.getElementById('survivalSvgPath');
     if (svgPath) {
         svgPath.setAttribute('stroke', isHighRisk ? '#ef4444' : '#10b981');
-        svgPath.setAttribute('d', isHighRisk ? 'M 50,30 Q 150,110 300,165 T 680,195' : 'M 50,30 Q 250,45 450,75 T 680,110');
+        svgPath.setAttribute('d', isHighRisk ? 'M 50,30 Q 180,110 340,165 L 680,195' : 'M 50,30 Q 250,45 450,75 L 680,110');
     }
 }
 
