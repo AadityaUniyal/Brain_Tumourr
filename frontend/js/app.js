@@ -1,5 +1,5 @@
 // ==========================================================================
-// NEUROVISION ELITE: Google Antigravity Inspired Client Engine
+// NEUROVISION ELITE: Google Antigravity Flagship Client Engine
 // ==========================================================================
 
 let currentDiagnostic = null;
@@ -14,6 +14,8 @@ let API_BASE_URL = localStorage.getItem('neurovision_api_url') || DEFAULT_CLOUD_
 const apiBaseUrlInput = document.getElementById('apiBaseUrlInput');
 const currentBackendDisplay = document.getElementById('currentBackendDisplay');
 const saveBackendUrlBtn = document.getElementById('saveBackendUrlBtn');
+const toggleConfigBtn = document.getElementById('toggleConfigBtn');
+const serverConfigDrawer = document.getElementById('serverConfigDrawer');
 const healthStatusText = document.getElementById('healthStatusText');
 const healthDot = document.getElementById('healthDot');
 
@@ -27,100 +29,115 @@ const welcomePlaceholder = document.getElementById('welcomePlaceholder');
 const resultsView = document.getElementById('resultsView');
 
 // --------------------------------------------------------------------------
-// 1. Synaptic Neural Canvas Animation (60FPS Interactive Particle Network)
+// 1. Antigravity Spectral Rainbow Particle Vortex Canvas (Hero Background)
 // --------------------------------------------------------------------------
-const canvas = document.getElementById('neuralCanvas');
-if (canvas) {
-    const ctx = canvas.getContext('2d');
-    let width = canvas.width = window.innerWidth;
-    let height = canvas.height = window.innerHeight;
+const agCanvas = document.getElementById('antigravityCanvas');
+if (agCanvas) {
+    const ctx = agCanvas.getContext('2d');
+    let width = agCanvas.width = window.innerWidth;
+    let height = agCanvas.height = 720;
 
     window.addEventListener('resize', () => {
-        width = canvas.width = window.innerWidth;
-        height = canvas.height = window.innerHeight;
+        width = agCanvas.width = window.innerWidth;
+        height = agCanvas.height = 720;
     });
 
-    const nodeCount = Math.min(65, Math.floor((width * height) / 18000));
-    const nodes = [];
-    const maxDistance = 140;
+    const spectralColors = [
+        'rgba(59, 130, 246, ',  // Cobalt
+        'rgba(139, 92, 246, ',  // Violet
+        'rgba(236, 72, 153, ',  // Magenta
+        'rgba(244, 63, 94, ',   // Coral
+        'rgba(245, 158, 11, '   // Warm Amber
+    ];
 
-    let mouse = { x: null, y: null, radius: 160 };
+    const particleCount = Math.min(80, Math.floor(width / 18));
+    const particles = [];
+
+    let mouseX = width / 2;
+    let mouseY = height / 2;
     window.addEventListener('mousemove', (e) => {
-        mouse.x = e.clientX;
-        mouse.y = e.clientY;
-    });
-    window.addEventListener('mouseleave', () => {
-        mouse.x = null;
-        mouse.y = null;
+        const rect = agCanvas.getBoundingClientRect();
+        if (e.clientY <= rect.bottom) {
+            mouseX = e.clientX;
+            mouseY = e.clientY - rect.top;
+        }
     });
 
-    class SynapseNode {
+    class SpectralParticle {
         constructor() {
-            this.x = Math.random() * width;
-            this.y = Math.random() * height;
-            this.vx = (Math.random() - 0.5) * 0.6;
-            this.vy = (Math.random() - 0.5) * 0.6;
-            this.radius = Math.random() * 2 + 1;
-            this.baseAlpha = Math.random() * 0.4 + 0.2;
+            this.reset();
+        }
+
+        reset() {
+            this.x = (Math.random() - 0.5) * width * 0.8 + width / 2;
+            this.y = (Math.random() - 0.5) * height * 0.8 + height / 2;
+            this.vx = (Math.random() - 0.5) * 0.8;
+            this.vy = (Math.random() - 0.5) * 0.8;
+            this.radius = Math.random() * 2.2 + 1.0;
+            this.colorPrefix = spectralColors[Math.floor(Math.random() * spectralColors.length)];
+            this.alpha = Math.random() * 0.5 + 0.2;
+            this.pulseSpeed = Math.random() * 0.02 + 0.01;
+            this.pulsePhase = Math.random() * Math.PI * 2;
         }
 
         update() {
             this.x += this.vx;
             this.y += this.vy;
+            this.pulsePhase += this.pulseSpeed;
 
-            if (this.x < 0 || this.x > width) this.vx *= -1;
-            if (this.y < 0 || this.y > height) this.vy *= -1;
+            // Soft attraction to mouse vortex center
+            const dx = mouseX - this.x;
+            const dy = mouseY - this.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 320 && dist > 20) {
+                this.x += (dx / dist) * 0.35;
+                this.y += (dy / dist) * 0.35;
+            }
 
-            if (mouse.x !== null && mouse.y !== null) {
-                const dx = mouse.x - this.x;
-                const dy = mouse.y - this.y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < mouse.radius) {
-                    const force = (mouse.radius - dist) / mouse.radius;
-                    this.x -= (dx / dist) * force * 1.5;
-                    this.y -= (dy / dist) * force * 1.5;
-                }
+            if (this.x < 0 || this.x > width || this.y < 0 || this.y > height) {
+                this.reset();
             }
         }
 
         draw() {
+            const currentAlpha = Math.max(0.1, this.alpha + Math.sin(this.pulsePhase) * 0.2);
             ctx.beginPath();
             ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(56, 189, 248, ${this.baseAlpha})`;
+            ctx.fillStyle = `${this.colorPrefix}${currentAlpha})`;
             ctx.fill();
         }
     }
 
-    for (let i = 0; i < nodeCount; i++) {
-        nodes.push(new SynapseNode());
+    for (let i = 0; i < particleCount; i++) {
+        particles.push(new SpectralParticle());
     }
 
-    function animateSynapses() {
+    function animateSpectralVortex() {
         ctx.clearRect(0, 0, width, height);
 
-        for (let i = 0; i < nodes.length; i++) {
-            nodes[i].update();
-            nodes[i].draw();
+        for (let i = 0; i < particles.length; i++) {
+            particles[i].update();
+            particles[i].draw();
 
-            for (let j = i + 1; j < nodes.length; j++) {
-                const dx = nodes[i].x - nodes[j].x;
-                const dy = nodes[i].y - nodes[j].y;
+            for (let j = i + 1; j < particles.length; j++) {
+                const dx = particles[i].x - particles[j].x;
+                const dy = particles[i].y - particles[j].y;
                 const dist = Math.sqrt(dx * dx + dy * dy);
 
-                if (dist < maxDistance) {
-                    const alpha = (1 - dist / maxDistance) * 0.25;
+                if (dist < 110) {
+                    const alpha = (1 - dist / 110) * 0.18;
                     ctx.beginPath();
-                    ctx.moveTo(nodes[i].x, nodes[i].y);
-                    ctx.lineTo(nodes[j].x, nodes[j].y);
-                    ctx.strokeStyle = `rgba(99, 102, 241, ${alpha})`;
-                    ctx.lineWidth = 1;
+                    ctx.moveTo(particles[i].x, particles[i].y);
+                    ctx.lineTo(particles[j].x, particles[j].y);
+                    ctx.strokeStyle = `rgba(59, 130, 246, ${alpha})`;
+                    ctx.lineWidth = 0.8;
                     ctx.stroke();
                 }
             }
         }
-        requestAnimationFrame(animateSynapses);
+        requestAnimationFrame(animateSpectralVortex);
     }
-    animateSynapses();
+    animateSpectralVortex();
 }
 
 // --------------------------------------------------------------------------
@@ -136,6 +153,13 @@ function updateBackendDisplay() {
     }
 }
 updateBackendDisplay();
+
+if (toggleConfigBtn && serverConfigDrawer) {
+    toggleConfigBtn.addEventListener('click', () => {
+        const isHidden = serverConfigDrawer.style.display === 'none';
+        serverConfigDrawer.style.display = isHidden ? 'block' : 'none';
+    });
+}
 
 async function pingBackendHealth() {
     const targetUrl = API_BASE_URL || window.location.origin;
@@ -171,12 +195,13 @@ if (saveBackendUrlBtn) {
         }
         updateBackendDisplay();
         pingBackendHealth();
+        serverConfigDrawer.style.display = 'none';
         alert("Backend target updated to: " + (API_BASE_URL || "Same Origin"));
     });
 }
 
 // --------------------------------------------------------------------------
-// 3. File Selection & 1-Click Interactive Clinical Patient Simulator
+// 3. File Selection & 1-Click Patient Scenario Presets
 // --------------------------------------------------------------------------
 fileInput.addEventListener('change', (e) => {
     if (e.target.files.length > 0) {
@@ -206,7 +231,7 @@ function handleFileSelect(file) {
     fileNameDisplay.textContent = file.name;
     const sizeKb = (file.size / 1024).toFixed(1);
     document.getElementById('fileSize').textContent = `${sizeKb} KB`;
-    selectedFileInfo.classList.remove('d-none');
+    selectedFileInfo.style.display = 'flex';
     analyzeBtn.disabled = false;
 }
 
@@ -230,7 +255,6 @@ async function loadSampleCase(caseType) {
         
         handleFileSelect(file);
 
-        // Adjust age & demographics per case
         if (caseType === 'glioma') {
             document.getElementById('ageInput').value = 58;
             document.getElementById('sexSelect').value = 'MALE';
@@ -242,11 +266,10 @@ async function loadSampleCase(caseType) {
             document.getElementById('sexSelect').value = 'FEMALE';
         }
 
-        // Smooth scroll to cockpit and run analysis
         document.getElementById('cockpit').scrollIntoView({ behavior: 'smooth' });
         setTimeout(() => {
             analyzeBtn.click();
-        }, 400);
+        }, 350);
     } catch (err) {
         console.error("Error loading sample case:", err);
         alert("Failed to load sample: " + err.message);
@@ -285,7 +308,7 @@ function renderSurvivalCurve(curvePoints, riskTier) {
         }
 
         dots += `
-            <circle cx="${x}" cy="${y}" r="4" fill="${strokeColor}" stroke="#0b0d14" stroke-width="1.5">
+            <circle cx="${x}" cy="${y}" r="4" fill="${strokeColor}" stroke="#07080c" stroke-width="1.5">
                 <title>${pt.month} Months: ${(pt.survival_prob * 100).toFixed(1)}%</title>
             </circle>
         `;
@@ -304,7 +327,7 @@ function renderSurvivalCurve(curvePoints, riskTier) {
     `;
 
     svg.innerHTML = `
-        <rect width="100%" height="100%" fill="#0a0c13" rx="8"/>
+        <rect width="100%" height="100%" fill="#07080c" rx="8"/>
         ${gridLines}
         <path d="${pathD}" fill="none" stroke="${strokeColor}" stroke-width="2.5" stroke-linecap="round"/>
         ${dots}
@@ -318,9 +341,9 @@ analyzeBtn.addEventListener('click', async () => {
     if (!selectedFile) return;
 
     analyzeBtn.disabled = true;
-    loadingIndicator.classList.remove('d-none');
-    welcomePlaceholder.classList.add('d-none');
-    resultsView.classList.add('d-none');
+    loadingIndicator.style.display = 'block';
+    welcomePlaceholder.style.display = 'none';
+    resultsView.style.display = 'none';
 
     const sliceThickness = parseFloat(document.getElementById('thicknessInput').value) || 3.0;
     const pixelSpacing = parseFloat(document.getElementById('spacingInput').value) || 0.8;
@@ -328,7 +351,6 @@ analyzeBtn.addEventListener('click', async () => {
     const patientSex = document.getElementById('sexSelect').value || 'MALE';
 
     try {
-        // Run Diagnostic Endpoint
         const diagFormData = new FormData();
         diagFormData.append('file', selectedFile);
 
@@ -337,7 +359,6 @@ analyzeBtn.addEventListener('click', async () => {
             body: diagFormData
         });
 
-        // Run Radiogenomics Endpoint
         const radFormData = new FormData();
         radFormData.append('file', selectedFile);
 
@@ -356,22 +377,20 @@ analyzeBtn.addEventListener('click', async () => {
 
         displayResults(currentDiagnostic, currentRadiogenomic);
 
-        // Celebratory confetti if approved
         if (currentDiagnostic.selective_triage && currentDiagnostic.selective_triage.is_selective_approved && window.confetti) {
-            window.confetti({ particleCount: 40, spread: 60, origin: { y: 0.7 } });
+            window.confetti({ particleCount: 50, spread: 60, origin: { y: 0.65 } });
         }
     } catch (err) {
         console.error("Analysis Pipeline Failure:", err);
-        alert(`Analysis Error: ${err.message}. Ensure backend is active.`);
-        welcomePlaceholder.classList.remove('d-none');
+        alert(`Analysis Error: ${err.message}. Ensure backend is online.`);
+        welcomePlaceholder.style.display = 'block';
     } finally {
         analyzeBtn.disabled = false;
-        loadingIndicator.classList.add('d-none');
+        loadingIndicator.style.display = 'none';
     }
 });
 
 function displayResults(diag, rad) {
-    // 1. Conformal Risk-Controlled Triage Decision
     const st = diag.selective_triage;
     const banner = document.getElementById('conformalTriageBanner');
     const actionBadge = document.getElementById('triageActionBadge');
@@ -382,49 +401,53 @@ function displayResults(diag, rad) {
 
     if (st) {
         if (st.is_selective_approved) {
-            banner.className = "glass-card mb-4 border-success";
-            actionBadge.className = "badge bg-success fs-6 px-3 py-1";
+            banner.style.background = "rgba(22, 101, 52, 0.25)";
+            banner.style.borderColor = "#16a34a";
+            actionBadge.style.background = "#16a34a";
             actionBadge.innerHTML = '<i class="fa-solid fa-check-circle me-1"></i> AUTOMATED SIGN-OFF';
-            priorityBadge.className = "badge bg-dark border border-success text-success small";
+            priorityBadge.style.color = "#4ade80";
             priorityBadge.textContent = "Priority: Routine Validated";
             actionLabel.textContent = "Conformal Finite-Sample Coverage Satisfied";
             clinicalGuidance.textContent = st.clinical_guidance;
             guaranteeText.textContent = `${(st.selective_accuracy_guarantee * 100).toFixed(2)}%`;
+            guaranteeText.style.color = "#4ade80";
         } else {
             const isStat = st.triage_priority && st.triage_priority.includes("STAT");
-            banner.className = isStat ? "glass-card mb-4 border-danger" : "glass-card mb-4 border-warning";
-            actionBadge.className = isStat ? "badge bg-danger fs-6 px-3 py-1" : "badge bg-warning text-dark fs-6 px-3 py-1";
+            banner.style.background = isStat ? "rgba(185, 28, 28, 0.25)" : "rgba(202, 138, 4, 0.25)";
+            banner.style.borderColor = isStat ? "#dc2626" : "#eab308";
+            actionBadge.style.background = isStat ? "#dc2626" : "#eab308";
             actionBadge.innerHTML = isStat ? '<i class="fa-solid fa-triangle-exclamation me-1"></i> STAT NEUROSURGICAL TRIAGE' : '<i class="fa-solid fa-bell me-1"></i> ELEVATED REVIEW';
-            priorityBadge.className = isStat ? "badge bg-dark border border-danger text-danger small" : "badge bg-dark border border-warning text-warning small";
+            priorityBadge.style.color = isStat ? "#f87171" : "#fde047";
             priorityBadge.textContent = `Priority: ${st.triage_priority}`;
             actionLabel.textContent = "Equivocal / High-Risk Profile Detected";
             clinicalGuidance.textContent = st.clinical_guidance;
             guaranteeText.textContent = "89.71%";
+            guaranteeText.style.color = isStat ? "#f87171" : "#fde047";
         }
     }
 
-    // 2. Primary Diagnostic Summary
+    // Top Diagnostics
     document.getElementById('predictedClass').textContent = diag.diagnostic.predicted_tumor_type;
     document.getElementById('confidenceScore').textContent = `${(diag.diagnostic.confidence * 100).toFixed(1)}%`;
     document.getElementById('tumorVolume').textContent = `${diag.quantification.estimated_volume_cm3.toFixed(2)} cm³`;
 
-    // 3. Tri-Modal Visualizer
+    // Tri-Modal Visualizer
     const visualizerImg = document.getElementById('visualizerImg');
     visualizerImg.src = `data:image/jpeg;base64,${diag.gradcam_base64}`;
 
     document.getElementById('btnShowGradCAM').onclick = () => {
         visualizerImg.src = `data:image/jpeg;base64,${diag.gradcam_base64}`;
-        document.getElementById('btnShowGradCAM').classList.add('active');
-        document.getElementById('btnShowMask').classList.remove('active');
+        document.getElementById('btnShowGradCAM').style.background = '#3b82f6';
+        document.getElementById('btnShowMask').style.background = 'transparent';
     };
 
     document.getElementById('btnShowMask').onclick = () => {
         visualizerImg.src = `data:image/jpeg;base64,${diag.mask_base64}`;
-        document.getElementById('btnShowMask').classList.add('active');
-        document.getElementById('btnShowGradCAM').classList.remove('active');
+        document.getElementById('btnShowMask').style.background = '#3b82f6';
+        document.getElementById('btnShowGradCAM').style.background = 'transparent';
     };
 
-    // 4. WHO CNS5 2021 Molecular Biopsy
+    // WHO CNS5 2021 Molecular Biopsy
     document.getElementById('whoSubtypeDisplay').textContent = rad.who_2021_subtype;
     document.getElementById('clinicalGuidanceDisplay').textContent = rad.idh_clinical_guidance;
 
@@ -438,42 +461,41 @@ function displayResults(diag, rad) {
     document.getElementById('codelStatusText').textContent = rad.codeletion_1p19q_status;
     document.getElementById('codelBar').style.width = `${Math.round(rad.codeletion_1p19q_probability * 100)}%`;
 
-    // 5. DeepSurv Survival
+    // DeepSurv Survival
     document.getElementById('hazardScoreDisplay').textContent = `g(x) = ${rad.deepsurv_hazard_score.toFixed(3)} log-hazard`;
-    document.getElementById('medianSurvivalDisplay').textContent = `${rad.median_overall_survival_months} months`;
+    document.getElementById('medianSurvivalDisplay').textContent = `${rad.median_overall_survival_months} Months`;
     const riskBadge = document.getElementById('riskTierBadge');
     riskBadge.textContent = rad.risk_tier;
-    riskBadge.className = rad.risk_tier === "High Risk" ? "badge bg-danger fs-6 px-3 py-1" : "badge bg-success fs-6 px-3 py-1";
+    riskBadge.style.background = rad.risk_tier === "High Risk" ? "#dc2626" : "#16a34a";
 
     renderSurvivalCurve(rad.survival_curve, rad.risk_tier);
 
-    // 6. SHAP Feature Attributions
+    // SHAP Attributions
     const shapList = document.getElementById('shapWaterfallList');
     if (shapList && rad.shap_attributions && rad.shap_attributions.length > 0) {
         shapList.innerHTML = '';
         rad.shap_attributions.slice(0, 5).forEach(attr => {
             const isRisk = attr.effect === 'risk_increasing';
-            const colorClass = isRisk ? 'text-danger' : 'text-success';
-            const bgClass = isRisk ? 'bg-danger' : 'bg-success';
+            const color = isRisk ? '#f87171' : '#4ade80';
             const sign = attr.shap_value > 0 ? '+' : '';
             const widthPct = Math.min(100, Math.max(10, Math.abs(attr.shap_value) * 120));
             
             const item = document.createElement('div');
-            item.className = 'mb-2';
+            item.style.marginBottom = '10px';
             item.innerHTML = `
-                <div class="d-flex justify-content-between small mb-1">
-                    <span class="text-white">${attr.feature_name}</span>
-                    <strong class="${colorClass}">${sign}${attr.shap_value.toFixed(3)} log-hazard</strong>
+                <div style="display: flex; justify-content: space-between; font-size: 0.78rem; margin-bottom: 4px;">
+                    <span style="color: #ffffff;">${attr.feature_name}</span>
+                    <strong style="color: ${color};">${sign}${attr.shap_value.toFixed(3)} log-hazard</strong>
                 </div>
-                <div class="progress bg-secondary-subtle" style="height: 6px;">
-                    <div class="progress-bar ${bgClass}" style="width: ${widthPct}%"></div>
+                <div style="background: rgba(255, 255, 255, 0.08); height: 6px; border-radius: 9999px; overflow: hidden;">
+                    <div style="background: ${color}; width: ${widthPct}%; height: 100%;"></div>
                 </div>
             `;
             shapList.appendChild(item);
         });
     }
 
-    resultsView.classList.remove('d-none');
+    resultsView.style.display = 'block';
 }
 
 // --------------------------------------------------------------------------

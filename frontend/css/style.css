@@ -1,36 +1,44 @@
 /* ==========================================================================
-   NEUROVISION ELITE: Google Antigravity & DeepMind Inspired Clinical Design
+   NEUROVISION ELITE: Authentic Google Antigravity Flagship Design System
+   Matches antigravity.google: Crisp Daylight Canvas + Deep Obsidian Showcase
+   + Spectral Auras + Tight-Tracked Typography + Monumental Footer Wordmark
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
 :root {
-    --bg-canvas: #06070a;
-    --bg-surface-1: #0a0c13;
-    --bg-surface-2: #111420;
-    --bg-surface-3: #181d2d;
-    --bg-glass: rgba(16, 20, 32, 0.72);
-    --bg-glass-hover: rgba(24, 30, 48, 0.85);
+    /* Google Antigravity Palette */
+    --ag-canvas: #ffffff;
+    --ag-surface-subtle: #f8f9fa;
+    --ag-surface-card: #f3f4f6;
+    --ag-surface-obsidian: #07080c;
+    --ag-surface-obsidian-elevated: #0f121a;
+    --ag-surface-obsidian-card: #151924;
     
-    --border-subtle: rgba(255, 255, 255, 0.07);
-    --border-accent: rgba(56, 189, 248, 0.35);
-    --border-glass: rgba(255, 255, 255, 0.12);
+    --ag-border-light: #eaecef;
+    --ag-border-subtle: #f1f3f4;
+    --ag-border-obsidian: rgba(255, 255, 255, 0.08);
+    --ag-border-obsidian-hover: rgba(255, 255, 255, 0.18);
     
-    --accent-cyan: #00f2fe;
-    --accent-blue: #38bdf8;
-    --accent-indigo: #6366f1;
-    --accent-violet: #8b5cf6;
-    --accent-emerald: #10b981;
-    --accent-amber: #f59e0b;
-    --accent-rose: #f43f5e;
+    --ag-ink-primary: #121317;
+    --ag-ink-secondary: #5f6368;
+    --ag-ink-muted: #80868b;
+    --ag-ink-inverted: #f8fafc;
+    --ag-ink-inverted-secondary: #94a3b8;
     
-    --text-primary: #f8fafc;
-    --text-secondary: #94a3b8;
-    --text-muted: #64748b;
+    /* Spectral Rainbow Accents */
+    --ag-blue: #1a73e8;
+    --ag-cobalt: #3b82f6;
+    --ag-violet: #8b5cf6;
+    --ag-magenta: #ec4899;
+    --ag-coral: #f43f5e;
+    --ag-amber: #f59e0b;
+    --ag-emerald: #10b981;
     
     --radius-sm: 8px;
     --radius-md: 14px;
-    --radius-lg: 22px;
+    --radius-lg: 24px;
+    --radius-xl: 32px;
     --radius-full: 9999px;
 }
 
@@ -40,285 +48,529 @@
     padding: 0;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
-    background-color: var(--bg-canvas) !important;
-    color: var(--text-primary);
-    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--ag-canvas);
+    color: var(--ag-ink-primary);
+    font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
-    position: relative;
-    min-height: 100vh;
 }
 
-/* Background Synaptic Canvas */
-#neuralCanvas {
-    position: fixed;
+/* Micro-dot Canvas Texture */
+.canvas-grid-bg {
+    background-image: radial-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+    background-size: 24px 24px;
+}
+
+/* Spectral Particle Vortex Canvas */
+#antigravityCanvas {
+    position: absolute;
     top: 0;
-    left: 0;
+    left: 50%;
+    transform: translateX(-50%);
     width: 100vw;
-    height: 100vh;
+    height: 720px;
     pointer-events: none;
     z-index: 0;
-    opacity: 0.65;
+    opacity: 0.85;
 }
 
-/* Atmospheric Ambient Radial Glows */
-.ambient-glow-1 {
-    position: fixed;
-    top: -10vw;
-    left: 20vw;
-    width: 60vw;
-    height: 60vw;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(56, 189, 248, 0.08) 0%, rgba(99, 102, 241, 0.03) 50%, transparent 70%);
-    pointer-events: none;
-    z-index: 0;
-    filter: blur(80px);
-}
-
-.ambient-glow-2 {
-    position: fixed;
-    bottom: -15vw;
-    right: 10vw;
-    width: 50vw;
-    height: 50vw;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(139, 92, 246, 0.07) 0%, rgba(16, 185, 129, 0.02) 60%, transparent 75%);
-    pointer-events: none;
-    z-index: 0;
-    filter: blur(90px);
-}
-
-/* Floating Glass Header */
-.glass-nav {
+/* Sticky Minimal Antigravity Navbar */
+.ag-navbar {
     position: sticky;
-    top: 16px;
-    z-index: 100;
-    background: var(--bg-glass);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border: 1px solid var(--border-glass);
-    border-radius: var(--radius-full);
-    padding: 10px 24px;
+    top: 0;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.82);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--ag-border-light);
+    padding: 14px 0;
+    transition: all 0.25s ease;
+}
+
+.ag-nav-container {
+    max-width: 1280px;
     margin: 0 auto;
-    max-width: 1200px;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.6);
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
-.glass-nav:hover {
-    border-color: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 20px 48px -10px rgba(56, 189, 248, 0.15);
-}
-
-/* Typography Gradient Headers */
-.gradient-text-hero {
-    background: linear-gradient(135deg, #ffffff 0%, #38bdf8 45%, #a855f7 90%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-weight: 800;
-    letter-spacing: -0.03em;
-}
-
-.gradient-text-cyan {
-    background: linear-gradient(135deg, #ffffff 10%, #38bdf8 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.gradient-text-emerald {
-    background: linear-gradient(135deg, #ffffff 10%, #10b981 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-/* Monospace Numbers */
-.mono-stat {
-    font-family: 'Space Grotesk', monospace;
+.ag-logo-lockup {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--ag-ink-primary);
     font-weight: 700;
+    font-size: 1.15rem;
+    letter-spacing: -0.02em;
 }
 
-/* Glowing Pill Badges */
-.badge-pill-glow {
+.ag-logo-mark {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #1a73e8 0%, #8b5cf6 50%, #ec4899 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 14px;
+    box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+}
+
+.ag-nav-links {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+
+.ag-nav-link {
+    text-decoration: none;
+    color: var(--ag-ink-secondary);
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.15s ease;
+}
+
+.ag-nav-link:hover {
+    color: var(--ag-ink-primary);
+}
+
+/* Pill CTA Buttons */
+.ag-pill-btn-solid {
+    background: var(--ag-ink-primary);
+    color: #ffffff !important;
+    text-decoration: none;
+    padding: 9px 20px;
+    border-radius: var(--radius-full);
+    font-size: 0.88rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 2px 8px rgba(18, 19, 23, 0.15);
+}
+
+.ag-pill-btn-solid:hover {
+    background: #252830;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(18, 19, 23, 0.2);
+}
+
+.ag-pill-btn-frost {
+    background: var(--ag-surface-subtle);
+    color: var(--ag-ink-primary) !important;
+    text-decoration: none;
+    padding: 9px 20px;
+    border-radius: var(--radius-full);
+    font-size: 0.88rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid var(--ag-border-light);
+    transition: all 0.2s ease;
+}
+
+.ag-pill-btn-frost:hover {
+    background: #eaecef;
+    border-color: #d0d7de;
+}
+
+/* Announcement Top Pill Bar */
+.ag-announcement-pill {
     display: inline-flex;
     align-items: center;
     gap: 8px;
     padding: 6px 16px;
     border-radius: var(--radius-full);
-    font-size: 0.8rem;
-    font-weight: 600;
-    background: rgba(56, 189, 248, 0.08);
-    border: 1px solid rgba(56, 189, 248, 0.3);
-    color: #38bdf8;
-    box-shadow: 0 0 16px rgba(56, 189, 248, 0.2);
-}
-
-.pulse-beacon {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background-color: #38bdf8;
-    box-shadow: 0 0 10px #38bdf8;
-    animation: beaconPulse 2s infinite;
-}
-
-@keyframes beaconPulse {
-    0% { transform: scale(0.95); opacity: 0.8; box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.7); }
-    70% { transform: scale(1.15); opacity: 1; box-shadow: 0 0 0 8px rgba(56, 189, 248, 0); }
-    100% { transform: scale(0.95); opacity: 0.8; box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); }
-}
-
-/* Modern Glass Card */
-.glass-card {
-    background: var(--bg-glass);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-lg);
-    padding: 24px;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    position: relative;
-    overflow: hidden;
-}
-
-.glass-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
-}
-
-.glass-card:hover {
-    border-color: rgba(255, 255, 255, 0.18);
-    transform: translateY(-2px);
-    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
-}
-
-.glass-card-interactive:hover {
-    border-color: var(--border-accent);
-    box-shadow: 0 20px 48px -12px rgba(56, 189, 248, 0.2);
-}
-
-/* Sample Quick-Test Cards */
-.sample-case-pill {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-md);
-    padding: 10px 14px;
-    cursor: pointer;
+    background: #ffffff;
+    border: 1px solid var(--ag-border-light);
+    color: var(--ag-ink-primary);
+    font-size: 0.84rem;
+    font-weight: 500;
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     transition: all 0.2s ease;
+}
+
+.ag-announcement-pill:hover {
+    border-color: var(--ag-cobalt);
+    box-shadow: 0 4px 16px rgba(59, 130, 246, 0.12);
+}
+
+.ag-sparkle-tag {
+    background: linear-gradient(135deg, #1a73e8, #8b5cf6);
+    color: #ffffff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+/* Two-Tone Display Headline */
+.ag-display-h1 {
+    font-size: clamp(2.6rem, 5.2vw, 4.2rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.08;
+    color: var(--ag-ink-primary);
+    margin-bottom: 20px;
+}
+
+.ag-display-h1 .tone-soft {
+    color: var(--ag-ink-secondary);
+    font-weight: 700;
+}
+
+.ag-lead-subtitle {
+    font-size: 1.18rem;
+    line-height: 1.6;
+    color: var(--ag-ink-secondary);
+    max-width: 760px;
+    margin: 0 auto 36px auto;
+}
+
+/* Antigravity Floating Circular Icon Ribbon */
+.ag-circular-ribbon {
     display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 12px;
+    gap: 16px;
+    margin-bottom: 48px;
+    flex-wrap: wrap;
 }
 
-.sample-case-pill:hover {
-    background: rgba(56, 189, 248, 0.1);
-    border-color: var(--accent-blue);
-    transform: translateY(-1px);
-}
-
-/* Professional Dropzone */
-.clinical-dropzone {
-    background: rgba(10, 12, 19, 0.6);
-    border: 2px dashed rgba(255, 255, 255, 0.15);
-    border-radius: var(--radius-lg);
-    padding: 36px 20px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.25s ease;
-}
-
-.clinical-dropzone:hover, .clinical-dropzone.dragover {
-    border-color: var(--accent-blue);
-    background: rgba(56, 189, 248, 0.08);
-    box-shadow: 0 0 30px rgba(56, 189, 248, 0.15);
-}
-
-/* Buttons */
-.btn-antigravity {
-    background: linear-gradient(135deg, #0284c7 0%, #2563eb 50%, #7c3aed 100%);
-    color: #ffffff !important;
-    font-weight: 600;
-    border: none;
-    border-radius: var(--radius-full);
-    padding: 12px 28px;
-    box-shadow: 0 8px 24px -4px rgba(37, 99, 235, 0.4);
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
-}
-
-.btn-antigravity:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 32px -2px rgba(37, 99, 235, 0.6);
-}
-
-.btn-glass {
-    background: rgba(255, 255, 255, 0.05);
-    color: #e2e8f0 !important;
-    font-weight: 600;
-    border: 1px solid var(--border-glass);
-    border-radius: var(--radius-full);
-    padding: 12px 26px;
-    transition: all 0.2s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
-}
-
-.btn-glass:hover {
-    background: rgba(255, 255, 255, 0.12);
-    border-color: rgba(255, 255, 255, 0.25);
-    color: #ffffff !important;
-}
-
-/* Visualizer Container */
-.visualizer-viewport {
-    background: #000000;
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    position: relative;
-    border: 1px solid var(--border-subtle);
-    min-height: 380px;
+.ag-circle-glyph {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 1px solid var(--ag-border-light);
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 20px;
+    color: var(--ag-ink-primary);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.visualizer-viewport img {
-    max-width: 100%;
-    max-height: 480px;
-    object-fit: contain;
-    transition: transform 0.2s ease;
+.ag-circle-glyph:hover {
+    transform: translateY(-3px) scale(1.05);
+    border-color: var(--ag-cobalt);
+    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.16);
+    color: var(--ag-cobalt);
 }
 
-/* Custom Scrollbars */
-::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-}
-::-webkit-scrollbar-track {
-    background: var(--bg-canvas);
-}
-::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-    background: var(--accent-blue);
+/* ==========================================================================
+   THE MONUMENTAL OBSIDIAN CLINICAL SHOWCASE (Antigravity Hero Container)
+   ========================================================================== */
+.ag-obsidian-showcase {
+    background: var(--ag-surface-obsidian);
+    color: var(--ag-ink-inverted);
+    border-radius: var(--radius-xl);
+    padding: 32px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 32px 80px -20px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 80px;
 }
 
-/* Responsive */
+/* Ambient Spectral Edge Aura Behind Showcase */
+.ag-showcase-aura {
+    position: absolute;
+    top: -120px;
+    right: -120px;
+    width: 450px;
+    height: 450px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.18) 0%, rgba(139, 92, 246, 0.12) 40%, transparent 70%);
+    filter: blur(60px);
+    pointer-events: none;
+}
+
+.ag-showcase-aura-left {
+    position: absolute;
+    bottom: -120px;
+    left: -120px;
+    width: 450px;
+    height: 450px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.12) 0%, rgba(236, 72, 153, 0.08) 50%, transparent 70%);
+    filter: blur(60px);
+    pointer-events: none;
+}
+
+/* Showcase Header Bar */
+.ag-showcase-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--ag-border-obsidian);
+    padding-bottom: 20px;
+    margin-bottom: 24px;
+}
+
+.ag-status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border-radius: var(--radius-full);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--ag-border-obsidian);
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--ag-ink-inverted-secondary);
+}
+
+.ag-pulse-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--ag-emerald);
+    box-shadow: 0 0 10px var(--ag-emerald);
+}
+
+/* Preset Patient Case Selector Pills */
+.ag-preset-pill-row {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+}
+
+.ag-preset-pill {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--ag-border-obsidian);
+    border-radius: var(--radius-md);
+    padding: 10px 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    white-space: nowrap;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ag-preset-pill:hover {
+    background: rgba(59, 130, 246, 0.1);
+    border-color: var(--ag-cobalt);
+    transform: translateY(-1px);
+}
+
+.ag-preset-pill.active {
+    background: rgba(59, 130, 246, 0.16);
+    border-color: var(--ag-cobalt);
+    box-shadow: 0 0 16px rgba(59, 130, 246, 0.2);
+}
+
+/* Split Showcase Workspace */
+.ag-showcase-grid {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: 28px;
+}
+
 @media (max-width: 992px) {
-    .glass-nav {
-        border-radius: var(--radius-md);
-        margin: 10px;
-        padding: 10px 16px;
+    .ag-showcase-grid {
+        grid-template-columns: 1fr;
     }
+}
+
+/* Upload Card in Obsidian */
+.ag-upload-panel {
+    background: var(--ag-surface-obsidian-elevated);
+    border: 1px solid var(--ag-border-obsidian);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+}
+
+.ag-dropzone-modern {
+    background: rgba(255, 255, 255, 0.02);
+    border: 2px dashed rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius-md);
+    padding: 32px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.ag-dropzone-modern:hover, .ag-dropzone-modern.dragover {
+    border-color: var(--ag-cobalt);
+    background: rgba(59, 130, 246, 0.06);
+}
+
+/* Segmented Inputs */
+.ag-segmented-input {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--ag-border-obsidian);
+    border-radius: var(--radius-sm);
+    color: #ffffff;
+    padding: 8px 12px;
+    font-size: 0.88rem;
+    font-family: 'JetBrains Mono', monospace;
+    width: 100%;
+}
+
+.ag-segmented-input:focus {
+    outline: none;
+    border-color: var(--ag-cobalt);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+/* Primary Execution Pill Button */
+.ag-btn-execute {
+    background: linear-gradient(135deg, #1a73e8 0%, #3b82f6 50%, #8b5cf6 100%);
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border: none;
+    border-radius: var(--radius-full);
+    padding: 14px 24px;
+    width: 100%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.3);
+    transition: all 0.2s ease;
+}
+
+.ag-btn-execute:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 32px rgba(59, 130, 246, 0.45);
+}
+
+.ag-btn-execute:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Diagnostic Viewport in Obsidian */
+.ag-viewport-panel {
+    background: var(--ag-surface-obsidian-elevated);
+    border: 1px solid var(--ag-border-obsidian);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    min-height: 520px;
+}
+
+.ag-mri-screen {
+    background: #000000;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--ag-border-obsidian);
+    height: 340px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.ag-mri-screen img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+/* Telemetry Pills */
+.ag-telemetry-pill {
+    background: var(--ag-surface-obsidian-card);
+    border: 1px solid var(--ag-border-obsidian);
+    border-radius: var(--radius-md);
+    padding: 14px;
+    text-align: center;
+}
+
+/* ==========================================================================
+   ANTIGRAVITY CAPABILITIES BENTO SECTION (Airy White + Spectral Cards)
+   ========================================================================== */
+.ag-section-header {
+    text-align: center;
+    margin-bottom: 56px;
+}
+
+.ag-bento-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 96px;
+}
+
+@media (max-width: 992px) {
+    .ag-bento-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.ag-bento-card {
+    background: #ffffff;
+    border: 1px solid var(--ag-border-light);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+}
+
+.ag-bento-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(59, 130, 246, 0.4);
+    box-shadow: 0 16px 36px rgba(59, 130, 246, 0.08);
+}
+
+.ag-card-aura {
+    position: absolute;
+    top: -60px;
+    right: -60px;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    filter: blur(40px);
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* ==========================================================================
+   MONUMENTAL EDGE-TO-EDGE BRAND FOOTER
+   ========================================================================== */
+.ag-monumental-footer {
+    border-top: 1px solid var(--ag-border-light);
+    padding: 80px 0 40px 0;
+    background: #ffffff;
+    overflow: hidden;
+}
+
+.ag-huge-wordmark {
+    font-size: clamp(3.5rem, 13vw, 12rem);
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    color: #e5e7eb;
+    text-align: center;
+    user-select: none;
+    line-height: 0.9;
+    margin-top: 40px;
+    transition: color 0.3s ease;
+}
+
+.ag-huge-wordmark:hover {
+    color: #d1d5db;
 }

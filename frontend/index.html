@@ -3,420 +3,388 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroVision Elite • WHO CNS5 2021 Radiogenomics & Survival Engine</title>
+    <title>NeuroVision Elite • Next-Gen WHO CNS5 Radiogenomics & Survival Platform</title>
     
-    <!-- Meta SEO & Open Graph -->
-    <meta name="description" content="Next-Gen Clinical Medical AI: WHO 2021 Virtual Molecular Biopsy (IDH1/2, 1p/19q), DeepSurv Time-to-Event Survival, and Conformal Risk-Controlled Triaging with 0.0% Patient Leakage.">
+    <meta name="description" content="Google Antigravity-caliber medical AI: WHO CNS5 2021 Virtual Molecular Biopsy (IDH1/2, 1p/19q), DeepSurv time-to-event survival prognosis, and conformal risk-controlled triaging with 0.0% patient leakage.">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
     
-    <!-- Bootstrap 5.3 & Google Fonts -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Lucide Icons & FontAwesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Custom Antigravity-Grade Stylesheet -->
+    <!-- Antigravity Flagship Stylesheet -->
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="canvas-grid-bg">
 
-    <!-- 60FPS Synaptic Canvas & Atmospheric Glows -->
-    <canvas id="neuralCanvas"></canvas>
-    <div class="ambient-glow-1"></div>
-    <div class="ambient-glow-2"></div>
+    <!-- Spectral Rainbow Particle Vortex Canvas (Antigravity Signature) -->
+    <canvas id="antigravityCanvas"></canvas>
 
-    <!-- Floating Glass Nav Bar -->
-    <header class="container-fluid px-3 pt-3">
-        <nav class="glass-nav d-flex align-items-center justify-content-between">
-            <a href="#" class="d-flex align-items-center gap-2 text-decoration-none">
-                <span class="fs-4">🧠</span>
-                <span class="fw-bold tracking-tight text-white fs-5">NeuroVision<span class="text-info fw-normal ms-1">Elite</span></span>
-                <span class="badge rounded-pill text-bg-dark border border-secondary text-info-emphasis ms-2 small px-2 py-1">WHO CNS5 v3.0</span>
+    <!-- Sticky Antigravity Navbar -->
+    <header class="ag-navbar">
+        <div class="ag-nav-container">
+            <a href="#" class="ag-logo-lockup">
+                <div class="ag-logo-mark">🧠</div>
+                <span>NeuroVision</span>
             </a>
 
-            <div class="d-none d-lg-flex align-items-center gap-4">
-                <a href="#simulator" class="text-secondary text-decoration-none small fw-medium hover-text-white transition">Quick Simulator</a>
-                <a href="#cockpit" class="text-secondary text-decoration-none small fw-medium hover-text-white transition">Clinical Cockpit</a>
-                <a href="#radiogenomics" class="text-secondary text-decoration-none small fw-medium hover-text-white transition">WHO Molecular Biopsy</a>
-                <a href="#bento" class="text-secondary text-decoration-none small fw-medium hover-text-white transition">Architecture & Benchmarks</a>
-            </div>
+            <nav class="ag-nav-links d-none d-md-flex">
+                <a href="#cockpit" class="ag-nav-link">Interactive Cockpit</a>
+                <a href="#molecular-biopsy" class="ag-nav-link">WHO CNS5 Biopsy</a>
+                <a href="#deepsurv" class="ag-nav-link">DeepSurv Survival</a>
+                <a href="#capabilities" class="ag-nav-link">Capabilities</a>
+                <a href="https://github.com/AadityaUniyal/Brain_Tumourr" target="_blank" class="ag-nav-link">GitHub ↗</a>
+            </nav>
 
-            <div class="d-flex align-items-center gap-3">
-                <div id="backendHealthBadge" class="d-none d-sm-flex align-items-center gap-2 px-3 py-1 rounded-pill bg-dark border border-secondary small text-muted">
-                    <span class="pulse-beacon" id="healthDot"></span>
-                    <span id="healthStatusText" class="mono-stat small">Connecting...</span>
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div class="ag-status-pill" id="backendHealthBadge">
+                    <span class="ag-pulse-dot" id="healthDot"></span>
+                    <span id="healthStatusText" style="font-family: 'JetBrains Mono', monospace; font-size: 0.78rem;">Connecting...</span>
                 </div>
-                <a href="#cockpit" class="btn-antigravity text-decoration-none btn-sm">
-                    <i class="fa-solid fa-stethoscope"></i> Launch Cockpit
+                <a href="#cockpit" class="ag-pill-btn-solid">
+                    Launch Cockpit ↓
                 </a>
             </div>
-        </nav>
+        </div>
     </header>
 
-    <!-- Main Content Container -->
-    <main class="container py-5 position-relative" style="z-index: 1;">
+    <!-- Main Hero Section -->
+    <main style="max-width: 1280px; margin: 0 auto; padding: 48px 24px; position: relative; z-index: 1;">
 
-        <!-- Hero Section -->
-        <section class="text-center py-5">
-            <div class="badge-pill-glow mb-4">
-                <span class="pulse-beacon"></span>
-                <span>WHO CNS5 2021 VIRTUAL MOLECULAR BIOPSY & DEEPSURV ENGINE</span>
-            </div>
+        <!-- Announcement Top Pill -->
+        <div style="text-align: center; margin-bottom: 28px;">
+            <a href="#capabilities" class="ag-announcement-pill">
+                <span class="ag-sparkle-tag">NEW</span>
+                <span>WHO CNS5 2021 Integrated Molecular Biopsy & DeepSurv Engine</span>
+                <span style="color: var(--ag-cobalt);">Read benchmarks →</span>
+            </a>
+        </div>
 
-            <h1 class="display-3 fw-bold mb-3 gradient-text-hero">
-                Autonomous Radiogenomics.<br/>Zero-Leakage Precision.
+        <!-- Two-Tone Display Headline -->
+        <div style="text-align: center; margin-bottom: 48px;">
+            <h1 class="ag-display-h1">
+                Experience liftoff with<br/>
+                <span class="tone-soft">next-gen neuro-radiology.</span>
             </h1>
-
-            <p class="lead text-secondary mx-auto mb-4" style="max-width: 820px; font-size: 1.15rem; line-height: 1.7;">
-                The world’s first open-access WHO CNS5 neuro-oncology AI: Pre-operative non-invasive 
-                <strong class="text-light">IDH1/2 mutation</strong> & <strong class="text-light">1p/19q co-deletion</strong> prediction, 
-                <strong class="text-light">DeepSurv</strong> time-to-event survival hazard modeling, and 
-                <strong class="text-light">conformal risk-controlled selective triage</strong> with verified 0.0% patient leakage.
+            <p class="ag-lead-subtitle">
+                The world’s first open-access WHO CNS5 clinical AI platform: Non-invasive IDH1/2 mutation 
+                & 1p/19q co-deletion molecular biopsy, DeepSurv time-to-event survival modeling, 
+                and conformal risk-controlled selective triaging with mathematically proven 0.0% patient leakage.
             </p>
 
-            <div class="d-flex flex-wrap justify-content-center gap-3 mb-5">
-                <a href="#cockpit" class="btn-antigravity text-decoration-none fs-6">
-                    <i class="fa-solid fa-bolt"></i> Test Live Scan in Cockpit
+            <div style="display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;">
+                <a href="#cockpit" class="ag-pill-btn-solid" style="padding: 12px 28px; font-size: 0.95rem;">
+                    Launch Diagnostic Cockpit ↓
                 </a>
-                <a href="#simulator" class="btn-glass text-decoration-none fs-6">
-                    <i class="fa-solid fa-vial"></i> Explore 1-Click Clinical Demos
-                </a>
-                <a href="https://github.com/AadityaUniyal/Brain_Tumourr" target="_blank" class="btn-glass text-decoration-none fs-6">
-                    <i class="fa-brands fa-github"></i> GitHub Source
-                </a>
+                <button class="ag-pill-btn-frost" onclick="loadSampleCase('glioma')" style="padding: 12px 28px; font-size: 0.95rem; cursor: pointer;">
+                    <i class="fa-solid fa-play" style="color: var(--ag-cobalt); font-size: 12px;"></i> Try 1-Click Patient Demo
+                </button>
+            </div>
+        </div>
+
+        <!-- Antigravity Floating Circular Icon Ribbon -->
+        <div class="ag-circular-ribbon">
+            <div class="ag-circle-glyph" title="Multi-Task Dual Head"><i class="fa-solid fa-brain"></i></div>
+            <div class="ag-circle-glyph" title="WHO 2021 Molecular Biopsy"><i class="fa-solid fa-dna"></i></div>
+            <div class="ag-circle-glyph" title="DeepSurv Survival Engine"><i class="fa-solid fa-chart-line"></i></div>
+            <div class="ag-circle-glyph" title="Conformal Safety Gate"><i class="fa-solid fa-shield-halved"></i></div>
+            <div class="ag-circle-glyph" title="DICOM & Voxel Metrology"><i class="fa-solid fa-cube"></i></div>
+            <div class="ag-circle-glyph" title="ComBat Scanner Harmonization"><i class="fa-solid fa-magnet"></i></div>
+            <div class="ag-circle-glyph" title="Tumor Board PDF Dossier"><i class="fa-solid fa-file-pdf"></i></div>
+        </div>
+
+        <!-- ==================================================================
+             THE MONUMENTAL OBSIDIAN CLINICAL SHOWCASE CONTAINER
+             ================================================================== -->
+        <section id="cockpit" class="ag-obsidian-showcase">
+            <div class="ag-showcase-aura"></div>
+            <div class="ag-showcase-aura-left"></div>
+
+            <!-- Showcase Top Bar -->
+            <div class="ag-showcase-header">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <span style="font-size: 1.1rem; font-weight: 700; color: #ffffff;">NeuroVision Workstation</span>
+                    <span style="font-size: 0.75rem; background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 9999px; padding: 2px 10px; font-weight: 600;">WHO CNS5 v3.0</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span class="ag-status-pill">
+                        <span class="ag-pulse-dot"></span>
+                        <span style="color: #ffffff;">Zero-Leakage Guard Active</span>
+                    </span>
+                    <button id="toggleConfigBtn" class="ag-pill-btn-frost" style="background: rgba(255, 255, 255, 0.05); color: #ffffff !important; border-color: rgba(255, 255, 255, 0.1); padding: 6px 12px; font-size: 0.78rem;">
+                        <i class="fa-solid fa-gear"></i> Server
+                    </button>
+                </div>
             </div>
 
-            <!-- Floating Metric Ticker Ribbon -->
-            <div class="row g-3 justify-content-center mb-5">
-                <div class="col-6 col-md-4 col-lg-2">
-                    <div class="glass-card text-center py-3 px-2">
-                        <div class="fs-4 mono-stat text-success mb-1">0.0%</div>
-                        <div class="small text-muted fw-semibold">Patient Leakage</div>
-                    </div>
+            <!-- Server Config Drawer (Hidden by default) -->
+            <div id="serverConfigDrawer" style="display: none; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--ag-border-obsidian); border-radius: var(--radius-md); padding: 16px; margin-bottom: 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <span style="font-size: 0.85rem; color: var(--ag-ink-inverted-secondary);">Backend Target Endpoint:</span>
+                    <span id="currentBackendDisplay" style="font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: #38bdf8;">Auto</span>
                 </div>
-                <div class="col-6 col-md-4 col-lg-2">
-                    <div class="glass-card text-center py-3 px-2">
-                        <div class="fs-4 mono-stat text-info mb-1">0.9631</div>
-                        <div class="small text-muted fw-semibold">Macro AUROC</div>
-                    </div>
-                </div>
-                <div class="col-6 col-md-4 col-lg-2">
-                    <div class="glass-card text-center py-3 px-2">
-                        <div class="fs-4 mono-stat text-primary mb-1">0.8151</div>
-                        <div class="small text-muted fw-semibold">DeepSurv C-Index</div>
-                    </div>
-                </div>
-                <div class="col-6 col-md-4 col-lg-2">
-                    <div class="glass-card text-center py-3 px-2">
-                        <div class="fs-4 mono-stat text-warning mb-1">0.9256</div>
-                        <div class="small text-muted fw-semibold">IDH1/2 AUROC</div>
-                    </div>
-                </div>
-                <div class="col-6 col-md-4 col-lg-2">
-                    <div class="glass-card text-center py-3 px-2">
-                        <div class="fs-4 mono-stat text-success mb-1">96.86%</div>
-                        <div class="small text-muted fw-semibold">Selective Accuracy</div>
-                    </div>
+                <div style="display: flex; gap: 8px;">
+                    <input type="text" id="apiBaseUrlInput" class="ag-segmented-input" placeholder="https://neurovision-elite-backend.onrender.com">
+                    <button id="saveBackendUrlBtn" class="ag-pill-btn-solid" style="padding: 6px 16px; font-size: 0.82rem; white-space: nowrap;">Save</button>
                 </div>
             </div>
-        </section>
 
-        <!-- 1-Click Interactive Clinical Patient Simulator -->
-        <section id="simulator" class="mb-5">
-            <div class="glass-card mb-4 border-info">
-                <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
-                    <div>
-                        <h5 class="fw-bold text-white mb-1"><i class="fa-solid fa-play text-info me-2"></i> 1-Click Interactive Clinical Patient Simulator</h5>
-                        <p class="text-secondary small mb-0">Don't have a DICOM scan handy? Click any pre-staged patient scenario below to immediately run full multi-modal analysis in the cockpit.</p>
-                    </div>
-                    <span class="badge bg-info-subtle text-info border border-info px-3 py-2 rounded-pill small">Instant Test Suite</span>
+            <!-- 1-Click Patient Scenario Presets -->
+            <div style="margin-bottom: 24px;">
+                <div style="font-size: 0.82rem; color: var(--ag-ink-inverted-secondary); margin-bottom: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">
+                    ⚡ 1-Click Instant Patient Scenarios:
                 </div>
-
-                <div class="row g-3">
-                    <div class="col-12 col-md-6 col-lg-3">
-                        <div class="sample-case-pill" onclick="loadSampleCase('glioma')">
-                            <span class="fs-3">🧬</span>
-                            <div>
-                                <div class="fw-bold text-white small">Case 1: Glioblastoma</div>
-                                <div class="text-danger small" style="font-size: 0.75rem;">IDH-Wildtype • STAT Triage</div>
-                            </div>
+                <div class="ag-preset-pill-row">
+                    <div class="ag-preset-pill" onclick="loadSampleCase('glioma')">
+                        <span style="font-size: 1.2rem;">🧬</span>
+                        <div>
+                            <div style="font-weight: 700; color: #ffffff; font-size: 0.88rem;">Case 1: Glioblastoma Multiforme</div>
+                            <div style="font-size: 0.72rem; color: #f87171;">IDH-Wildtype • STAT Neurosurgical Triage</div>
                         </div>
                     </div>
-                    <div class="col-12 col-md-6 col-lg-3">
-                        <div class="sample-case-pill" onclick="loadSampleCase('meningioma')">
-                            <span class="fs-3">🛡️</span>
-                            <div>
-                                <div class="fw-bold text-white small">Case 2: Meningioma</div>
-                                <div class="text-success small" style="font-size: 0.75rem;">Benign Spheroid • Approved</div>
-                            </div>
+                    <div class="ag-preset-pill" onclick="loadSampleCase('meningioma')">
+                        <span style="font-size: 1.2rem;">🛡️</span>
+                        <div>
+                            <div style="font-weight: 700; color: #ffffff; font-size: 0.88rem;">Case 2: Convexity Meningioma</div>
+                            <div style="font-size: 0.72rem; color: #4ade80;">Benign Spheroid • Automated Sign-Off</div>
                         </div>
                     </div>
-                    <div class="col-12 col-md-6 col-lg-3">
-                        <div class="sample-case-pill" onclick="loadSampleCase('pituitary')">
-                            <span class="fs-3">🔬</span>
-                            <div>
-                                <div class="fw-bold text-white small">Case 3: Pituitary Adenoma</div>
-                                <div class="text-info small" style="font-size: 0.75rem;">Sella Mass • High Recalibrated</div>
-                            </div>
+                    <div class="ag-preset-pill" onclick="loadSampleCase('pituitary')">
+                        <span style="font-size: 1.2rem;">🔬</span>
+                        <div>
+                            <div style="font-weight: 700; color: #ffffff; font-size: 0.88rem;">Case 3: Pituitary Adenoma</div>
+                            <div style="font-size: 0.72rem; color: #38bdf8;">Sella Turcica Mass • High Confidence</div>
                         </div>
                     </div>
-                    <div class="col-12 col-md-6 col-lg-3">
-                        <div class="sample-case-pill" onclick="loadSampleCase('ood')">
-                            <span class="fs-3">⚠️</span>
-                            <div>
-                                <div class="fw-bold text-white small">Case 4: Non-Brain OOD</div>
-                                <div class="text-warning small" style="font-size: 0.75rem;">Corrupted Artifact • Safety Gate</div>
-                            </div>
+                    <div class="ag-preset-pill" onclick="loadSampleCase('ood')">
+                        <span style="font-size: 1.2rem;">⚠️</span>
+                        <div>
+                            <div style="font-weight: 700; color: #ffffff; font-size: 0.88rem;">Case 4: Non-Brain OOD Artifact</div>
+                            <div style="font-size: 0.72rem; color: #fbbf24;">Corrupted Scan • Safety Gate Rejection</div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
 
-        <!-- Clinical PACS Diagnostic Cockpit -->
-        <section id="cockpit" class="mb-5">
-            <div class="row g-4">
-                
-                <!-- Left Column: Upload, Settings & DICOM Header -->
-                <div class="col-12 col-lg-4">
-                    <div class="glass-card mb-4">
-                        <h5 class="fw-bold text-white mb-3"><i class="fa-solid fa-file-medical text-primary me-2"></i> Scan Ingestion Deck</h5>
-                        
-                        <!-- Dropzone -->
-                        <div id="dropZone" class="clinical-dropzone mb-3">
-                            <i class="fa-solid fa-cloud-arrow-up display-5 text-secondary mb-2"></i>
-                            <div class="fw-semibold text-white mb-1">Drag & Drop MRI Scan</div>
-                            <p class="text-muted small mb-3">DICOM (.dcm), NIfTI (.nii.gz), MAT (.mat), or PNG/JPEG</p>
-                            <input type="file" id="fileInput" class="d-none" accept=".dcm,.mat,.nii,.nii.gz,.png,.jpg,.jpeg">
-                            <button type="button" class="btn btn-outline-info btn-sm rounded-pill px-3" onclick="document.getElementById('fileInput').click()">
-                                <i class="fa-solid fa-folder-open me-1"></i> Browse Files
-                            </button>
+            <!-- Split Workstation Grid -->
+            <div class="ag-showcase-grid">
+
+                <!-- Left Column: Upload Deck & Metrology Controls -->
+                <div class="ag-upload-panel">
+                    <div style="font-weight: 700; font-size: 1rem; color: #ffffff; margin-bottom: 16px;">
+                        <i class="fa-solid fa-file-medical" style="color: #38bdf8; margin-right: 8px;"></i> Scan Ingestion Deck
+                    </div>
+
+                    <!-- Dropzone -->
+                    <div id="dropZone" class="ag-dropzone-modern mb-3">
+                        <i class="fa-solid fa-cloud-arrow-up" style="font-size: 2rem; color: var(--ag-ink-inverted-secondary); margin-bottom: 8px; display: block;"></i>
+                        <div style="font-weight: 600; color: #ffffff; font-size: 0.92rem; margin-bottom: 4px;">Drag & Drop Brain MRI Scan</div>
+                        <div style="font-size: 0.78rem; color: var(--ag-ink-inverted-secondary); margin-bottom: 16px;">
+                            DICOM (.dcm), NIfTI (.nii.gz), MAT (.mat), or PNG/JPG
                         </div>
-
-                        <!-- Selected File Display -->
-                        <div id="selectedFileInfo" class="d-none alert alert-dark border-secondary p-2 mb-3 d-flex align-items-center justify-content-between">
-                            <div class="d-flex align-items-center gap-2 text-truncate">
-                                <i class="fa-solid fa-file-image text-info"></i>
-                                <span id="fileName" class="text-white small text-truncate">scan.png</span>
-                            </div>
-                            <span class="badge bg-secondary small" id="fileSize">Ready</span>
-                        </div>
-
-                        <!-- DICOM Spatial & Demographic Controls -->
-                        <div class="accordion accordion-flush mb-3" id="patientParamsAccordion">
-                            <div class="accordion-item bg-transparent border-secondary">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed bg-transparent text-white small py-2 px-0" type="button" data-bs-toggle="collapse" data-bs-target="#paramsCollapse">
-                                        <i class="fa-solid fa-sliders text-info me-2"></i> Acquisition & Demographic Covariates
-                                    </button>
-                                </h2>
-                                <div id="paramsCollapse" class="accordion-collapse collapse" data-bs-parent="#patientParamsAccordion">
-                                    <div class="accordion-body px-0 pt-3 pb-0">
-                                        <div class="row g-2 mb-2">
-                                            <div class="col-6">
-                                                <label class="form-label small text-muted mb-1">Patient Age</label>
-                                                <input type="number" id="ageInput" class="form-control form-control-sm bg-dark text-white border-secondary" value="54" min="18" max="100">
-                                            </div>
-                                            <div class="col-6">
-                                                <label class="form-label small text-muted mb-1">Biological Sex</label>
-                                                <select id="sexSelect" class="form-select form-select-sm bg-dark text-white border-secondary">
-                                                    <option value="MALE" selected>Male</option>
-                                                    <option value="FEMALE">Female</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="row g-2">
-                                            <div class="col-6">
-                                                <label class="form-label small text-muted mb-1">Slice Thickness (mm)</label>
-                                                <input type="number" id="thicknessInput" class="form-control form-control-sm bg-dark text-white border-secondary" value="3.0" step="0.5">
-                                            </div>
-                                            <div class="col-6">
-                                                <label class="form-label small text-muted mb-1">Pixel Spacing (mm)</label>
-                                                <input type="number" id="spacingInput" class="form-control form-control-sm bg-dark text-white border-secondary" value="0.8" step="0.1">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Analyze Button -->
-                        <button id="analyzeBtn" class="btn-antigravity w-100 justify-content-center py-2" disabled>
-                            <i class="fa-solid fa-microscope"></i> Run Multimodal AI Diagnosis
+                        <input type="file" id="fileInput" style="display: none;" accept=".dcm,.mat,.nii,.nii.gz,.png,.jpg,.jpeg">
+                        <button type="button" class="ag-pill-btn-frost" style="background: rgba(255, 255, 255, 0.08); color: #ffffff !important; border-color: rgba(255, 255, 255, 0.15); padding: 6px 16px; font-size: 0.82rem;" onclick="document.getElementById('fileInput').click()">
+                            Browse Files
                         </button>
-
-                        <!-- Loading Indicator -->
-                        <div id="loadingIndicator" class="d-none text-center py-4">
-                            <div class="spinner-border text-info mb-2" role="status"></div>
-                            <div class="small text-muted">Executing dual-head inference, XAI, and DeepSurv...</div>
-                        </div>
                     </div>
 
-                    <!-- Target Backend Switcher Pill (Collapse) -->
-                    <div class="glass-card p-3">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="small text-muted"><i class="fa-solid fa-server me-1"></i> Cloud Backend:</span>
-                            <span id="currentBackendDisplay" class="small text-info mono-stat">Auto</span>
+                    <!-- Selected File Info Banner -->
+                    <div id="selectedFileInfo" style="display: none; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--ag-border-obsidian); border-radius: var(--radius-sm); padding: 10px 14px; margin-bottom: 16px; justify-content: space-between; align-items: center;">
+                        <div style="display: flex; align-items: center; gap: 8px; overflow: hidden;">
+                            <i class="fa-solid fa-file-image" style="color: #38bdf8;"></i>
+                            <span id="fileName" style="font-size: 0.82rem; color: #ffffff; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">scan.png</span>
                         </div>
-                        <div class="mt-2 pt-2 border-top border-secondary-subtle">
-                            <div class="input-group input-group-sm">
-                                <input type="text" id="apiBaseUrlInput" class="form-control bg-dark text-white border-secondary" placeholder="https://neurovision-elite-backend.onrender.com">
-                                <button class="btn btn-outline-secondary" id="saveBackendUrlBtn">Update</button>
+                        <span id="fileSize" style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; background: rgba(255, 255, 255, 0.1); border-radius: 4px; padding: 2px 6px;">Ready</span>
+                    </div>
+
+                    <!-- Voxel Metrology & Demographics -->
+                    <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--ag-border-obsidian); border-radius: var(--radius-sm); padding: 14px; margin-bottom: 20px;">
+                        <div style="font-size: 0.8rem; font-weight: 600; color: #ffffff; margin-bottom: 12px;">
+                            <i class="fa-solid fa-sliders" style="color: #38bdf8; margin-right: 6px;"></i> Spatial & Clinical Covariates:
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+                            <div>
+                                <label style="font-size: 0.72rem; color: var(--ag-ink-inverted-secondary); display: block; margin-bottom: 4px;">Patient Age</label>
+                                <input type="number" id="ageInput" class="ag-segmented-input" value="54" min="18" max="100">
+                            </div>
+                            <div>
+                                <label style="font-size: 0.72rem; color: var(--ag-ink-inverted-secondary); display: block; margin-bottom: 4px;">Biological Sex</label>
+                                <select id="sexSelect" class="ag-segmented-input">
+                                    <option value="MALE" selected>Male</option>
+                                    <option value="FEMALE">Female</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                            <div>
+                                <label style="font-size: 0.72rem; color: var(--ag-ink-inverted-secondary); display: block; margin-bottom: 4px;">Thickness (mm)</label>
+                                <input type="number" id="thicknessInput" class="ag-segmented-input" value="3.0" step="0.5">
+                            </div>
+                            <div>
+                                <label style="font-size: 0.72rem; color: var(--ag-ink-inverted-secondary); display: block; margin-bottom: 4px;">Spacing (mm)</label>
+                                <input type="number" id="spacingInput" class="ag-segmented-input" value="0.8" step="0.1">
                             </div>
                         </div>
                     </div>
+
+                    <!-- Execute Button -->
+                    <button id="analyzeBtn" class="ag-btn-execute" disabled>
+                        <i class="fa-solid fa-microscope"></i> Run Multimodal AI Diagnosis
+                    </button>
+
+                    <!-- Loading Indicator -->
+                    <div id="loadingIndicator" style="display: none; text-align: center; padding: 20px 0;">
+                        <i class="fa-solid fa-spinner fa-spin" style="font-size: 1.8rem; color: #38bdf8; margin-bottom: 10px; display: block;"></i>
+                        <div style="font-size: 0.82rem; color: var(--ag-ink-inverted-secondary);">Executing dual-head inference, XAI & DeepSurv...</div>
+                    </div>
                 </div>
 
-                <!-- Right Column: Interactive Diagnostic & Radiogenomic Workstation -->
-                <div class="col-12 col-lg-8">
+                <!-- Right Column: Interactive Diagnostic & Radiogenomics Viewport -->
+                <div class="ag-viewport-panel">
                     
-                    <!-- Welcome Placeholder -->
-                    <div id="welcomePlaceholder" class="glass-card text-center py-5">
-                        <i class="fa-solid fa-brain display-3 text-secondary mb-3 opacity-50"></i>
-                        <h4 class="text-white fw-bold mb-2">Radiological Diagnostic Deck Ready</h4>
-                        <p class="text-muted small mx-auto mb-4" style="max-width: 480px;">
-                            Upload a clinical brain scan or click one of the pre-loaded patient cases above to start automated WHO CNS5 molecular prediction and 3D tumor segmentation.
+                    <!-- Empty State Placeholder -->
+                    <div id="welcomePlaceholder" style="text-align: center; padding: 70px 20px;">
+                        <div style="width: 72px; height: 72px; border-radius: 50%; background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.25); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto;">
+                            <i class="fa-solid fa-brain" style="font-size: 28px; color: #38bdf8;"></i>
+                        </div>
+                        <h3 style="font-size: 1.3rem; font-weight: 700; color: #ffffff; margin-bottom: 8px;">Diagnostic Viewport Ready</h3>
+                        <p style="font-size: 0.88rem; color: var(--ag-ink-inverted-secondary); max-width: 440px; margin: 0 auto 24px auto;">
+                            Select a preset scenario above or upload a raw brain scan to trigger automated morphological segmentation, WHO CNS5 molecular biopsy, and DeepSurv survival trajectory.
                         </p>
-                        <button class="btn btn-outline-info btn-sm rounded-pill px-4" onclick="loadSampleCase('glioma')">
-                            <i class="fa-solid fa-bolt me-1"></i> Run Case 1 (Glioblastoma Demo)
+                        <button class="ag-pill-btn-solid" onclick="loadSampleCase('glioma')" style="font-size: 0.86rem; padding: 10px 22px;">
+                            <i class="fa-solid fa-bolt"></i> Run Case 1 (Glioblastoma Demo)
                         </button>
                     </div>
 
                     <!-- Real-Time Results Workspace -->
-                    <div id="resultsView" class="d-none">
+                    <div id="resultsView" style="display: none;">
 
-                        <!-- Conformal Risk-Controlled Triage Decision Banner -->
-                        <div id="conformalTriageBanner" class="glass-card mb-4 border-2">
-                            <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
-                                <div>
-                                    <div class="d-flex align-items-center gap-2 mb-1">
-                                        <span id="triageActionBadge" class="badge bg-success fs-6 px-3 py-1">AUTOMATED SIGN-OFF</span>
-                                        <span class="badge bg-dark border border-secondary text-light small" id="triagePriorityBadge">Priority: Routine</span>
-                                    </div>
-                                    <h5 class="text-white fw-bold mb-0" id="triageActionLabel">Conformal Finite-Sample Coverage Satisfied</h5>
-                                    <div class="small text-muted mt-1" id="triageClinicalGuidance">Case accepted under 96.86% selective accuracy guarantee.</div>
+                        <!-- Conformal Triage Banner -->
+                        <div id="conformalTriageBanner" style="background: rgba(22, 101, 52, 0.2); border: 1px solid #16a34a; border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+                            <div>
+                                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
+                                    <span id="triageActionBadge" style="background: #16a34a; color: #ffffff; font-weight: 700; font-size: 0.78rem; border-radius: 9999px; padding: 3px 12px; letter-spacing: 0.03em;">
+                                        AUTOMATED SIGN-OFF
+                                    </span>
+                                    <span id="triagePriorityBadge" style="font-size: 0.75rem; color: var(--ag-ink-inverted-secondary); font-family: 'JetBrains Mono', monospace;">Priority: Routine</span>
                                 </div>
-                                <div class="text-end">
-                                    <div class="fs-4 mono-stat text-info fw-bold" id="conformalGuaranteeText">96.86%</div>
-                                    <div class="small text-muted" style="font-size: 0.75rem;">Selective Accuracy</div>
+                                <div id="triageActionLabel" style="font-weight: 700; font-size: 1rem; color: #ffffff;">Conformal Finite-Sample Coverage Satisfied</div>
+                                <div id="triageClinicalGuidance" style="font-size: 0.8rem; color: var(--ag-ink-inverted-secondary); margin-top: 2px;">Case accepted under 96.86% selective accuracy guarantee.</div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div id="conformalGuaranteeText" style="font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; font-weight: 800; color: #4ade80;">96.86%</div>
+                                <div style="font-size: 0.72rem; color: var(--ag-ink-inverted-secondary);">Selective Accuracy</div>
+                            </div>
+                        </div>
+
+                        <!-- Tri-Modal Visualizer Screen -->
+                        <div style="background: var(--ag-surface-obsidian-card); border: 1px solid var(--ag-border-obsidian); border-radius: var(--radius-md); padding: 18px; margin-bottom: 20px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+                                <span style="font-size: 0.88rem; font-weight: 700; color: #ffffff;">
+                                    <i class="fa-solid fa-eye" style="color: #38bdf8; margin-right: 6px;"></i> Tri-Modal Orthogonal Visualizer
+                                </span>
+                                <div style="display: flex; gap: 8px;">
+                                    <button type="button" id="btnShowGradCAM" class="ag-pill-btn-solid" style="padding: 4px 12px; font-size: 0.75rem; background: #3b82f6;">Grad-CAM</button>
+                                    <button type="button" id="btnShowMask" class="ag-pill-btn-frost" style="padding: 4px 12px; font-size: 0.75rem; background: transparent; color: #ffffff !important;">Contour Mask</button>
+                                </div>
+                            </div>
+
+                            <div class="ag-mri-screen">
+                                <img id="visualizerImg" src="" alt="Diagnostic Visualizer">
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                                <div class="ag-telemetry-pill">
+                                    <div style="font-size: 0.72rem; color: var(--ag-ink-inverted-secondary);">Primary Class</div>
+                                    <div id="predictedClass" style="font-weight: 700; color: #ffffff; font-size: 0.95rem;">Glioma</div>
+                                </div>
+                                <div class="ag-telemetry-pill">
+                                    <div style="font-size: 0.72rem; color: var(--ag-ink-inverted-secondary);">Confidence</div>
+                                    <div id="confidenceScore" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #38bdf8; font-size: 0.95rem;">94.2%</div>
+                                </div>
+                                <div class="ag-telemetry-pill">
+                                    <div style="font-size: 0.72rem; color: var(--ag-ink-inverted-secondary);">Estimated Volume</div>
+                                    <div id="tumorVolume" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #fbbf24; font-size: 0.95rem;">14.82 cm³</div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Tri-Modal Scan Visualizer Deck -->
-                        <div class="glass-card mb-4">
-                            <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
-                                <h6 class="fw-bold text-white mb-0"><i class="fa-solid fa-eye text-primary me-2"></i> Tri-Modal Orthogonal Visualizer</h6>
-                                <div class="btn-group btn-group-sm" role="group">
-                                    <button type="button" class="btn btn-outline-secondary active" id="btnShowGradCAM"><i class="fa-solid fa-fire me-1"></i> Grad-CAM</button>
-                                    <button type="button" class="btn btn-outline-secondary" id="btnShowMask"><i class="fa-solid fa-draw-polygon me-1"></i> Contour Mask</button>
-                                </div>
+                        <!-- WHO CNS5 2021 Integrated Molecular Diagnosis -->
+                        <div id="molecular-biopsy" style="background: var(--ag-surface-obsidian-card); border: 1px solid var(--ag-border-obsidian); border-radius: var(--radius-md); padding: 18px; margin-bottom: 20px;">
+                            <div style="font-size: 0.88rem; font-weight: 700; color: #ffffff; margin-bottom: 12px;">
+                                <i class="fa-solid fa-dna" style="color: #a855f7; margin-right: 6px;"></i> WHO CNS5 2021 Integrated Molecular Diagnosis
                             </div>
 
-                            <div class="visualizer-viewport mb-3">
-                                <img id="visualizerImg" src="" alt="Diagnostic Visualizer" class="img-fluid">
+                            <div style="background: rgba(168, 85, 247, 0.08); border: 1px solid rgba(168, 85, 247, 0.25); border-radius: var(--radius-sm); padding: 12px 16px; margin-bottom: 16px;">
+                                <div style="font-size: 0.72rem; color: #c084fc; text-transform: uppercase; font-weight: 600; letter-spacing: 0.05em; margin-bottom: 2px;">Integrated Subtype Classification</div>
+                                <div id="whoSubtypeDisplay" style="font-weight: 700; font-size: 1.05rem; color: #ffffff; margin-bottom: 4px;">Astrocytoma, IDH-mutant (CNS WHO Grade 2-4)</div>
+                                <div id="clinicalGuidanceDisplay" style="font-size: 0.78rem; color: var(--ag-ink-inverted-secondary);">Associated with significantly improved overall survival response.</div>
                             </div>
 
-                            <!-- Diagnostic Summary Bar -->
-                            <div class="row g-2 text-center">
-                                <div class="col-4">
-                                    <div class="p-2 bg-dark rounded border border-secondary">
-                                        <div class="small text-muted">Primary Subtype</div>
-                                        <div class="fw-bold text-white" id="predictedClass">Glioma</div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px;">
+                                <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--ag-border-obsidian); border-radius: var(--radius-sm); padding: 12px;">
+                                    <div style="display: flex; justify-content: space-between; font-size: 0.78rem; margin-bottom: 6px;">
+                                        <span style="font-weight: 600; color: #ffffff;">IDH1/IDH2 Mutation</span>
+                                        <span id="idhProbText" style="font-family: 'JetBrains Mono', monospace; color: #38bdf8;">88.4%</span>
                                     </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="p-2 bg-dark rounded border border-secondary">
-                                        <div class="small text-muted">Model Confidence</div>
-                                        <div class="fw-bold text-info mono-stat" id="confidenceScore">94.2%</div>
+                                    <div style="background: rgba(255, 255, 255, 0.08); height: 6px; border-radius: 9999px; overflow: hidden; margin-bottom: 8px;">
+                                        <div id="idhBar" style="background: #38bdf8; height: 100%; width: 88%;"></div>
                                     </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="p-2 bg-dark rounded border border-secondary">
-                                        <div class="small text-muted">Estimated Volume</div>
-                                        <div class="fw-bold text-warning mono-stat" id="tumorVolume">14.82 cm³</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- WHO CNS5 2021 Radiogenomics & Molecular Biopsy -->
-                        <div class="glass-card mb-4">
-                            <h6 class="fw-bold text-white mb-3"><i class="fa-solid fa-dna text-info me-2"></i> WHO CNS5 2021 Integrated Molecular Diagnosis</h6>
-                            
-                            <div class="p-3 bg-dark rounded border border-info-subtle mb-3">
-                                <div class="small text-muted mb-1">Integrated Diagnostic Subtype</div>
-                                <h5 class="fw-bold text-info mb-1" id="whoSubtypeDisplay">Astrocytoma, IDH-mutant (CNS WHO Grade 2-4)</h5>
-                                <div class="small text-secondary" id="clinicalGuidanceDisplay">Associated with significantly improved overall survival.</div>
-                            </div>
-
-                            <div class="row g-3 mb-3">
-                                <div class="col-12 col-md-6">
-                                    <div class="p-3 bg-dark rounded border border-secondary">
-                                        <div class="d-flex justify-content-between align-items-center mb-1">
-                                            <span class="small fw-semibold text-white">IDH1/IDH2 Mutation</span>
-                                            <span class="small mono-stat text-info" id="idhProbText">88.4%</span>
-                                        </div>
-                                        <div class="progress bg-secondary-subtle" style="height: 6px;">
-                                            <div id="idhBar" class="progress-bar bg-info" style="width: 88%;"></div>
-                                        </div>
-                                        <div class="small text-muted mt-2 d-flex justify-content-between">
-                                            <span>Status: <strong class="text-white" id="idhStatusText">IDH-Mutant</strong></span>
-                                            <span class="text-success small"><i class="fa-solid fa-check"></i> Non-Invasive</span>
-                                        </div>
+                                    <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--ag-ink-inverted-secondary);">
+                                        <span>Status: <strong id="idhStatusText" style="color: #ffffff;">IDH-Mutant</strong></span>
+                                        <span style="color: #4ade80;">AUROC 0.9256</span>
                                     </div>
                                 </div>
 
-                                <div class="col-12 col-md-6">
-                                    <div class="p-3 bg-dark rounded border border-secondary">
-                                        <div class="d-flex justify-content-between align-items-center mb-1">
-                                            <span class="small fw-semibold text-white">1p/19q Co-deletion</span>
-                                            <span class="small mono-stat text-warning" id="codelProbText">14.2%</span>
-                                        </div>
-                                        <div class="progress bg-secondary-subtle" style="height: 6px;">
-                                            <div id="codelBar" class="progress-bar bg-warning" style="width: 14%;"></div>
-                                        </div>
-                                        <div class="small text-muted mt-2 d-flex justify-content-between">
-                                            <span>Status: <strong class="text-white" id="codelStatusText">1p/19q Intact</strong></span>
-                                            <span class="text-info small">PCV Marker</span>
-                                        </div>
+                                <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--ag-border-obsidian); border-radius: var(--radius-sm); padding: 12px;">
+                                    <div style="display: flex; justify-content: space-between; font-size: 0.78rem; margin-bottom: 6px;">
+                                        <span style="font-weight: 600; color: #ffffff;">1p/19q Co-deletion</span>
+                                        <span id="codelProbText" style="font-family: 'JetBrains Mono', monospace; color: #fbbf24;">14.2%</span>
+                                    </div>
+                                    <div style="background: rgba(255, 255, 255, 0.08); height: 6px; border-radius: 9999px; overflow: hidden; margin-bottom: 8px;">
+                                        <div id="codelBar" style="background: #fbbf24; height: 100%; width: 14%;"></div>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--ag-ink-inverted-secondary);">
+                                        <span>Status: <strong id="codelStatusText" style="color: #ffffff;">1p/19q Intact</strong></span>
+                                        <span style="color: #38bdf8;">PCV Marker</span>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- DeepSurv 5-Year Survival Engine -->
-                            <div class="p-3 bg-dark rounded border border-secondary">
-                                <div class="d-flex justify-content-between align-items-center mb-2">
+                            <!-- DeepSurv 5-Year Survival Forecast -->
+                            <div id="deepsurv" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--ag-border-obsidian); border-radius: var(--radius-sm); padding: 14px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                                     <div>
-                                        <span class="fw-semibold text-white small"><i class="fa-solid fa-chart-line text-primary me-1"></i> DeepSurv Time-to-Event Survival Forecast</span>
-                                        <div class="small text-muted" id="hazardScoreDisplay">g(x) = -0.412 log-hazard</div>
+                                        <div style="font-size: 0.82rem; font-weight: 600; color: #ffffff;">DeepSurv Time-to-Event Survival Prognosis</div>
+                                        <div id="hazardScoreDisplay" style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--ag-ink-inverted-secondary);">g(x) = -0.412 log-hazard</div>
                                     </div>
-                                    <span class="badge bg-success fs-6 px-3 py-1" id="riskTierBadge">Low Risk</span>
+                                    <span id="riskTierBadge" style="background: #16a34a; color: #ffffff; font-size: 0.75rem; font-weight: 700; border-radius: 9999px; padding: 3px 12px;">Low Risk</span>
                                 </div>
 
-                                <!-- Dynamic SVG Survival Curve -->
-                                <div class="text-center py-2">
-                                    <svg id="survivalSvg" viewBox="0 0 350 240" class="w-100" style="max-height: 220px;"></svg>
+                                <div style="text-align: center; margin-bottom: 10px;">
+                                    <svg id="survivalSvg" viewBox="0 0 350 240" style="width: 100%; max-height: 200px;"></svg>
                                 </div>
 
-                                <div class="d-flex justify-content-between align-items-center small text-muted border-top border-secondary pt-2">
-                                    <span>Median Expected Survival: <strong class="text-white" id="medianSurvivalDisplay">57.2 months</strong></span>
-                                    <span>Log-Rank: <strong class="text-success">p = 1.54e-61</strong></span>
+                                <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--ag-ink-inverted-secondary); border-top: 1px solid var(--ag-border-obsidian); pt-2; padding-top: 8px;">
+                                    <span>Median Expected Survival: <strong id="medianSurvivalDisplay" style="color: #ffffff;">57.2 Months</strong></span>
+                                    <span>Log-Rank: <strong style="color: #4ade80;">p = 1.54e-61</strong></span>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Top SHAP Feature Drivers & Tumor Board Dossier Action -->
-                        <div class="glass-card mb-4">
-                            <h6 class="fw-bold text-white mb-2"><i class="fa-solid fa-layer-group text-warning me-2"></i> Top Mechanistic SHAP Feature Attributions</h6>
-                            <p class="text-muted small mb-3">Decomposition of continuous patient log-hazard risk into radiomic and clinical contributors:</p>
-                            <div id="shapWaterfallList" class="mb-4"></div>
+                        <!-- SHAP Waterfalls & 1-Click Tumor Board Dossier Action -->
+                        <div style="background: var(--ag-surface-obsidian-card); border: 1px solid var(--ag-border-obsidian); border-radius: var(--radius-md); padding: 18px;">
+                            <div style="font-size: 0.88rem; font-weight: 700; color: #ffffff; margin-bottom: 8px;">
+                                <i class="fa-solid fa-layer-group" style="color: #f59e0b; margin-right: 6px;"></i> Top Mechanistic SHAP Feature Attributions
+                            </div>
+                            <div id="shapWaterfallList" style="margin-bottom: 20px;"></div>
 
-                            <!-- Download Tumor Board PDF Dossier -->
-                            <div class="d-flex flex-wrap justify-content-end gap-2 pt-2 border-top border-secondary">
-                                <button id="downloadPdfDossierBtn" class="btn-antigravity text-decoration-none btn-sm">
+                            <!-- PDF Dossier Action -->
+                            <div style="display: flex; justify-content: flex-end; gap: 12px; border-top: 1px solid var(--ag-border-obsidian); padding-top: 14px;">
+                                <button id="downloadPdfDossierBtn" class="ag-pill-btn-solid" style="font-size: 0.85rem; padding: 10px 20px; background: #2563eb;">
                                     <i class="fa-solid fa-file-pdf"></i> Download Official Tumor Board Dossier (PDF)
                                 </button>
-                                <button id="printReportBtn" class="btn btn-outline-secondary btn-sm" onclick="window.print()">
-                                    <i class="fa-solid fa-print me-1"></i> Print View
+                                <button id="printReportBtn" class="ag-pill-btn-frost" onclick="window.print()" style="font-size: 0.85rem; padding: 10px 18px; color: #ffffff !important; border-color: rgba(255, 255, 255, 0.2);">
+                                    <i class="fa-solid fa-print"></i> Print
                                 </button>
                             </div>
                         </div>
@@ -427,115 +395,113 @@
             </div>
         </section>
 
-        <!-- Deep-Dive Scientific Bento Grid (Antigravity Exhibition Style) -->
-        <section id="bento" class="py-5">
-            <div class="text-center mb-5">
-                <div class="badge-pill-glow mb-3">
+        <!-- ==================================================================
+             ANTIGRAVITY CAPABILITIES BENTO SECTION (Crisp White + Spectral)
+             ================================================================== -->
+        <section id="capabilities" style="margin-bottom: 80px;">
+            <div class="ag-section-header">
+                <div class="ag-announcement-pill" style="margin-bottom: 14px;">
                     <span>SCIENTIFIC BENCHMARK & ARCHITECTURE MATRIX</span>
                 </div>
-                <h2 class="fw-bold text-white display-5">Engineered for Clinical Truth.</h2>
-                <p class="text-muted mx-auto" style="max-width: 650px;">
-                    Unlike standard academic prototypes with memorized slices, NeuroVision Elite enforces 
-                    strict patient-level cross-validation and hardware-invariance.
+                <h2 style="font-size: 2.8rem; font-weight: 800; letter-spacing: -0.04em; color: var(--ag-ink-primary); margin-bottom: 12px;">
+                    Engineered for clinical truth.
+                </h2>
+                <p style="font-size: 1.05rem; color: var(--ag-ink-secondary); max-width: 620px; margin: 0 auto;">
+                    Standard repositories report 99% accuracy by leaking adjacent patient slices. 
+                    NeuroVision Elite is verified under strict patient isolation, scanner invariance, and SaMD standards.
                 </p>
             </div>
 
-            <div class="row g-4">
-                <!-- Card 1: Multi-Center Scanner Harmonization -->
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="glass-card h-100">
-                        <div class="fs-2 text-info mb-3"><i class="fa-solid fa-magnet"></i></div>
-                        <h5 class="fw-bold text-white mb-2">ComBat Harmonization</h5>
-                        <p class="text-secondary small mb-3">
-                            Eliminates non-biological batch effects between 1.5T and 3.0T MRI scanners via Parametric Empirical Bayes, reducing scanner variance by >70% while preserving clinical pathology.
-                        </p>
-                        <span class="badge bg-info-subtle text-info border border-info rounded-pill small">NeuroCombat Active</span>
-                    </div>
+            <div class="ag-bento-grid">
+                <!-- Card 1: ComBat Harmonization -->
+                <div class="ag-bento-card">
+                    <div class="ag-card-aura" style="background: rgba(59, 130, 246, 0.3);"></div>
+                    <div style="font-size: 24px; color: var(--ag-cobalt); margin-bottom: 16px;"><i class="fa-solid fa-magnet"></i></div>
+                    <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 10px;">ComBat Multi-Center Harmonization</h3>
+                    <p style="font-size: 0.9rem; color: var(--ag-ink-secondary); line-height: 1.6; margin-bottom: 20px;">
+                        Eliminates non-biological scanner batch variation between 1.5T and 3.0T MRI field strengths via Parametric Empirical Bayes, reducing acquisition disparity by >70%.
+                    </p>
+                    <span class="ag-status-pill" style="color: var(--ag-cobalt); background: rgba(59, 130, 246, 0.08); border-color: rgba(59, 130, 246, 0.25);">
+                        NeuroCombat Active
+                    </span>
                 </div>
 
-                <!-- Card 2: Zero-Leakage Audit -->
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="glass-card h-100">
-                        <div class="fs-2 text-success mb-3"><i class="fa-solid fa-shield-halved"></i></div>
-                        <h5 class="fw-bold text-white mb-2">Zero-Leakage Audit</h5>
-                        <p class="text-secondary small mb-3">
-                            Standard repositories leak 98.9% of patients into training. We enforce <code>StratifiedGroupKFold</code> across all 233 patients, ensuring 100% patient isolation.
-                        </p>
-                        <span class="badge bg-success-subtle text-success border border-success rounded-pill small">0.0% Leakage Rate</span>
-                    </div>
+                <!-- Card 2: Zero Patient Leakage -->
+                <div class="ag-bento-card">
+                    <div class="ag-card-aura" style="background: rgba(16, 185, 129, 0.3);"></div>
+                    <div style="font-size: 24px; color: var(--ag-emerald); margin-bottom: 16px;"><i class="fa-solid fa-shield-halved"></i></div>
+                    <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 10px;">Zero Patient Data Leakage</h3>
+                    <p style="font-size: 0.9rem; color: var(--ag-ink-secondary); line-height: 1.6; margin-bottom: 20px;">
+                        Standard random slice splits leak 98.9% of test patients into training. We partition strictly by patient ID via <code>StratifiedGroupKFold</code> for 0.0% patient leakage.
+                    </p>
+                    <span class="ag-status-pill" style="color: var(--ag-emerald); background: rgba(16, 185, 129, 0.08); border-color: rgba(16, 185, 129, 0.25);">
+                        0.0% Leakage Verified
+                    </span>
                 </div>
 
-                <!-- Card 3: DeepSurv Survival Engine -->
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="glass-card h-100">
-                        <div class="fs-2 text-warning mb-3"><i class="fa-solid fa-chart-line"></i></div>
-                        <h5 class="fw-bold text-white mb-2">DeepSurv Cox Prognosis</h5>
-                        <p class="text-secondary small mb-3">
-                            Trained on 810 TCGA Pan-Glioma patients fusing 48 IBSI radiomics with patient demographics to predict right-censored overall survival time.
-                        </p>
-                        <span class="badge bg-warning-subtle text-warning border border-warning rounded-pill small">C-Index: 0.8151 ± 0.013</span>
-                    </div>
-                </div>
-
-                <!-- Card 4: Scanner Physics Stress-Testing -->
-                <div class="col-12 col-md-6 col-lg-6">
-                    <div class="glass-card h-100">
-                        <div class="fs-2 text-primary mb-3"><i class="fa-solid fa-wave-square"></i></div>
-                        <h5 class="fw-bold text-white mb-2">Scanner Physics Robustness Suite</h5>
-                        <p class="text-secondary small mb-3">
-                            Evaluated across 5 physical perturbation regimes: RF B1 field receiver drift, Rician thermal RF noise floor, and Gibbs k-space motion ringing.
-                        </p>
-                        <div class="d-flex gap-2">
-                            <span class="badge bg-secondary-subtle text-light border border-secondary small">B1 Drift Invariant</span>
-                            <span class="badge bg-secondary-subtle text-light border border-secondary small">Thermal SNR Gate</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 5: Demographic Fairness & MLOps Gate -->
-                <div class="col-12 col-md-6 col-lg-6">
-                    <div class="glass-card h-100">
-                        <div class="fs-2 text-purple mb-3" style="color: #c084fc;"><i class="fa-solid fa-code-branch"></i></div>
-                        <h5 class="fw-bold text-white mb-2">Continuous MLOps & Demographic Parity</h5>
-                        <p class="text-secondary small mb-3">
-                            8 hard clinical regression gates automated in GitHub Actions. Verified near-zero gender disparity gap (Δ C-Index = 0.0011) ensuring equitable care.
-                        </p>
-                        <div class="d-flex gap-2">
-                            <span class="badge bg-secondary-subtle text-light border border-secondary small">8 CI Gates Passed</span>
-                            <span class="badge bg-secondary-subtle text-light border border-secondary small">DVC Pipeline</span>
-                        </div>
-                    </div>
+                <!-- Card 3: DeepSurv Cox Prognostication -->
+                <div class="ag-bento-card">
+                    <div class="ag-card-aura" style="background: rgba(245, 158, 11, 0.3);"></div>
+                    <div style="font-size: 24px; color: var(--ag-amber); margin-bottom: 16px;"><i class="fa-solid fa-chart-line"></i></div>
+                    <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 10px;">DeepSurv Prognosis Engine</h3>
+                    <p style="font-size: 0.9rem; color: var(--ag-ink-secondary); line-height: 1.6; margin-bottom: 20px;">
+                        Trained on 810 TCGA Pan-Glioma cases optimizing Cox Negative Partial Likelihood, achieving Harrell's C-index of 0.8151 ± 0.013 and log-rank p = 1.54 × 10⁻⁶¹.
+                    </p>
+                    <span class="ag-status-pill" style="color: var(--ag-amber); background: rgba(245, 158, 11, 0.08); border-color: rgba(245, 158, 11, 0.25);">
+                        C-Index: 0.8151
+                    </span>
                 </div>
             </div>
         </section>
 
     </main>
 
-    <!-- Clinical SaMD Disclaimer Footer -->
-    <footer class="border-top border-secondary py-5 text-center text-muted small position-relative" style="z-index: 1;">
-        <div class="container">
-            <div class="mb-3">
-                <span class="fw-bold text-white">NEUROVISION ELITE CONSORTIUM</span> • WHO CNS5 2021 Research Benchmark
+    <!-- Monumental Edge-to-Edge Brand Wordmark Footer -->
+    <footer class="ag-monumental-footer">
+        <div style="max-width: 1280px; margin: 0 auto; padding: 0 24px;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 32px; margin-bottom: 40px;">
+                <div>
+                    <div class="ag-logo-lockup" style="margin-bottom: 8px;">
+                        <div class="ag-logo-mark">🧠</div>
+                        <span>NeuroVision Elite</span>
+                    </div>
+                    <div style="font-size: 0.88rem; color: var(--ag-ink-secondary); max-width: 380px; line-height: 1.5;">
+                        Autonomous WHO CNS5 2021 Virtual Molecular Biopsy, DeepSurv Prognosis, and Conformal SaMD Intelligence.
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 48px; flex-wrap: wrap;">
+                    <div>
+                        <div style="font-weight: 700; font-size: 0.85rem; color: var(--ag-ink-primary); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.04em;">Architecture</div>
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <a href="#cockpit" class="ag-nav-link">Clinical Cockpit</a>
+                            <a href="#molecular-biopsy" class="ag-nav-link">WHO CNS5 Biopsy</a>
+                            <a href="#deepsurv" class="ag-nav-link">DeepSurv Engine</a>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="font-weight: 700; font-size: 0.85rem; color: var(--ag-ink-primary); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.04em;">Governance</div>
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <a href="docs/MODEL_CARD.md" class="ag-nav-link">Model Card</a>
+                            <a href="docs/CLAIM_CHECKLIST.md" class="ag-nav-link">CLAIM Checklist</a>
+                            <a href="https://github.com/AadityaUniyal/Brain_Tumourr" target="_blank" class="ag-nav-link">GitHub Source</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <p class="mx-auto text-secondary mb-3" style="max-width: 720px; font-size: 0.8rem; line-height: 1.6;">
-                <strong>MEDICAL DEVICE LEGAL DISCLAIMER:</strong> NeuroVision Elite is an investigational software-as-a-medical-device (SaMD) 
-                decision support engine intended strictly for clinical neuro-oncology research and institutional validation. 
-                All findings must be confirmed by board-certified neuropathologists and radiologic reviews prior to therapeutic intervention.
-            </p>
-            <div class="d-flex justify-content-center gap-4 text-muted">
-                <a href="https://github.com/AadityaUniyal/Brain_Tumourr" class="text-secondary text-decoration-none hover-text-white">GitHub Repository</a>
-                <span>•</span>
-                <a href="docs/MODEL_CARD.md" class="text-secondary text-decoration-none hover-text-white">Model Card</a>
-                <span>•</span>
-                <a href="docs/CLAIM_CHECKLIST.md" class="text-secondary text-decoration-none hover-text-white">CLAIM Checklist</a>
-                <span>•</span>
-                <span>Apache 2.0 License</span>
+
+            <div style="font-size: 0.76rem; color: var(--ag-ink-muted); line-height: 1.6; max-width: 820px; border-top: 1px solid var(--ag-border-light); padding-top: 24px;">
+                <strong>INVESTIGATIONAL USE DISCLAIMER:</strong> NeuroVision Elite is an assistive clinical decision support software-as-a-medical-device (SaMD) research platform. All pathological subtypes and genomic classifications must be confirmed by board-certified neuropathologists prior to surgical or adjuvant therapeutic decisions.
+            </div>
+
+            <!-- Giant Edge-to-Edge Brand Wordmark -->
+            <div class="ag-huge-wordmark">
+                NEUROVISION
             </div>
         </div>
     </footer>
 
-    <!-- Bootstrap Bundle, Canvas Confetti & App Script -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Canvas Confetti & Antigravity Client Script -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script src="js/app.js"></script>
 </body>
