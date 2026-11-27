@@ -99,6 +99,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 16px;
 }
 
 .ag-logo-lockup {
@@ -110,6 +111,7 @@ body {
     font-weight: 700;
     font-size: 1.15rem;
     letter-spacing: -0.02em;
+    flex-shrink: 0;
 }
 
 .ag-logo-mark {
@@ -128,7 +130,8 @@ body {
 .ag-nav-links {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 24px;
+    margin: 0 20px;
 }
 
 .ag-nav-link {
@@ -144,6 +147,14 @@ body {
     color: var(--ag-ink-primary);
 }
 
+.ag-nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
 /* Pill CTA Buttons */
 .ag-pill-btn-solid {
     background: var(--ag-ink-primary);
@@ -157,6 +168,8 @@ body {
     align-items: center;
     gap: 8px;
     border: none;
+    white-space: nowrap;
+    flex-shrink: 0;
     transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow: 0 2px 8px rgba(18, 19, 23, 0.15);
 }
@@ -179,6 +192,8 @@ body {
     align-items: center;
     gap: 8px;
     border: 1px solid var(--ag-border-light);
+    white-space: nowrap;
+    flex-shrink: 0;
     transition: all 0.2s ease;
 }
 
@@ -336,6 +351,14 @@ body {
     font-size: 0.8rem;
     font-weight: 500;
     color: var(--ag-ink-inverted-secondary);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.ag-status-pill-nav {
+    background: #f1f3f5;
+    border-color: #e2e8f0;
+    color: var(--ag-ink-secondary);
 }
 
 .ag-pulse-dot {
@@ -344,6 +367,7 @@ body {
     border-radius: 50%;
     background-color: var(--ag-emerald);
     box-shadow: 0 0 10px var(--ag-emerald);
+    flex-shrink: 0;
 }
 
 /* Preset Patient Case Selector Pills */
@@ -354,7 +378,7 @@ body {
     margin-bottom: 24px;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1024px) {
     .ag-preset-pill-row {
         grid-template-columns: repeat(2, 1fr);
     }

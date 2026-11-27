@@ -161,11 +161,15 @@ if (toggleConfigBtn && serverConfigDrawer) {
     });
 }
 
+let pingAttempts = 0;
 async function pingBackendHealth() {
     const targetUrl = API_BASE_URL || window.location.origin;
     const startTime = performance.now();
     try {
-        const res = await fetch(`${targetUrl}/health`, { method: 'GET', cache: 'no-cache' });
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 4000);
+        const res = await fetch(`${targetUrl}/health`, { method: 'GET', cache: 'no-cache', signal: controller.signal });
+        clearTimeout(timeoutId);
         const latency = Math.round(performance.now() - startTime);
         if (res.ok) {
             healthStatusText.textContent = `Live: ${latency}ms`;
@@ -175,9 +179,16 @@ async function pingBackendHealth() {
             throw new Error(`HTTP ${res.status}`);
         }
     } catch (e) {
-        healthStatusText.textContent = 'Connecting...';
-        healthDot.style.backgroundColor = '#f59e0b';
-        healthDot.style.boxShadow = '0 0 10px #f59e0b';
+        pingAttempts++;
+        if (pingAttempts > 1) {
+            healthStatusText.textContent = 'Demo Mode (Cached)';
+            healthDot.style.backgroundColor = '#6366f1';
+            healthDot.style.boxShadow = '0 0 10px rgba(99, 102, 241, 0.5)';
+        } else {
+            healthStatusText.textContent = 'Waking Cloud...';
+            healthDot.style.backgroundColor = '#f59e0b';
+            healthDot.style.boxShadow = '0 0 10px #f59e0b';
+        }
     }
 }
 pingBackendHealth();
