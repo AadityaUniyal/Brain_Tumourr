@@ -1,0 +1,118 @@
+{
+  "expected_value_base_hazard": -0.19022033736109734,
+  "sample_evaluated_count": 100,
+  "top_features": [
+    {
+      "feature": "Patient Age",
+      "mean_abs_shap": 0.7320551417364399
+    },
+    {
+      "feature": "Glioblastoma Grade",
+      "mean_abs_shap": 0.5136697985562747
+    },
+    {
+      "feature": "Male Sex",
+      "mean_abs_shap": 0.03197594267608861
+    },
+    {
+      "feature": "Std Tumor Area",
+      "mean_abs_shap": 0.025799854082963036
+    },
+    {
+      "feature": "Equiv Diameter",
+      "mean_abs_shap": 0.025707412876844908
+    },
+    {
+      "feature": "Std Tumor Perimeter",
+      "mean_abs_shap": 0.02531577859022554
+    },
+    {
+      "feature": "Std Intensity Variance",
+      "mean_abs_shap": 0.02447765895450257
+    },
+    {
+      "feature": "Std Equiv Diameter",
+      "mean_abs_shap": 0.02439463746806355
+    },
+    {
+      "feature": "Intensity P10",
+      "mean_abs_shap": 0.024346600875278665
+    },
+    {
+      "feature": "Std Intensity Std",
+      "mean_abs_shap": 0.02197609197597628
+    },
+    {
+      "feature": "Std Eccentricity",
+      "mean_abs_shap": 0.017369165052283784
+    },
+    {
+      "feature": "GLCM Dissimilarity",
+      "mean_abs_shap": 0.017367166353083965
+    },
+    {
+      "feature": "Std Intensity P10",
+      "mean_abs_shap": 0.016551606774260975
+    },
+    {
+      "feature": "Intensity Entropy",
+      "mean_abs_shap": 0.016181492049080738
+    },
+    {
+      "feature": "Std GLCM Correlation",
+      "mean_abs_shap": 0.015496957091779267
+    }
+  ],
+  "patient_cases": {
+    "high_risk_case": {
+      "hazard_score": 2.063260078430176,
+      "top_attributions": [
+        {
+          "feature": "Patient Age",
+          "shap_value": 0.9079400033736089
+        },
+        {
+          "feature": "Glioblastoma Grade",
+          "shap_value": 0.4289763491919358
+        },
+        {
+          "feature": "Intensity P10",
+          "shap_value": 0.2088424152463891
+        },
+        {
+          "feature": "Std GLCM Correlation",
+          "shap_value": 0.15938475772843
+        },
+        {
+          "feature": "Std GLCM Homogeneity",
+          "shap_value": 0.1509278948191468
+        }
+      ]
+    },
+    "low_risk_case": {
+      "hazard_score": -1.9505486488342285,
+      "top_attributions": [
+        {
+          "feature": "Patient Age",
+          "shap_value": -1.0670273009167959
+        },
+        {
+          "feature": "Glioblastoma Grade",
+          "shap_value": -0.3134379487340912
+        },
+        {
+          "feature": "Solidity",
+          "shap_value": -0.06376158034055822
+        },
+        {
+          "feature": "Tumor Area",
+          "shap_value": -0.05608324448848812
+        },
+        {
+          "feature": "Intensity Entropy",
+          "shap_value": -0.05419871931924329
+        }
+      ]
+    }
+  }
+}

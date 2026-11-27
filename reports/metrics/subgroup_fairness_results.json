@@ -1,0 +1,56 @@
+{
+  "Sex": {
+    "Male": {
+      "cohort_size": 460,
+      "c_index": 0.8410840962832717,
+      "idh_auroc": 0.9460895544966341,
+      "mortality_rate": 0.43043478260869567
+    },
+    "Female": {
+      "cohort_size": 350,
+      "c_index": 0.8422031237087844,
+      "idh_auroc": 0.932055692055692,
+      "mortality_rate": 0.38857142857142857
+    }
+  },
+  "Age Demographics": {
+    "Young Adult (<40)": {
+      "cohort_size": 266,
+      "c_index": 0.7234953951595631,
+      "idh_auroc": 0.8305692055692055,
+      "mortality_rate": 0.19924812030075187
+    },
+    "Middle Age (40-60)": {
+      "cohort_size": 339,
+      "c_index": 0.8097879684418146,
+      "idh_auroc": 0.9256704980842911,
+      "mortality_rate": 0.41297935103244837
+    },
+    "Senior (>60)": {
+      "cohort_size": 205,
+      "c_index": 0.6656722489660316,
+      "idh_auroc": 0.9477962427745665,
+      "mortality_rate": 0.6878048780487804
+    }
+  },
+  "Tumor Grade": {
+    "Low-Grade Glioma (LGG)": {
+      "cohort_size": 513,
+      "c_index": 0.7762313017900061,
+      "idh_auroc": 0.7811935782950276,
+      "mortality_rate": 0.24366471734892786
+    },
+    "Glioblastoma (GBM)": {
+      "cohort_size": 297,
+      "c_index": 0.6867118980638756,
+      "idh_auroc": 0.8589041095890411,
+      "mortality_rate": 0.7037037037037037
+    }
+  },
+  "disparities": {
+    "sex_c_index_gap": 0.0011190274255126198,
+    "age_c_index_gap": 0.14411571947578294,
+    "sex_fairness_passed": true,
+    "age_fairness_passed": false
+  }
+}

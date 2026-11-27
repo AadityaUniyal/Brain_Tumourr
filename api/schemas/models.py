@@ -43,6 +43,12 @@ class SurvivalCurvePoint(BaseModel):
     survival_prob: float
 
 
+class ShapFeatureAttribution(BaseModel):
+    feature_name: str
+    shap_value: float
+    effect: str = Field(..., description="'risk_increasing' or 'protective'")
+
+
 class RadiogenomicsResponse(BaseModel):
     status: str
     filename: str
@@ -59,6 +65,7 @@ class RadiogenomicsResponse(BaseModel):
     median_overall_survival_months: float
     survival_curve: List[SurvivalCurvePoint]
     radiomic_summary: Dict[str, float]
+    shap_attributions: List[ShapFeatureAttribution] = []
 
 
 class HealthResponse(BaseModel):

@@ -1,0 +1,80 @@
+{
+  "baseline": {
+    "accuracy": 0.57,
+    "macro_auroc": 0.5
+  },
+  "stress_tests": {
+    "b1_bias_field": {
+      "severities": [
+        0.1,
+        0.2,
+        0.3,
+        0.4,
+        0.5
+      ],
+      "accuracy": [
+        0.6,
+        0.62,
+        0.64,
+        0.67,
+        0.72
+      ],
+      "macro_auroc": [
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5
+      ],
+      "max_auroc_drop": 0.0
+    },
+    "rician_noise": {
+      "sigmas": [
+        0.03,
+        0.06,
+        0.09,
+        0.12,
+        0.15
+      ],
+      "accuracy": [
+        0.43,
+        0.41,
+        0.44,
+        0.4,
+        0.26
+      ],
+      "macro_auroc": [
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5
+      ],
+      "max_auroc_drop": 0.0
+    },
+    "gibbs_motion": {
+      "phase_drifts": [
+        0.1,
+        0.2,
+        0.3,
+        0.4,
+        0.5
+      ],
+      "accuracy": [
+        0.57,
+        0.57,
+        0.6,
+        0.6,
+        0.61
+      ],
+      "macro_auroc": [
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5
+      ],
+      "max_auroc_drop": 0.0
+    }
+  }
+}

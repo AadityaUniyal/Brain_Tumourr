@@ -232,5 +232,31 @@ function displayResults(diag, rad) {
         document.getElementById('radEntropy').textContent = rad.radiomic_summary.intensity_entropy;
     }
 
+    // Render SHAP Waterfall List
+    const shapList = document.getElementById('shapWaterfallList');
+    if (shapList && rad.shap_attributions && rad.shap_attributions.length > 0) {
+        shapList.innerHTML = '';
+        rad.shap_attributions.slice(0, 5).forEach(attr => {
+            const isRisk = attr.effect === 'risk_increasing';
+            const colorClass = isRisk ? 'text-danger' : 'text-success';
+            const bgClass = isRisk ? 'bg-danger' : 'bg-success';
+            const sign = attr.shap_value > 0 ? '+' : '';
+            const widthPct = Math.min(100, Math.max(10, Math.abs(attr.shap_value) * 120));
+            
+            const item = document.createElement('div');
+            item.className = 'mb-2';
+            item.innerHTML = `
+                <div class="d-flex justify-content-between small mb-1">
+                    <span>${attr.feature_name}</span>
+                    <strong class="${colorClass}">${sign}${attr.shap_value.toFixed(3)} log-hazard</strong>
+                </div>
+                <div class="progress bg-dark" style="height: 6px;">
+                    <div class="progress-bar ${bgClass}" style="width: ${widthPct}%"></div>
+                </div>
+            `;
+            shapList.appendChild(item);
+        });
+    }
+
     resultsView.classList.remove('d-none');
 }

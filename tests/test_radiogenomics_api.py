@@ -34,6 +34,8 @@ def test_radiogenomics_endpoint():
     assert "deepsurv_hazard_score" in data
     assert "survival_curve" in data
     assert len(data["survival_curve"]) > 0
+    assert "shap_attributions" in data
+    assert len(data["shap_attributions"]) > 0
     print("Test passed successfully:", data["who_2021_subtype"])
 
 if __name__ == "__main__":
