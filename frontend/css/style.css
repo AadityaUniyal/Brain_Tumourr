@@ -128,14 +128,15 @@ body {
 .ag-nav-links {
     display: flex;
     align-items: center;
-    gap: 28px;
+    gap: 20px;
 }
 
 .ag-nav-link {
     text-decoration: none;
     color: var(--ag-ink-secondary);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 500;
+    white-space: nowrap;
     transition: color 0.15s ease;
 }
 
@@ -347,11 +348,22 @@ body {
 
 /* Preset Patient Case Selector Pills */
 .ag-preset-pill-row {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
     gap: 12px;
-    overflow-x: auto;
-    padding-bottom: 16px;
     margin-bottom: 24px;
+}
+
+@media (max-width: 1200px) {
+    .ag-preset-pill-row {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .ag-preset-pill-row {
+        grid-template-columns: 1fr;
+    }
 }
 
 .ag-preset-pill {
