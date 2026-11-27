@@ -300,3 +300,52 @@ function displayResults(diag, rad) {
 
     resultsView.classList.remove('d-none');
 }
+
+// Handler for Downloading Multi-Disciplinary Tumor Board Dossier PDF
+const downloadPdfBtn = document.getElementById('downloadPdfDossierBtn');
+if (downloadPdfBtn) {
+    downloadPdfBtn.addEventListener('click', async () => {
+        if (!selectedFile) {
+            alert("Please select or analyze a scan before downloading the clinical dossier.");
+            return;
+        }
+
+        const originalText = downloadPdfBtn.innerHTML;
+        downloadPdfBtn.disabled = true;
+        downloadPdfBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-1"></i> Generating PDF Dossier...';
+
+        try {
+            const formData = new FormData();
+            formData.append('file', selectedFile);
+
+            const ageVal = document.getElementById('ageInput') ? document.getElementById('ageInput').value : 52;
+            const sexVal = document.getElementById('sexSelect') ? document.getElementById('sexSelect').value : 'MALE';
+            const endpoint = `${API_BASE_URL}/api/v1/export-report?patient_age=${ageVal}&patient_sex=${sexVal}`;
+
+            const response = await fetch(endpoint, {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) {
+                throw new Error(`Server returned HTTP ${response.status}`);
+            }
+
+            const blob = await response.blob();
+            const downloadUrl = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = downloadUrl;
+            a.download = `Tumor_Board_Dossier_${selectedFile.name.replace(/\.[^/.]+$/, "")}.pdf`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(downloadUrl);
+        } catch (err) {
+            console.error("PDF generation failed:", err);
+            alert("Failed to generate PDF dossier: " + err.message);
+        } finally {
+            downloadPdfBtn.disabled = false;
+            downloadPdfBtn.innerHTML = originalText;
+        }
+    });
+}

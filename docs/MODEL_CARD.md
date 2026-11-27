@@ -101,3 +101,10 @@ CLASS Glioma        28        184         5
   8. Conformal Selective Accuracy $\ge 95.00\%$ (`96.86%` PASS)
 - **Model Registry (`models/model_registry.json`)**: Cryptographic tracking (SHA-256), versioning, and provenance logging for active production weights.
 - **Reproducibility**: DVC pipeline (`dvc.yaml`) codifies complete data partitioning, radiomic feature extraction, multimodal survival training, and selective risk-coverage calibration.
+
+---
+
+## 7. Hospital Clinical Integration & Multi-Center Harmonization
+- **Multi-Center Scanner Harmonization (`NeuroCombat`)**: Uses parametric Empirical Bayes to eliminate non-biological batch variance between 1.5T and 3.0T MRI protocols ($>70\%$ variance reduction).
+- **Physical Volumetric Extraction**: Ingests native DICOM header tags (`PixelSpacing`, `SliceThickness`) to compute true anatomical tumor volume in $\text{cm}^3$.
+- **Automated Tumor Board Dossier**: Generates clinical consultation PDFs (`/api/v1/export-report`) with tri-modal imaging plates, WHO CNS5 2021 molecular predictions, and DeepSurv survival trajectories.

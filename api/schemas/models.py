@@ -1,7 +1,7 @@
 """
 Pydantic Request & Response Schemas for Medical Diagnostics and Radiogenomics.
 """
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Any
 from pydantic import BaseModel, Field
 
 
@@ -47,6 +47,7 @@ class DiagnosticResponse(BaseModel):
     diagnostic: DiagnosticDetails
     quantification: TumorQuantification
     selective_triage: Optional[SelectiveTriageDetails] = None
+    dicom_metadata: Optional[Dict[str, Any]] = None
     gradcam_base64: Optional[str] = None
     mask_base64: Optional[str] = None
 
