@@ -1,5 +1,5 @@
 """
-Pydantic Request & Response Schemas for Medical Diagnostics.
+Pydantic Request & Response Schemas for Medical Diagnostics and Radiogenomics.
 """
 from typing import Dict, List, Optional
 from pydantic import BaseModel, Field
@@ -36,6 +36,29 @@ class DiagnosticResponse(BaseModel):
     quantification: TumorQuantification
     gradcam_base64: Optional[str] = None
     mask_base64: Optional[str] = None
+
+
+class SurvivalCurvePoint(BaseModel):
+    month: float
+    survival_prob: float
+
+
+class RadiogenomicsResponse(BaseModel):
+    status: str
+    filename: str
+    patient_age: float
+    patient_sex: str
+    idh_mutation_probability: float
+    idh_status: str
+    idh_clinical_guidance: str
+    codeletion_1p19q_probability: float
+    codeletion_1p19q_status: str
+    who_2021_subtype: str
+    deepsurv_hazard_score: float
+    risk_tier: str
+    median_overall_survival_months: float
+    survival_curve: List[SurvivalCurvePoint]
+    radiomic_summary: Dict[str, float]
 
 
 class HealthResponse(BaseModel):

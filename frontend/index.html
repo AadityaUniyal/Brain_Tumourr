@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroVision Elite | Clinical Radiologist Cockpit</title>
+    <title>NeuroVision Elite | Radiogenomics & Clinical Cockpit</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
@@ -15,16 +15,19 @@
         <div class="container-fluid">
             <span class="navbar-brand fw-bold fs-4 d-flex align-items-center">
                 <i class="fa-solid fa-brain text-primary me-2"></i>
-                NeuroVision <span class="badge bg-primary text-white ms-2 fs-6">ELITE v2.0</span>
+                NeuroVision <span class="badge bg-primary text-white ms-2 fs-6">ELITE v3.0 WHO-2021</span>
             </span>
             <div class="d-flex align-items-center gap-3">
-                <!-- API Backend Settings Modal Button -->
                 <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#apiSettingsCollapse">
                     <i class="fa-solid fa-gear me-1"></i> Backend: <span id="currentBackendDisplay" class="text-info">Connecting...</span>
                 </button>
                 <div class="d-none d-md-flex align-items-center text-muted small">
-                    <span class="me-3"><i class="fa-solid fa-microchip me-1"></i> Dual-Task</span>
-                    <span><i class="fa-solid fa-shield-halved me-1"></i> OOD Active</span>
+                    <span class="badge bg-danger-subtle text-danger border border-danger-subtle me-2">
+                        <i class="fa-solid fa-dna me-1"></i> Virtual Biopsy Active
+                    </span>
+                    <span class="badge bg-info-subtle text-info border border-info-subtle">
+                        <i class="fa-solid fa-chart-line me-1"></i> DeepSurv (C-index 0.82)
+                    </span>
                 </div>
             </div>
         </div>
@@ -47,7 +50,7 @@
     <div class="container-fluid py-4 px-4">
         <div class="row g-4">
             
-            <!-- Left Panel: Upload & Controls -->
+            <!-- Left Panel: Ingestion & Clinical Covariates -->
             <div class="col-lg-4">
                 <div class="card bg-secondary-subtle text-light border-0 shadow-sm p-4 h-100">
                     <h5 class="fw-bold mb-3"><i class="fa-solid fa-upload text-info me-2"></i>MRI Scan Ingestion</h5>
@@ -60,7 +63,7 @@
                         <span class="text-muted small d-block mb-3">or browse from your system</span>
                         <input type="file" id="fileInput" class="d-none" accept=".dcm,.nii,.gz,.mat,.png,.jpg,.jpeg">
                         <button type="button" class="btn btn-outline-primary btn-sm" onclick="document.getElementById('fileInput').click()">
-                            Select File
+                            Select Scan File
                         </button>
                     </div>
 
@@ -68,9 +71,24 @@
                         Selected: <span id="fileName" class="text-light fw-bold"></span>
                     </div>
 
-                    <!-- Clinical Parameters -->
+                    <!-- Clinical Demographics & Covariates -->
                     <div class="card bg-dark border-secondary p-3 mb-3">
-                        <h6 class="text-uppercase text-secondary small fw-bold mb-2">Voxel Metrology Settings</h6>
+                        <h6 class="text-uppercase text-secondary small fw-bold mb-2">
+                            <i class="fa-solid fa-user-doctor text-info me-1"></i> Patient Clinical Covariates
+                        </h6>
+                        <div class="row g-2 mb-2">
+                            <div class="col-6">
+                                <label class="small text-muted">Patient Age</label>
+                                <input type="number" id="patientAge" class="form-control form-control-sm bg-black text-light border-secondary" value="52" min="18" max="95">
+                            </div>
+                            <div class="col-6">
+                                <label class="small text-muted">Biological Sex</label>
+                                <select id="patientSex" class="form-select form-select-sm bg-black text-light border-secondary">
+                                    <option value="MALE" selected>Male</option>
+                                    <option value="FEMALE">Female</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="row g-2">
                             <div class="col-6">
                                 <label class="small text-muted">Slice Thickness (mm)</label>
@@ -83,114 +101,163 @@
                         </div>
                     </div>
 
-                    <button id="analyzeBtn" class="btn btn-primary w-100 py-2 fw-bold" disabled>
-                        <i class="fa-solid fa-wand-magic-sparkles me-2"></i>Run Clinical Analysis
+                    <button id="analyzeBtn" class="btn btn-primary w-100 py-2 fw-bold mb-3" disabled>
+                        <i class="fa-solid fa-dna me-2"></i>Run Molecular Biopsy & Diagnostics
                     </button>
 
                     <!-- Loading Indicator -->
                     <div id="loadingIndicator" class="text-center py-4 d-none">
                         <div class="spinner-border text-primary" role="status"></div>
-                        <p class="small text-muted mt-2">Computing segmentation masks, conformal bounds & Grad-CAM...</p>
+                        <p class="small text-muted mt-2">Extracting IBSI radiomics, executing DeepSurv & Grad-CAM...</p>
                     </div>
 
                     <!-- Medical Disclaimer -->
                     <div class="alert alert-secondary mt-auto mb-0 p-2 small border-0 bg-dark text-muted">
                         <i class="fa-solid fa-circle-info text-warning me-1"></i>
-                        <strong>Research & Investigational Use:</strong> Assistive AI decision support system. Requires human radiologist verification.
+                        <strong>Research & Investigational Use:</strong> Assistive AI decision support system adhering to WHO 2021 CNS 5th Edition taxonomy.
                     </div>
                 </div>
             </div>
 
-            <!-- Right Panel: Radiologist Visualizer & Diagnostics -->
+            <!-- Right Panel: Molecular Biopsy, Visualizer & Survival -->
             <div class="col-lg-8">
                 <div id="welcomePlaceholder" class="card bg-secondary-subtle border-0 p-5 text-center text-muted">
                     <i class="fa-solid fa-x-ray fs-1 mb-3 text-secondary"></i>
                     <h4>No Scan Loaded</h4>
-                    <p class="small">Upload an axial brain MRI scan to inspect segmentation boundaries, tumor volumes, and saliency maps.</p>
+                    <p class="small">Upload an axial brain MRI scan to inspect segmentation boundaries, virtual molecular genetics (IDH, 1p/19q), and deep survival prognosis.</p>
                 </div>
 
                 <div id="resultsView" class="d-none">
                     
-                    <!-- Top Diagnostics Row -->
+                    <!-- WHO 2021 Virtual Molecular Biopsy Hero Banner -->
+                    <div class="card bg-gradient border-0 p-4 mb-4 shadow" style="background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="badge bg-primary text-uppercase px-2 py-1">WHO 2021 CNS Molecular Taxonomy</span>
+                            <span id="riskTierBadge" class="badge bg-success fs-6 px-3 py-1">Low Risk</span>
+                        </div>
+                        <h4 id="whoSubtypeDisplay" class="fw-bold text-white mb-2">Analyzing Molecular Genetics...</h4>
+                        <p id="clinicalGuidanceDisplay" class="text-light-50 small mb-3">Molecular profile guidance will appear here.</p>
+                        
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="bg-black bg-opacity-50 p-3 rounded border border-secondary">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <span class="small text-muted fw-bold">IDH1/2 Mutation Status</span>
+                                        <span id="idhProbText" class="fw-bold text-info">--%</span>
+                                    </div>
+                                    <h5 id="idhStatusText" class="fw-bold mb-2">--</h5>
+                                    <div class="progress bg-dark" style="height: 6px;">
+                                        <div id="idhBar" class="progress-bar bg-info" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="bg-black bg-opacity-50 p-3 rounded border border-secondary">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <span class="small text-muted fw-bold">1p/19q Co-deletion Status</span>
+                                        <span id="codelProbText" class="fw-bold text-warning">--%</span>
+                                    </div>
+                                    <h5 id="codelStatusText" class="fw-bold mb-2">--</h5>
+                                    <div class="progress bg-dark" style="height: 6px;">
+                                        <div id="codelBar" class="progress-bar bg-warning" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Top Diagnostics Row: Volume & Safety -->
                     <div class="row g-3 mb-4">
                         <div class="col-md-4">
                             <div class="card bg-secondary-subtle border-0 p-3 h-100">
-                                <span class="small text-muted text-uppercase fw-bold">Primary Diagnosis</span>
-                                <h3 id="predictedClass" class="fw-bold my-1 text-primary">--</h3>
-                                <div class="d-flex align-items-center mt-2">
-                                    <span class="small text-muted me-2">Confidence:</span>
-                                    <span id="confidenceScore" class="fw-bold text-success fs-6">--%</span>
-                                </div>
+                                <span class="small text-muted text-uppercase fw-bold">Morphological Diagnosis</span>
+                                <h4 id="predictedClass" class="fw-bold my-1 text-primary">--</h4>
+                                <span class="small text-muted">Confidence: <strong id="confidenceScore" class="text-success">--%</strong></span>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="card bg-secondary-subtle border-0 p-3 h-100">
                                 <span class="small text-muted text-uppercase fw-bold">Volumetric Quantification</span>
-                                <h3 id="tumorVolume" class="fw-bold my-1 text-info">-- cm³</h3>
+                                <h4 id="tumorVolume" class="fw-bold my-1 text-info">-- cm³</h4>
                                 <span id="tumorArea" class="small text-muted">Tumor Area: -- mm²</span>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="card bg-secondary-subtle border-0 p-3 h-100">
-                                <span class="small text-muted text-uppercase fw-bold">Safety & Conformal Coverage</span>
-                                <div id="oodBadge" class="badge bg-success p-2 my-1 fs-6 text-start d-block">
-                                    <i class="fa-solid fa-check-circle me-1"></i> In-Distribution
+                                <span class="small text-muted text-uppercase fw-bold">DeepSurv Hazard Score</span>
+                                <h4 id="hazardScoreDisplay" class="fw-bold my-1 text-warning">g(x) = --</h4>
+                                <span class="small text-muted">Median OS: <strong id="medianSurvivalDisplay" class="text-light">-- months</strong></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Visualizations & Dynamic Survival Curve -->
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <div class="card bg-black border-secondary p-3 h-100">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h6 class="fw-bold text-light mb-0 small"><i class="fa-solid fa-eye text-primary me-2"></i>Diagnostic Visualizer</h6>
+                                    <div class="btn-group btn-group-sm" role="group">
+                                        <button type="button" class="btn btn-outline-primary active" id="btnShowGradCAM">Grad-CAM</button>
+                                        <button type="button" class="btn btn-outline-primary" id="btnShowMask">Mask</button>
+                                    </div>
                                 </div>
-                                <span id="conformalSet" class="small text-muted">95% Coverage Set: --</span>
+                                <div class="text-center bg-dark rounded p-2" style="min-height: 280px;">
+                                    <img id="visualizerImg" src="" alt="MRI Diagnostic View" class="img-fluid rounded shadow" style="max-height: 300px;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Dynamic Kaplan-Meier Survival Prognostication Curve -->
+                        <div class="col-md-6">
+                            <div class="card bg-black border-secondary p-3 h-100">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h6 class="fw-bold text-light mb-0 small">
+                                        <i class="fa-solid fa-chart-line text-info me-2"></i>Patient Survival Curve S(t)
+                                    </h6>
+                                    <span class="badge bg-secondary">Cox-PH Loss</span>
+                                </div>
+                                <div id="survivalPlotContainer" class="p-2 bg-dark rounded" style="min-height: 280px; display: flex; flex-direction: column; justify-content: center;">
+                                    <svg id="survivalSvg" width="100%" height="240" viewBox="0 0 350 240"></svg>
+                                    <div class="d-flex justify-content-between text-muted small px-2 mt-1">
+                                        <span>0m</span>
+                                        <span>12m</span>
+                                        <span>24m</span>
+                                        <span>36m</span>
+                                        <span>60m</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Visualizations Viewer -->
-                    <div class="card bg-black border-secondary p-4 mb-4">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h6 class="fw-bold text-light mb-0"><i class="fa-solid fa-eye text-primary me-2"></i>Multi-Modal Diagnostic Visualizer</h6>
-                            <div class="btn-group btn-group-sm" role="group">
-                                <button type="button" class="btn btn-outline-primary active" id="btnShowGradCAM">Grad-CAM Overlay</button>
-                                <button type="button" class="btn btn-outline-primary" id="btnShowMask">Tumor Mask</button>
+                    <!-- Extracted Radiomic Signatures -->
+                    <div class="card bg-secondary-subtle border-0 p-4 mb-3">
+                        <h6 class="fw-bold mb-3"><i class="fa-solid fa-chart-pie text-primary me-2"></i>Extracted IBSI High-Throughput Radiomic Signatures</h6>
+                        <div class="row g-3 small">
+                            <div class="col-md-4">
+                                <div class="p-2 bg-dark rounded border border-secondary">
+                                    <span class="text-muted d-block">GLCM Heterogeneity</span>
+                                    <strong id="radContrast" class="text-light fs-6">--</strong>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-2 bg-dark rounded border border-secondary">
+                                    <span class="text-muted d-block">Sphericity / Compactness</span>
+                                    <strong id="radCompactness" class="text-light fs-6">--</strong>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-2 bg-dark rounded border border-secondary">
+                                    <span class="text-muted d-block">Shannon Intensity Entropy</span>
+                                    <strong id="radEntropy" class="text-light fs-6">--</strong>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Image Display Canvas/Area -->
-                        <div class="text-center bg-dark rounded p-3 position-relative" style="min-height: 380px;">
-                            <img id="visualizerImg" src="" alt="MRI Diagnostic View" class="img-fluid rounded shadow" style="max-height: 420px;">
-                        </div>
-                    </div>
-
-                    <!-- Probability Bars & Actions -->
-                    <div class="card bg-secondary-subtle border-0 p-4">
-                        <h6 class="fw-bold mb-3">Calibrated Class Likelihoods</h6>
-                        <div class="mb-2">
-                            <div class="d-flex justify-content-between small mb-1">
-                                <span>Glioma</span>
-                                <span id="probGlioma">0%</span>
-                            </div>
-                            <div class="progress bg-dark" style="height: 8px;">
-                                <div id="barGlioma" class="progress-bar bg-danger" style="width: 0%"></div>
-                            </div>
-                        </div>
-                        <div class="mb-2">
-                            <div class="d-flex justify-content-between small mb-1">
-                                <span>Meningioma</span>
-                                <span id="probMeningioma">0%</span>
-                            </div>
-                            <div class="progress bg-dark" style="height: 8px;">
-                                <div id="barMeningioma" class="progress-bar bg-warning" style="width: 0%"></div>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <div class="d-flex justify-content-between small mb-1">
-                                <span>Pituitary Tumor</span>
-                                <span id="probPituitary">0%</span>
-                            </div>
-                            <div class="progress bg-dark" style="height: 8px;">
-                                <div id="barPituitary" class="progress-bar bg-success" style="width: 0%"></div>
-                            </div>
-                        </div>
-
-                        <div class="d-flex justify-content-end gap-2">
+                        <div class="d-flex justify-content-end gap-2 mt-4">
                             <button id="printReportBtn" class="btn btn-outline-light btn-sm" onclick="window.print()">
-                                <i class="fa-solid fa-file-pdf me-1"></i> Print / Export Clinical Report
+                                <i class="fa-solid fa-file-pdf me-1"></i> Print / Export WHO 2021 Clinical Report
                             </button>
                         </div>
                     </div>

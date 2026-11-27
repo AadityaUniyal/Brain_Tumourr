@@ -36,7 +36,8 @@ ENV/
 *.onnx
 *.engine
 *.tflite
-# Allow small test/dummy weights if tracked explicitly
+# Allow small trained production weights
+!models/multimodal_radiogenomics_net.pt
 !models/checkpoints/.gitkeep
 
 # Large Datasets & Raw Storage

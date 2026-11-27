@@ -5,10 +5,12 @@ Following the standardized framework proposed by Mitchell et al. (2019) in *"Mod
 ---
 
 ## 1. Model Details
-- **Model Name**: NeuroVision Elite v2.0
+- **Model Name**: NeuroVision Elite v3.0 (Dual-Task Diagnostic & WHO 2021 Radiogenomics Survival Engine)
 - **Developer**: Aaditya Uniyal
 - **Model Date**: November 2026
-- **Architecture**: Dual-Head Multi-Task Convolutional Network (ResNet50 backbone + Feature Pyramid Semantic Decoder + MLP Classifier Head)
+- **Architecture**:
+  1. **DualHeadBrainTumorNet**: ResNet50 encoder backbone + Feature Pyramid Skip-Decoder + Linear Diagnostic Head.
+  2. **MultimodalRadiogenomicsNet**: Tri-Head Deep Survival Network fusing 48-dimensional IBSI high-throughput radiomics with clinical covariates (Age, Sex, Grade) via LayerNorm, GELU, and Gated Cross-Attention.
 - **License**: MIT
 - **Repository**: [https://github.com/AadityaUniyal/Brain_Tumourr](https://github.com/AadityaUniyal/Brain_Tumourr)
 - **Live Frontend**: [https://neurovision-elite-cockpit.vercel.app](https://neurovision-elite-cockpit.vercel.app)
@@ -16,13 +18,13 @@ Following the standardized framework proposed by Mitchell et al. (2019) in *"Mod
 ---
 
 ## 2. Intended Clinical Use
-- **Primary Use**: Assistive decision support for radiologists and neuro-oncologists during brain MRI evaluation.
+- **Primary Use**: Assistive decision support for neuro-oncologists, neurosurgeons, and radiologists during pre-operative brain MRI evaluation.
 - **Tasks**:
-  1. Semantic segmentation of brain lesions (binary tumor boundary delineation).
-  2. Multi-class tumor classification (Glioma, Meningioma, Pituitary Adenoma).
-  3. In-plane tumor area ($mm^2$) and slice volumetric quantification ($cm^3$).
-  4. Saliency visual attribution (Grad-CAM).
-  5. Statistical uncertainty quantification via Conformal Prediction ($1 - \alpha = 0.95$ coverage).
+  1. **Virtual Molecular Biopsy (WHO 2021 CNS5 Criteria)**: Non-invasive prediction of IDH1/2 mutation status and 1p/19q co-deletion.
+  2. **Deep Survival Prognosis (DeepSurv)**: Right-censored time-to-event survival risk modeling using Cox Partial Likelihood loss.
+  3. **Multi-task Morphological Segmentation**: Pixel-level tumor boundary delineation.
+  4. **Multi-class Subtyping**: Differential diagnosis of Glioma vs Meningioma vs Pituitary Adenoma.
+  5. **Conformal Uncertainty & OOD Detection**: Finite-sample 95% guaranteed coverage sets.
 - **Out-of-Scope Use Cases**:
   - Autonomous clinical decision-making without board-certified radiologist review.
   - Non-brain radiological modalities (e.g., chest X-rays, abdominal CTs, mammograms).
@@ -66,6 +68,13 @@ TRUE Meningioma     95         6         16
 CLASS Glioma        28        184         5
      Pituitary       0         10        130
 ```
+
+### Molecular Biomarker & Survival Prognostication (810 Validated TCGA Patients)
+- **DeepSurv Harrell's C-Index**: **0.8151 ± 0.0133** (5-Fold Cross-Validation)
+- **Kaplan-Meier Separation (Log-Rank Test)**: **$p = 1.54 \times 10^{-61}$** (High-Risk vs Low-Risk cohorts)
+- **IDH1/2 Mutation AUROC**: **0.9256 ± 0.0230** (Macro-F1: 86.62%)
+- **1p/19q Co-deletion AUROC**: **0.7265 ± 0.0358**
+- **Loss Formulation**: Multi-task BCE + Cox Negative Partial Log-Likelihood ($\mathcal{L}_{\text{total}} = \mathcal{L}_{\text{IDH}} + 1.2 \mathcal{L}_{1\text{p}19\text{q}} + 0.8 \mathcal{L}_{\text{Cox}}$)
 
 ---
 

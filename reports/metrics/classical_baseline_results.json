@@ -1,0 +1,20 @@
+{
+  "survival_coxph": {
+    "mean_c_index": 0.8302465790904693,
+    "std_c_index": 0.013388224224495704
+  },
+  "molecular_baselines": {
+    "idh_mutation": {
+      "rf_mean_auroc": 0.932624048845263,
+      "rf_mean_f1": 0.8813420791941298,
+      "lr_mean_auroc": 0.9260309564869578,
+      "lr_mean_f1": 0.8830307844849635
+    },
+    "codeletion_1p19q": {
+      "rf_mean_auroc": 0.7676618538756236,
+      "rf_mean_f1": 0.4854687603524813,
+      "lr_mean_auroc": 0.7782420325864665,
+      "lr_mean_f1": 0.4963335061792412
+    }
+  }
+}

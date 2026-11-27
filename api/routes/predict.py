@@ -1,7 +1,7 @@
 """
-Clinical Diagnostic Endpoint:
-Handles DICOM, NIfTI, MAT, and standard image formats.
-Runs multi-task segmentation, classification, OOD verification, and Grad-CAM generation.
+Clinical Diagnostic and Radiogenomics Endpoints:
+1. /diagnose: Multi-task segmentation, classification, OOD verification, and Grad-CAM generation.
+2. /radiogenomics: WHO 2021 Virtual Molecular Biopsy (IDH, 1p/19q) & DeepSurv Dynamic Survival Prognosis.
 """
 import base64
 import io
@@ -10,13 +10,15 @@ import numpy as np
 from PIL import Image
 from fastapi import APIRouter, UploadFile, File, Query, HTTPException
 
-from api.schemas.models import DiagnosticResponse
+from api.schemas.models import DiagnosticResponse, RadiogenomicsResponse
 from src.inference.predictor import ClinicalPredictor
+from src.inference.radiogenomics_predictor import RadiogenomicsPredictor
 
-router = APIRouter(prefix="/api/v1", tags=["Diagnostic Inference"])
+router = APIRouter(prefix="/api/v1", tags=["Diagnostic & Radiogenomics Inference"])
 
-# Global singleton predictor instance
+# Global singleton predictor instances
 _predictor = None
+_radiogenomics_predictor = None
 
 
 def get_predictor():
@@ -24,6 +26,13 @@ def get_predictor():
     if _predictor is None:
         _predictor = ClinicalPredictor()
     return _predictor
+
+
+def get_radiogenomics_predictor():
+    global _radiogenomics_predictor
+    if _radiogenomics_predictor is None:
+        _radiogenomics_predictor = RadiogenomicsPredictor()
+    return _radiogenomics_predictor
 
 
 def encode_image_base64(image_np, is_bgr=True):
@@ -73,3 +82,26 @@ async def diagnose_scan(
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Diagnostic pipeline error: {str(e)}")
+
+
+@router.post("/radiogenomics", response_model=RadiogenomicsResponse)
+async def analyze_radiogenomics(
+    file: UploadFile = File(..., description="MRI Scan to extract IBSI radiomics"),
+    patient_age: float = Query(52.0, description="Patient age at diagnosis in years"),
+    patient_sex: str = Query("MALE", description="Biological sex (MALE or FEMALE)"),
+    is_gbm: bool = Query(False, description="Whether scan exhibits Glioblastoma phenotype"),
+):
+    try:
+        content = await file.read()
+        rad_predictor = get_radiogenomics_predictor()
+
+        result = rad_predictor.predict(
+            file_source=content,
+            filename=file.filename,
+            age=patient_age,
+            sex=patient_sex,
+            is_gbm=is_gbm,
+        )
+        return RadiogenomicsResponse(**result)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Radiogenomics pipeline error: {str(e)}")

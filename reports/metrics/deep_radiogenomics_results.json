@@ -1,0 +1,21 @@
+{
+  "architecture": "MultimodalRadiogenomicsNet (Tri-Head DeepSurv + BCE)",
+  "cohort_size": 810,
+  "validation_scheme": "Stratified 5-Fold Cross Validation",
+  "survival": {
+    "harrell_c_index_mean": 0.8150859482402607,
+    "harrell_c_index_std": 0.013326322673423766,
+    "logrank_test_p_value": 1.5412950516862676e-61,
+    "baseline_classical_coxph_c_index": 0.8302
+  },
+  "molecular_idh_mutation": {
+    "auroc_mean": 0.9255914975336967,
+    "f1_mean": 0.8661590032203252,
+    "prevalence": 0.5172839506172839
+  },
+  "molecular_1p19q_codeletion": {
+    "auroc_mean": 0.7264615231735044,
+    "f1_mean": 0.010810810810810811,
+    "prevalence": 0.20617283950617285
+  }
+}
