@@ -1,0 +1,13 @@
+# Sulcus Clinical AI is hosted on AWS (CloudFront, S3, EC2, DynamoDB).
+# Ignore all Python backend, model weights, and data files to prevent Vercel
+# from attempting to bundle 5.8 GB PyTorch into a 500 MB AWS Lambda function.
+
+api/
+src/
+models/
+scripts/
+tests/
+requirements.txt
+data/
+reports/
+docs/
