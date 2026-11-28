@@ -86,10 +86,11 @@ class TumorBoardReportGenerator:
         raw_mri: np.ndarray,
         seg_mask: Optional[np.ndarray] = None,
         gradcam: Optional[np.ndarray] = None,
+        rano_callipers: Optional[Dict[str, Any]] = None,
         dpi: int = 150
     ) -> io.BytesIO:
         """
-        Creates a crisp 3-panel figure: [Raw T1-CE] [Contour Overlay] [Grad-CAM Saliency].
+        Creates a crisp 3-panel figure: [Raw T1-CE] [Contour Overlay + RANO Callipers] [Grad-CAM Saliency].
         """
         fig, axes = plt.subplots(1, 3, figsize=(7.2, 2.4), dpi=dpi)
 
@@ -98,12 +99,19 @@ class TumorBoardReportGenerator:
         axes[0].set_title("Raw T1-CE Contrast MRI", fontsize=9, fontweight="bold", pad=4)
         axes[0].axis("off")
 
-        # Panel 2: Segmentation
+        # Panel 2: Segmentation + RANO Callipers
         axes[1].imshow(raw_mri, cmap="gray")
         if seg_mask is not None and np.sum(seg_mask) > 0:
             axes[1].contour(seg_mask, colors="red", linewidths=1.5)
             axes[1].imshow(np.ma.masked_where(seg_mask == 0, seg_mask), cmap="Reds", alpha=0.35)
-        axes[1].set_title("Pathological Boundary Contour", fontsize=9, fontweight="bold", pad=4)
+            
+            if rano_callipers and rano_callipers.get("major_line"):
+                m = rano_callipers["major_line"]
+                u = rano_callipers["minor_line"]
+                if len(m) == 2 and len(u) == 2:
+                    axes[1].plot([m[0][0], m[1][0]], [m[0][1], m[1][1]], color="cyan", linewidth=1.5, linestyle="-")
+                    axes[1].plot([u[0][0], u[1][0]], [u[0][1], u[1][1]], color="yellow", linewidth=1.5, linestyle="--")
+        axes[1].set_title("Pathological Contour & RANO", fontsize=9, fontweight="bold", pad=4)
         axes[1].axis("off")
 
         # Panel 3: Grad-CAM
@@ -178,7 +186,7 @@ class TumorBoardReportGenerator:
 
         # 1. Header Banner
         header_text = [
-            Paragraph("<b>NEUROVISION CLINICAL AI CONSORTIUM</b>", self.title_style),
+            Paragraph("<b>SULCUS CLINICAL AI CONSORTIUM</b>", self.title_style),
             Paragraph("<b>MULTIDISCIPLINARY NEURO-ONCOLOGY TUMOR BOARD DOSSIER</b>", self.subtitle_style),
             Paragraph(f"Integrated Molecular Biopsy (WHO CNS5 2021) • Generated: {time.strftime('%Y-%m-%d %H:%M:%S UTC')}", self.subtitle_style)
         ]
@@ -221,7 +229,8 @@ class TumorBoardReportGenerator:
         elements.append(Spacer(1, 10))
 
         # 3. Tri-Modal Visual Plate
-        img_buf = self._render_visual_plate(raw_mri, seg_mask, gradcam)
+        rano_cal = case_data.get("rano_callipers")
+        img_buf = self._render_visual_plate(raw_mri, seg_mask, gradcam, rano_callipers=rano_cal)
         elements.append(Image(img_buf, width=7.2*inch, height=2.4*inch))
         elements.append(Spacer(1, 10))
 

@@ -73,3 +73,13 @@ wandb/
 .pytest_cache/
 .coverage
 htmlcov/
+
+# Temporary & Scratch Development Files
+scratch*
+*.tmp
+*.log
+user_data.sh
+ssm_*.json
+block_device.json
+cloudfront_dist.json
+s3_oac_policy.json

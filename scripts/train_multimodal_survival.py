@@ -106,12 +106,13 @@ class MultimodalRadiogenomicsNet(nn.Module):
             nn.Linear(16, 1)
         )
 
-        # Head 3: DeepSurv Log-Hazard Risk Score (linear output)
+        # Head 3: DeepSurv Log-Hazard Risk Score (nonlinear + direct linear Cox skip)
         self.head_surv = nn.Sequential(
             nn.Linear(rep_dim, 16),
             nn.GELU(),
-            nn.Linear(16, 1, bias=False)  # Cox models omit bias term as it cancels out in partial likelihood
+            nn.Linear(16, 1, bias=False)
         )
+        self.surv_skip = nn.Linear(radiomic_dim + clinical_dim, 1, bias=False)
 
     def forward(self, x_rad: torch.Tensor, x_clin: torch.Tensor):
         h_rad = self.rad_encoder(x_rad)
@@ -121,7 +122,7 @@ class MultimodalRadiogenomicsNet(nn.Module):
 
         logit_idh = self.head_idh(rep).squeeze(-1)
         logit_1p19q = self.head_1p19q(rep).squeeze(-1)
-        log_hazard = self.head_surv(rep).squeeze(-1)
+        log_hazard = (self.head_surv(rep) + self.surv_skip(torch.cat([x_rad, x_clin], dim=1))).squeeze(-1)
 
         return logit_idh, logit_1p19q, log_hazard
 
@@ -178,23 +179,19 @@ def main():
             noise = np.random.normal(0, 0.05, size=len(rad_feature_cols))
             rad_matrix.append(gbm_rads[idx] * (1.0 + noise))
     
-    X_rad = np.array(rad_matrix, dtype=np.float32)
-    scaler_rad = StandardScaler()
-    X_rad = scaler_rad.fit_transform(X_rad)
+    X_rad_raw = np.array(rad_matrix, dtype=np.float32)
 
     # Clinical features
     df_clin["is_male"] = (df_clin["sex"] == "MALE").astype(float)
     df_clin["is_gbm"] = (df_clin["cohort"] == "GBM").astype(float)
-    X_clin = df_clin[["age", "is_male", "is_gbm"]].values.astype(np.float32)
-    scaler_clin = StandardScaler()
-    X_clin = scaler_clin.fit_transform(X_clin)
+    X_clin_raw = df_clin[["age", "is_male", "is_gbm"]].values.astype(np.float32)
 
     y_idh = df_clin["idh_mutation"].values.astype(np.float32)
     y_1p19q = df_clin["codeletion_1p19q"].values.astype(np.float32)
     durations = df_clin["os_months"].values.astype(np.float32)
     events = df_clin["vital_status"].values.astype(np.float32)
 
-    # Stratified 5-Fold Cross Validation
+    # Stratified 5-Fold Cross Validation (Zero scaler leakage: fit inside each fold)
     skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
     
     cv_c_indices = []
@@ -213,33 +210,42 @@ def main():
     cox_loss_fn = CoxPartialLikelihoodLoss()
 
     print("\n--- Training 5-Fold Deep Multimodal Network ---")
-    for fold, (train_idx, val_idx) in enumerate(skf.split(X_rad, y_idh)):
-        train_ds = MultimodalDataset(X_rad[train_idx], X_clin[train_idx], y_idh[train_idx], y_1p19q[train_idx], durations[train_idx], events[train_idx])
-        val_ds = MultimodalDataset(X_rad[val_idx], X_clin[val_idx], y_idh[val_idx], y_1p19q[val_idx], durations[val_idx], events[val_idx])
+    for fold, (train_idx, val_idx) in enumerate(skf.split(X_rad_raw, y_idh)):
+        scaler_rad = StandardScaler()
+        scaler_clin = StandardScaler()
+        X_rad_tr = scaler_rad.fit_transform(X_rad_raw[train_idx])
+        X_rad_va = scaler_rad.transform(X_rad_raw[val_idx])
+        X_clin_tr = scaler_clin.fit_transform(X_clin_raw[train_idx])
+        X_clin_va = scaler_clin.transform(X_clin_raw[val_idx])
 
-        # Large batch size to ensure diverse risk sets for Cox Partial Likelihood
+        pos_w_1p = float((len(train_idx) - y_1p19q[train_idx].sum()) / max(1.0, y_1p19q[train_idx].sum()))
+        bce_1p_fn = nn.BCEWithLogitsLoss(pos_weight=torch.tensor([pos_w_1p], dtype=torch.float32))
+
+        train_ds = MultimodalDataset(X_rad_tr, X_clin_tr, y_idh[train_idx], y_1p19q[train_idx], durations[train_idx], events[train_idx])
+        val_ds = MultimodalDataset(X_rad_va, X_clin_va, y_idh[val_idx], y_1p19q[val_idx], durations[val_idx], events[val_idx])
+
+        # 128 batch size gives diverse risk sets + 5x more gradient updates per epoch
         train_loader = DataLoader(train_ds, batch_size=128, shuffle=True)
         val_loader = DataLoader(val_ds, batch_size=len(val_ds), shuffle=False)
 
-        model = MultimodalRadiogenomicsNet(radiomic_dim=X_rad.shape[1], clinical_dim=X_clin.shape[1], hidden_dim=64)
-        optimizer = optim.AdamW(model.parameters(), lr=1e-3, weight_decay=1e-4)
-        scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=40)
+        model = MultimodalRadiogenomicsNet(radiomic_dim=X_rad_tr.shape[1], clinical_dim=X_clin_tr.shape[1], hidden_dim=64)
+        optimizer = optim.AdamW(model.parameters(), lr=2e-3, weight_decay=1e-3)
+        scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=80)
 
         best_c_idx = 0.0
         best_fold_preds = None
 
-        for epoch in range(1, 41):
+        for epoch in range(1, 81):
             model.train()
             for x_r, x_c, y_i, y_1, dur, ev in train_loader:
                 optimizer.zero_grad()
                 pred_idh, pred_1p, log_h = model(x_r, x_c)
                 
                 loss_idh = bce_loss_fn(pred_idh, y_i)
-                loss_1p = bce_loss_fn(pred_1p, y_1)
+                loss_1p = bce_1p_fn(pred_1p, y_1)
                 loss_surv = cox_loss_fn(log_h, dur, ev)
 
-                # Multitask loss balance
-                total_loss = loss_idh + 1.2 * loss_1p + 0.8 * loss_surv
+                total_loss = loss_idh + 1.0 * loss_1p + 1.5 * loss_surv
                 total_loss.backward()
                 optimizer.step()
             scheduler.step()
@@ -389,7 +395,18 @@ def main():
         json.dump(results, f, indent=2)
     print(f"\nExported complete metrics to: {out_json}")
 
-    # Save trained final PyTorch weights for deployment
+    # Save trained final PyTorch weights and cohort scalers for deployment
+    full_scaler_rad = StandardScaler().fit(X_rad_raw)
+    full_scaler_clin = StandardScaler().fit(X_clin_raw)
+    scaler_path = Path("models/multimodal_radiogenomics_scalers.json")
+    with open(scaler_path, "w") as f:
+        json.dump({
+            "rad_mean": full_scaler_rad.mean_.tolist(),
+            "rad_scale": full_scaler_rad.scale_.tolist(),
+            "clin_mean": full_scaler_clin.mean_.tolist(),
+            "clin_scale": full_scaler_clin.scale_.tolist(),
+        }, f)
+
     model_save_path = Path("models/multimodal_radiogenomics_net.pt")
     model_save_path.parent.mkdir(parents=True, exist_ok=True)
     torch.save(model.state_dict(), model_save_path)

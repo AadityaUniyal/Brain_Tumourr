@@ -57,8 +57,8 @@ def extract_slice_radiomics(image: np.ndarray, mask: np.ndarray) -> dict:
         feats["shape_equiv_diameter"] = float(prop.equivalent_diameter_area)
         
         # Major / Minor axis ratio (elongation)
-        major = prop.major_axis_length
-        minor = prop.minor_axis_length if prop.minor_axis_length > 0 else 1.0
+        major = prop.axis_major_length
+        minor = prop.axis_minor_length if prop.axis_minor_length > 0 else 1.0
         feats["shape_elongation"] = float(major / minor)
     else:
         feats["shape_area"] = 0.0

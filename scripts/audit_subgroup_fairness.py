@@ -57,14 +57,27 @@ def main():
             rad_matrix.append(gbm_rads[idx] * (1.0 + np.random.normal(0, 0.05, size=len(rad_cols))))
     
     X_rad = np.array(rad_matrix, dtype=np.float32)
-    scaler_rad = StandardScaler()
-    X_rad_norm = scaler_rad.fit_transform(X_rad)
+    scaler_path = Path("models/multimodal_radiogenomics_scalers.json")
+    if scaler_path.exists():
+        with open(scaler_path) as sf:
+            scaler_dict = json.load(sf)
+        rad_mean = np.array(scaler_dict["rad_mean"], dtype=np.float32)
+        rad_scale = np.array(scaler_dict["rad_scale"], dtype=np.float32)
+        X_rad_norm = (X_rad - rad_mean) / (rad_scale + 1e-6)
+    else:
+        scaler_rad = StandardScaler()
+        X_rad_norm = scaler_rad.fit_transform(X_rad)
 
     df_clin["is_male"] = (df_clin["sex"] == "MALE").astype(float)
     df_clin["is_gbm"] = (df_clin["cohort"] == "GBM").astype(float)
     X_clin = df_clin[["age", "is_male", "is_gbm"]].values.astype(np.float32)
-    scaler_clin = StandardScaler()
-    X_clin_norm = scaler_clin.fit_transform(X_clin)
+    if scaler_path.exists():
+        clin_mean = np.array(scaler_dict["clin_mean"], dtype=np.float32)
+        clin_scale = np.array(scaler_dict["clin_scale"], dtype=np.float32)
+        X_clin_norm = (X_clin - clin_mean) / (clin_scale + 1e-6)
+    else:
+        scaler_clin = StandardScaler()
+        X_clin_norm = scaler_clin.fit_transform(X_clin)
 
     # Predictions
     x_r_t = torch.tensor(X_rad_norm, dtype=torch.float32)

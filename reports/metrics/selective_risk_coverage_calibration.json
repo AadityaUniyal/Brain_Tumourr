@@ -1,18 +1,18 @@
 {
   "held_out_cohort_size": 474,
-  "baseline_forced_choice_accuracy": 0.8565400843881856,
+  "baseline_forced_choice_accuracy": 0.8860759493670886,
   "calibrated_selective_classifier": {
     "optimal_threshold_tau": 0.4,
-    "selective_accuracy": 0.968609865470852,
-    "selective_error_rate": 0.03139013452914796,
-    "automated_coverage": 0.4704641350210971,
-    "abstention_rate": 0.5295358649789029,
-    "errors_intercepted_percentage": 0.8970588235294118,
+    "selective_accuracy": 0.9891304347826086,
+    "selective_error_rate": 0.010869565217391353,
+    "automated_coverage": 0.5822784810126582,
+    "abstention_rate": 0.4177215189873418,
+    "errors_intercepted_percentage": 0.9444444444444444,
     "triaging_breakdown": {
-      "stat_urgent_count": 213,
-      "elevated_count": 38,
+      "stat_urgent_count": 159,
+      "elevated_count": 39,
       "routine_count": 0,
-      "total_abstained": 251
+      "total_abstained": 198
     }
   }
 }

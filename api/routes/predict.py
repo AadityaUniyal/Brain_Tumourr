@@ -16,6 +16,7 @@ from src.inference.predictor import ClinicalPredictor
 from src.inference.radiogenomics_predictor import RadiogenomicsPredictor
 from src.data.dicom_parser import DICOMParser
 from src.reporting.tumor_board_report import TumorBoardReportGenerator
+from src.services.aws_service import aws_service
 
 router = APIRouter(prefix="/api/v1", tags=["Diagnostic & Radiogenomics Inference"])
 
@@ -82,6 +83,34 @@ async def diagnose_scan(
         # Base64 encode visualizations for frontend rendering
         cam_overlay_b64 = encode_image_base64(result["visualizations"]["gradcam_overlay"], is_bgr=True)
         mask_b64 = encode_image_base64((result["visualizations"]["seg_mask"] * 255).astype(np.uint8), is_bgr=False)
+
+        # AWS Cloud Integration: S3 Image Archival & DynamoDB Record Logging
+        try:
+            p_id = (dicom_meta.get("patient_id") if dicom_meta else None) or f"PT-{abs(hash(file.filename)) % 100000:05d}"
+            s3_uri = aws_service.archive_imaging_artifact(
+                patient_id=p_id,
+                filename=file.filename,
+                file_bytes=content,
+                artifact_type="raw_scan"
+            )
+            record = {
+                "filename": file.filename,
+                "predicted_tumor_type": result["diagnostic"]["predicted_tumor_type"],
+                "confidence": result["diagnostic"]["confidence"],
+                "is_ood": result["is_ood"],
+                "energy_score": result["energy_score"],
+                "estimated_volume_cm3": result["quantification"]["estimated_volume_cm3"],
+                "rano_callipers": result["quantification"].get("rano_callipers"),
+                "s3_scan_uri": s3_uri,
+            }
+            aws_service.save_patient_record(patient_id=p_id, record_data=record)
+            aws_service.log_audit_event(
+                event_type="DIAGNOSTIC_INFERENCE",
+                actor_id="attending_physician",
+                details={"patient_id": p_id, "predicted_subtype": result["diagnostic"]["predicted_tumor_type"]}
+            )
+        except Exception:
+            pass
 
         return DiagnosticResponse(
             status="success",
@@ -162,7 +191,8 @@ async def export_tumor_board_report(
             pixel_spacing_mm=pixel_spacing_mm,
         )
 
-        # 2. Run radiogenomics & DeepSurv inference
+        # 2. Run radiogenomics & DeepSurv inference using predicted neural segmentation mask
+        seg_mask_arr = diag_res.get("visualizations", {}).get("seg_mask")
         is_gbm_inferred = is_gbm or (diag_res["diagnostic"]["predicted_tumor_type"] == "Glioma")
         rad_res = rad_predictor.predict(
             file_source=content,
@@ -170,6 +200,7 @@ async def export_tumor_board_report(
             age=patient_age,
             sex=patient_sex,
             is_gbm=is_gbm_inferred,
+            mask=seg_mask_arr,
         )
 
         # 3. Check DICOM metadata
@@ -189,6 +220,7 @@ async def export_tumor_board_report(
             "manufacturer": dicom_meta.get("manufacturer", "SIEMENS Healthineers (3.0T Magnetom)"),
             "slice_thickness_mm": dicom_meta.get("slice_thickness_mm", slice_thickness_mm),
             "tumor_volume_cm3": diag_res["quantification"]["estimated_volume_cm3"],
+            "rano_callipers": diag_res["quantification"].get("rano_callipers"),
             "predicted_class": diag_res["diagnostic"]["predicted_tumor_type"],
             "confidence": diag_res["diagnostic"]["confidence"],
             "who_2021_subtype": rad_res["who_2021_subtype"],
@@ -214,6 +246,24 @@ async def export_tumor_board_report(
         report_gen = TumorBoardReportGenerator()
         pdf_bytes = report_gen.generate_dossier_pdf(case_data, raw_mri, seg_mask, gradcam)
 
+        # Archive PDF to S3 imaging vault & log audit event
+        try:
+            p_id = case_data.get("patient_id", "PT-UNKNOWN")
+            aws_service.archive_imaging_artifact(
+                patient_id=p_id,
+                filename=f"dossier_{p_id}.pdf",
+                file_bytes=pdf_bytes,
+                content_type="application/pdf",
+                artifact_type="tumor_board_dossier"
+            )
+            aws_service.log_audit_event(
+                event_type="PDF_DOSSIER_GENERATED",
+                actor_id="attending_physician",
+                details={"patient_id": p_id, "size_bytes": len(pdf_bytes)}
+            )
+        except Exception:
+            pass
+
         safe_filename = f"Tumor_Board_Dossier_{case_data['patient_id']}.pdf"
         return Response(
             content=pdf_bytes,
@@ -222,3 +272,10 @@ async def export_tumor_board_report(
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"PDF report generation error: {str(e)}")
+
+
+@router.get("/patient-history/{patient_id}")
+async def get_patient_history(patient_id: str):
+    """Retrieves clinical inference history for a given patient from Amazon DynamoDB."""
+    records = aws_service.get_recent_patient_records(patient_id=patient_id)
+    return {"patient_id": patient_id, "total_records": len(records), "records": records}

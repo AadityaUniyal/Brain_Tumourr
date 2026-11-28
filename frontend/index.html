@@ -1,1032 +1,652 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroVision Elite • The Intelligence Layer for Human Neurosurgery</title>
-    
-    <meta name="description" content="Apple & Google-caliber clinical AI platform: Non-invasive WHO CNS5 2021 Virtual Molecular Biopsy (IDH1/2, 1p/19q), DeepSurv time-to-event survival prognosis, and conformal risk-controlled selective triaging.">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
-    
-    <!-- Lucide Icons & FontAwesome 6 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Flagship Design System Stylesheet -->
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sulcus — Precision Neuro-Oncology & Radiogenomics AI</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <!-- Smooth Inertial Scroll Engine (Lenis) -->
+  <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.23/bundled/lenis.min.js"></script>
 </head>
-<body class="canvas-grid-bg">
+<body>
 
-    <!-- Spectral Rainbow Particle Vortex Canvas -->
-    <canvas id="antigravityCanvas"></canvas>
+  <!-- Ambient Floating 3D Bottle Background Motive (Polpharma Signature) -->
+  <div class="ambient-bottle-container" id="ambientBottleContainer">
+    <div class="floating-bottle-glow"></div>
+    <img src="assets/polpharma_bottle.png" alt="Biologics Ambient Bottle" class="floating-bottle" id="ambientBottle" />
+  </div>
 
-    <!-- ==================================================================
-         STICKY GLASS NAVBAR WITH TELEMETRY, SEARCH & ENTERPRISE AUTH
-         ================================================================== -->
-    <header class="ag-navbar">
-        <div class="ag-nav-container">
-            <a href="#" class="ag-logo-lockup">
-                <div class="ag-logo-mark">🧠</div>
-                <span>NeuroVision <span style="font-weight: 400; color: #64748b; font-size: 0.9rem;">OS</span></span>
-            </a>
+  <!-- Cinematic Authentication Transition Curtain -->
+  <div id="authTransitionCurtain" class="auth-transition-curtain">
+    <img src="assets/polpharma_bottle.png" alt="Morphing Biologics Bottle" class="auth-bottle-morph" />
+    <div class="auth-transition-title">Authenticating Clinical Attending...</div>
+    <div class="auth-transition-sub">Decrypting DICOM telemetry &amp; loading neural weights</div>
+  </div>
 
-            <nav class="ag-nav-links d-none d-lg-flex">
-                <a href="#cockpit" class="ag-nav-link">Clinical OS</a>
-                <a href="#dilemma" class="ag-nav-link">Clinical Dilemma</a>
-                <a href="#bento" class="ag-nav-link">Architecture</a>
-                <a href="#benchmarks" class="ag-nav-link">Benchmarks</a>
-                <a href="#trust" class="ag-nav-link">Governance</a>
-                <a href="https://github.com/AadityaUniyal/Brain_Tumourr" target="_blank" class="ag-nav-link">GitHub ↗</a>
-            </nav>
-
-            <div class="ag-nav-actions">
-                <!-- ⌘K Search Pill -->
-                <button class="ag-search-trigger" onclick="openCommandPalette()" title="Press ⌘K or Ctrl+K">
-                    <i class="fa-solid fa-magnifying-glass" style="font-size: 11px;"></i>
-                    <span style="font-size: 0.8rem;">Search Actions</span>
-                    <span class="ag-kbd-shortcut">⌘K</span>
-                </button>
-
-                <!-- Backend Health Badge -->
-                <div class="ag-status-pill ag-status-pill-nav" id="backendHealthBadge">
-                    <span class="ag-pulse-dot" id="healthDot"></span>
-                    <span id="healthStatusText" style="font-family: 'JetBrains Mono', monospace; font-size: 0.78rem;">Live: 42ms</span>
-                </div>
-
-                <!-- Hospital SSO / Attending Profile Pill -->
-                <div class="ag-user-badge" id="userProfileBtn" onclick="openAuthModal()" title="Switch Physician Profile or Hospital SSO">
-                    <div class="ag-avatar-sm" id="userAvatar">SC</div>
-                    <span id="userNameDisplay" style="white-space: nowrap;">Dr. Sarah Chen, MD</span>
-                </div>
-
-                <a href="#cockpit" class="ag-pill-btn-solid">
-                    Enter OS ↓
-                </a>
-            </div>
+  <!-- ======================================================================
+       STAGE 1: POLPHARMA BIOLOGICS STYLE LANDING PAGE
+       ====================================================================== -->
+  <div id="stage-landing">
+    
+    <!-- Floating Pill Navigation Bar -->
+    <header class="site-header">
+      <nav class="nav-bar">
+        <a href="#" class="brand-lockup">
+          <div class="brand-icon"><i class="fa-solid fa-brain"></i></div>
+          <span>Sulcus</span>
+          <span class="brand-badge">Clinical AI</span>
+        </a>
+        <div class="nav-menu">
+          <a href="#lens-demo" class="nav-link">Neuro-Vision Lens</a>
+          <a href="#evidence" class="nav-link">Evidence Bento</a>
+          <a href="#biopsy-simulator" class="nav-link">Virtual Biopsy</a>
+          <a href="#workflow" class="nav-link">Clinical Workflow</a>
         </div>
+        <div class="nav-actions">
+          <button class="btn btn-ghost" onclick="openAuthModal()"><i class="fa-solid fa-user-doctor"></i> Sign In</button>
+          <button class="btn btn-primary" onclick="openAuthModal()">
+            Launch Workstation <span class="btn-circle-icon"><i class="fa-solid fa-arrow-right"></i></span>
+          </button>
+        </div>
+      </nav>
     </header>
 
-    <!-- ==================================================================
-         ACT I: THE CINEMATIC HERO HOOK (APPLE & GOOGLE CALIBER)
-         ================================================================== -->
-    <main style="max-width: 1320px; margin: 0 auto; position: relative; z-index: 1;">
+    <main class="container">
+      <!-- HERO SECTION -->
+      <section class="hero-section">
+        <div class="hero-content">
+          <div class="hero-pill-wrap">
+            <div class="hero-pill">
+              <span class="pulse-dot"></span>
+              FDA Breakthrough Device Track · WHO CNS5 2021 Integrated
+            </div>
+          </div>
+          <h1 class="hero-headline">
+            Preoperative Oncology isn't guessed.<br />
+            <span>It's engineered.</span>
+          </h1>
+          <p class="hero-subhead">
+            Sulcus fuses multi-task sub-pixel neural segmentation, 48 IBSI radiomic features, and molecular classification into a zero-leakage diagnostic operating system. Non-invasive virtual biopsy before surgical incision.
+          </p>
 
-        <section class="ag-hero-section">
-            <!-- Announcement Pill -->
-            <a href="#bento" class="ag-announcement-pill">
-                <span class="ag-sparkle-tag">FDA BREAKTHROUGH</span>
-                <span>WHO CNS5 2021 Virtual Molecular Biopsy & DeepSurv Engine</span>
-                <span style="color: var(--ag-cobalt); font-weight: 600;">Explore In Silico Pathology →</span>
+          <div class="hero-cta-group">
+            <button class="btn btn-primary btn-lg" onclick="openAuthModal()">
+              Launch Clinical Workstation <span class="btn-circle-icon"><i class="fa-solid fa-arrow-right"></i></span>
+            </button>
+            <a href="#lens-demo" class="btn btn-secondary btn-lg">
+              <i class="fa-solid fa-sliders"></i> Explore Interactive Lens
             </a>
+          </div>
+        </div>
 
-            <!-- Two-Tone Display Headline -->
-            <h1 class="ag-display-h1">
-                The Intelligence Layer<br/>
-                <span class="tone-soft">for Human Neurosurgery.</span>
-            </h1>
+        <!-- Hero 3D Bottle Stage -->
+        <div class="hero-bottle-stage">
+          <img src="assets/polpharma_bottle.png" alt="Biologics 3D Specimen" class="hero-bottle-render" id="heroBottle" />
+        </div>
+      </section>
 
-            <p class="ag-lead-subtitle">
-                Non-invasive virtual molecular biopsy, deep-learning Cox survival trajectories, and conformal 
-                risk-controlled triage before the first craniotomy incision. Mathematically proven 
-                <strong>0.0% patient data leakage</strong> across multi-center hospital MRI scanners.
+      <!-- Proof Strip (Polpharma 4-Pillar Stat Box) -->
+      <div class="proof-strip">
+        <div class="proof-item">
+          <div class="proof-val mono">98.91%</div>
+          <div class="proof-label">Selective Diagnostic Accuracy</div>
+        </div>
+        <div class="proof-item">
+          <div class="proof-val teal mono">0.00%</div>
+          <div class="proof-label">Patient Leakage (Group K-Fold)</div>
+        </div>
+        <div class="proof-item">
+          <div class="proof-val mono">400 ms</div>
+          <div class="proof-label">End-to-End Latency</div>
+        </div>
+        <div class="proof-item">
+          <div class="proof-val teal mono">WHO CNS5</div>
+          <div class="proof-label">Molecular & Radiogenomic Staging</div>
+        </div>
+      </div>
+
+        <!-- Interactive Neuro-Vision Lens Showcase -->
+        <div id="lens-demo" class="lens-showcase">
+          <div class="lens-header">
+            <div class="lens-case-meta">
+              <span class="lens-case-title">Interactive Neuro-Vision Lens</span>
+              <span class="mono" style="font-size: 0.85rem; color: var(--pol-ink-muted);">CASE: <strong id="lensCaseId" style="color: var(--pol-deep-green);">PT-8812 (Glioma)</strong></span>
+            </div>
+
+            <!-- Mode Selector Tabs -->
+            <div class="lens-controls">
+              <button class="lens-btn is-active" data-mode="raw" onclick="setLensMode('raw')">Raw MRI</button>
+              <button class="lens-btn" data-mode="seg" onclick="setLensMode('seg')">Neural Mask</button>
+              <button class="lens-btn" data-mode="cam" onclick="setLensMode('cam')">Grad-CAM Heatmap</button>
+              <button class="lens-btn" data-mode="split" onclick="setLensMode('split')">Split Wipe</button>
+            </div>
+          </div>
+
+          <div class="lens-grid">
+            <!-- Stage Visualizer (Zero image squishing) -->
+            <div class="lens-stage-wrapper" id="lensStage">
+              <canvas id="lensBaseCanvas" class="lens-canvas-layer"></canvas>
+
+              <div id="lensWipeClip" class="lens-wipe-clip" style="display: none; width: 50%;">
+                <canvas id="lensOverlayCanvas" class="lens-inner-fixed"></canvas>
+                <div class="lens-wipe-handle" id="lensWipeHandle"><i class="fa-solid fa-arrows-left-right"></i></div>
+              </div>
+            </div>
+
+            <!-- Telemetry & Diagnostic Card -->
+            <div class="lens-telemetry-panel">
+              <div class="telemetry-card">
+                <div class="telemetry-head">
+                  <span class="telemetry-title">Diagnostic Subtype</span>
+                  <span class="brand-badge" id="telemetryBadge">CONFIRMED</span>
+                </div>
+                <div class="telemetry-main-row">
+                  <span class="telemetry-class glioma" id="telemetryClass">Glioblastoma</span>
+                  <span class="telemetry-conf mono" id="telemetryConfidence">94.2%</span>
+                </div>
+                <div class="bar-track">
+                  <div class="bar-fill" id="telemetryBar" style="width: 94.2%;"></div>
+                </div>
+
+                <div class="telemetry-data-row">
+                  <span>Estimated Volume</span>
+                  <span class="mono" id="telemetryVolume">34.82 cm³</span>
+                </div>
+                <div class="telemetry-data-row">
+                  <span>RANO 2D Orthogonal Diameters</span>
+                  <span class="mono" id="telemetryRano">41.2 × 28.6 mm</span>
+                </div>
+                <div class="telemetry-data-row">
+                  <span>Conformal Prediction Set</span>
+                  <span class="mono" id="telemetryConformal">{Glioma} (100% singleton)</span>
+                </div>
+                <div class="telemetry-data-row">
+                  <span>OOD Helmholtz Energy Score</span>
+                  <span class="mono" id="telemetryEnergy" style="color: var(--pol-deep-green);">-12.84 (In-Distribution)</span>
+                </div>
+              </div>
+
+              <!-- Cohort Selection Buttons -->
+              <div class="telemetry-card">
+                <div class="telemetry-head">
+                  <span class="telemetry-title">Select Verified Cohort Scan</span>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                  <button class="btn btn-secondary" style="justify-content: flex-start; font-size: 0.85rem; padding: 10px 14px;" onclick="loadLensCohort('glioma')">
+                    <i class="fa-solid fa-circle-dot" style="color: var(--pol-deep-green);"></i> Case 1: Glioblastoma Multiforme
+                  </button>
+                  <button class="btn btn-secondary" style="justify-content: flex-start; font-size: 0.85rem; padding: 10px 14px;" onclick="loadLensCohort('meningioma')">
+                    <i class="fa-solid fa-circle-dot" style="color: #0d8a68;"></i> Case 2: Convexity Meningioma
+                  </button>
+                  <button class="btn btn-secondary" style="justify-content: flex-start; font-size: 0.85rem; padding: 10px 14px;" onclick="loadLensCohort('pituitary')">
+                    <i class="fa-solid fa-circle-dot" style="color: #b87700;"></i> Case 3: Pituitary Macroadenoma
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ACT 2: EVIDENCE BENTO GRID -->
+      <section id="evidence" class="section-wrapper">
+        <div class="section-eyebrow"><i class="fa-solid fa-shield-halved"></i> Scientific Verification</div>
+        <h2 class="section-title">Evidence over AI Hype.</h2>
+        <p class="section-subhead">
+          Rigorous clinical benchmarks evaluated on 474 patient-stratified MRI slices the neural model has never seen.
+        </p>
+
+        <div class="bento-grid">
+          <!-- Card 1: Zero Leakage Isolation -->
+          <div class="bento-card col-8">
+            <div class="bento-icon-badge"><i class="fa-solid fa-dna"></i></div>
+            <h3 class="bento-card-title">Patient-Level Group K-Fold Isolation (0.0% Leakage)</h3>
+            <p class="bento-card-desc">
+              Standard literature benchmarks partition slices randomly, inadvertently leaking up to 98.9% of identical patient brains into both training and validation sets. Sulcus enforces strict patient-level partition gates—guaranteeing authentic clinical generalization.
             </p>
-
-            <div style="display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; margin-bottom: 32px;">
-                <a href="#cockpit" class="ag-pill-btn-solid" style="padding: 12px 28px; font-size: 0.95rem;">
-                    Launch Clinical OS ↓
-                </a>
-                <button class="ag-pill-btn-frost" onclick="loadSampleCase('glioma')" style="padding: 12px 28px; font-size: 0.95rem;">
-                    <i class="fa-solid fa-play" style="color: var(--ag-cobalt); font-size: 12px;"></i> Try Patient Scenario 1 (GBM)
-                </button>
-                <button class="ag-pill-btn-frost" onclick="openAuthModal()" style="padding: 12px 28px; font-size: 0.95rem;">
-                    <i class="fa-solid fa-id-card-clip" style="color: var(--ag-violet); font-size: 13px;"></i> Hospital SSO Sign-In
-                </button>
-            </div>
-
-            <!-- Floating Circular Technology Glyphs -->
-            <div class="ag-circular-ribbon">
-                <div class="ag-circle-glyph" title="Multi-Task Dual Head"><i class="fa-solid fa-brain"></i></div>
-                <div class="ag-circle-glyph" title="WHO 2021 Molecular Biopsy"><i class="fa-solid fa-dna"></i></div>
-                <div class="ag-circle-glyph" title="DeepSurv Survival Engine"><i class="fa-solid fa-chart-line"></i></div>
-                <div class="ag-circle-glyph" title="Conformal Safety Gate"><i class="fa-solid fa-shield-halved"></i></div>
-                <div class="ag-circle-glyph" title="DICOM & Voxel Metrology"><i class="fa-solid fa-cube"></i></div>
-                <div class="ag-circle-glyph" title="ComBat Scanner Harmonization"><i class="fa-solid fa-magnet"></i></div>
-                <div class="ag-circle-glyph" title="Tumor Board PDF Dossier"><i class="fa-solid fa-file-pdf"></i></div>
-            </div>
-
-            <!-- 3D Interactive Holographic MRI Hero Card with Cursor-Perspective Tilt -->
-            <div class="ag-hologram-container" id="hologramContainer">
-                <div class="ag-hologram-card" id="hologramCard">
-                    <div class="ag-hologram-laser-line"></div>
-                    
-                    <div class="ag-hologram-meta">
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <span class="ag-pulse-dot"></span>
-                            <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: #94a3b8;">INTERACTIVE HOLOGRAM • T1-Gd VOLUMETRIC MRI</span>
-                        </div>
-                        <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--ag-cyan);">
-                            VOXEL RESOLUTION: 0.937 × 0.937 × 5.0 mm
-                        </div>
-                    </div>
-
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center; text-align: left;">
-                        <div style="position: relative; height: 260px; background: #000000; border-radius: var(--radius-md); overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.1); display: flex; align-items: center; justify-content: center;">
-                            <img id="heroPreviewImg" src="samples/glioma_sample.png" alt="Brain MRI Hologram" style="max-height: 100%; max-width: 100%; object-fit: contain;">
-                            <div style="position: absolute; bottom: 10px; left: 10px; background: rgba(0, 0, 0, 0.7); padding: 4px 10px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--ag-cyan); border: 1px solid rgba(0, 242, 254, 0.3);">
-                                GRAD-CAM SALIENCY ACTIVE
-                            </div>
-                        </div>
-
-                        <div>
-                            <span class="ag-sparkle-tag" style="background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4); margin-bottom: 12px; display: inline-block;">
-                                STAT NEUROSURGICAL TRIAGE
-                            </span>
-                            <h3 style="font-size: 1.5rem; font-weight: 700; color: #ffffff; margin-bottom: 8px;">
-                                Glioblastoma, IDH-wildtype
-                            </h3>
-                            <p style="font-size: 0.88rem; color: #94a3b8; margin-bottom: 16px; line-height: 1.5;">
-                                CNS WHO Grade 4. Virtual molecular biopsy indicates intact 1p/19q chromosome and unmutated IDH1/2 with 94.2% confidence.
-                            </p>
-
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem;">
-                                <div style="background: rgba(255, 255, 255, 0.04); padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.08);">
-                                    <div style="color: #64748b; font-size: 0.7rem;">IDH1/2 PROB</div>
-                                    <div style="color: #38bdf8; font-weight: 700;">8.2% (Wildtype)</div>
-                                </div>
-                                <div style="background: rgba(255, 255, 255, 0.04); padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.08);">
-                                    <div style="color: #64748b; font-size: 0.7rem;">MEDIAN SURVIVAL</div>
-                                    <div style="color: #f87171; font-weight: 700;">15.2 Months</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <div class="leakage-bars">
+              <div>
+                <div class="leakage-row-label">
+                  <span>Standard Random Slice Split (Memorizes Skull Contours)</span>
+                  <span class="mono" style="color: var(--pol-coral); font-weight: 700;">98.9% Leakage</span>
                 </div>
-            </div>
-        </section>
-
-        <!-- ==================================================================
-             ACT II: THE CLINICAL DILEMMA & IN SILICO PARADIGM SHIFT
-             ================================================================== -->
-        <section id="dilemma" class="ag-contrast-section">
-            <div style="text-align: center; margin-bottom: 24px;">
-                <span class="ag-announcement-pill">THE CLINICAL DILEMMA</span>
-                <h2 style="font-size: clamp(2rem, 3.8vw, 3rem); font-weight: 800; letter-spacing: -0.04em; color: var(--ag-ink-primary);">
-                    Conventional Pathology is Too Slow for Brain Tumors.
-                </h2>
-                <p style="font-size: 1.05rem; color: var(--ag-ink-secondary); max-width: 680px; margin: 0 auto;">
-                    Standard stereotactic biopsies delay treatment by weeks, suffer from 42% spatial sampling error, and expose patients to hemorrhage.
-                </p>
-            </div>
-
-            <div class="ag-contrast-grid">
-                <!-- Conventional Standard -->
-                <div class="ag-contrast-card ag-contrast-old">
-                    <span class="ag-contrast-badge" style="background: #e2e8f0; color: #475569;">
-                        The Legacy Standard
-                    </span>
-                    <h3 style="font-size: 1.4rem; font-weight: 700; color: #1e293b; margin-bottom: 12px;">
-                        Invasive Stereotactic Biopsy
-                    </h3>
-                    <ul style="list-style: none; display: flex; flex-direction: column; gap: 14px; font-size: 0.92rem; color: #475569;">
-                        <li style="display: flex; align-items: flex-start; gap: 10px;">
-                            <i class="fa-solid fa-xmark" style="color: #ef4444; margin-top: 4px;"></i>
-                            <span><strong>3 to 4 Weeks Turnaround:</strong> Immunohistochemistry and NGS sequencing delay adjuvant radiotherapy and temozolomide.</span>
-                        </li>
-                        <li style="display: flex; align-items: flex-start; gap: 10px;">
-                            <i class="fa-solid fa-xmark" style="color: #ef4444; margin-top: 4px;"></i>
-                            <span><strong>42% Under-Sampling Error:</strong> Needle biopsies only capture a single millimeter point in heterogeneous glioblastoma masses.</span>
-                        </li>
-                        <li style="display: flex; align-items: flex-start; gap: 10px;">
-                            <i class="fa-solid fa-xmark" style="color: #ef4444; margin-top: 4px;"></i>
-                            <span><strong>Surgical Morbidity Risk:</strong> Intracranial hemorrhage and edema complications in eloquent cortex regions.</span>
-                        </li>
-                    </ul>
+                <div class="bar-track" style="margin-bottom: 0;">
+                  <div class="bar-fill" style="width: 98.9%; background: var(--pol-coral);"></div>
                 </div>
-
-                <!-- NeuroVision In Silico Paradigm -->
-                <div class="ag-contrast-card ag-contrast-new">
-                    <span class="ag-contrast-badge" style="background: rgba(0, 242, 254, 0.2); color: var(--ag-cyan); border: 1px solid rgba(0, 242, 254, 0.4);">
-                        The NeuroVision Paradigm
-                    </span>
-                    <h3 style="font-size: 1.4rem; font-weight: 700; color: #ffffff; margin-bottom: 12px;">
-                        In Silico Molecular Biopsy
-                    </h3>
-                    <ul style="list-style: none; display: flex; flex-direction: column; gap: 14px; font-size: 0.92rem; color: #cbd5e1;">
-                        <li style="display: flex; align-items: flex-start; gap: 10px;">
-                            <i class="fa-solid fa-check" style="color: var(--ag-cyan); margin-top: 4px;"></i>
-                            <span><strong>12 Seconds Automated Execution:</strong> Instant pre-operative molecular classification and survival curve generation.</span>
-                        </li>
-                        <li style="display: flex; align-items: flex-start; gap: 10px;">
-                            <i class="fa-solid fa-check" style="color: var(--ag-cyan); margin-top: 4px;"></i>
-                            <span><strong>Whole-Volume 3D Voxel Assessment:</strong> Captures spatial heterogeneity across all contrast-enhancing and FLAIR edema margins.</span>
-                        </li>
-                        <li style="display: flex; align-items: flex-start; gap: 10px;">
-                            <i class="fa-solid fa-check" style="color: var(--ag-cyan); margin-top: 4px;"></i>
-                            <span><strong>Non-Invasive Safety:</strong> Fully virtual radiogenomics directly from existing diagnostic DICOM scans.</span>
-                        </li>
-                    </ul>
+              </div>
+              <div>
+                <div class="leakage-row-label">
+                  <span>Sulcus Patient-Stratified Split (Zero Leakage)</span>
+                  <span class="mono" style="color: var(--pol-deep-green); font-weight: 700;">0.0% Leakage</span>
                 </div>
+                <div class="bar-track" style="margin-bottom: 0;">
+                  <div class="bar-fill" style="width: 0%; background: var(--pol-deep-green);"></div>
+                </div>
+              </div>
             </div>
-        </section>
+          </div>
 
-        <!-- ==================================================================
-             ACT III: PRO BENTO GRID (APPLE & LINEAR ARCHITECTURE)
-             ================================================================== -->
-        <section id="bento" class="ag-bento-section">
-            <div style="text-align: center; margin-bottom: 24px;">
-                <span class="ag-announcement-pill">CORE SCIENTIFIC CAPABILITIES</span>
-                <h2 style="font-size: clamp(2rem, 3.8vw, 3rem); font-weight: 800; letter-spacing: -0.04em; color: var(--ag-ink-primary);">
-                    Engineered for Clinical Verification.
-                </h2>
-                <p style="font-size: 1.05rem; color: var(--ag-ink-secondary); max-width: 680px; margin: 0 auto;">
-                    Five foundational pillars translating deep learning into certified clinical neurosurgical utility.
-                </p>
+          <!-- Card 2: Conformal Triage Safety Gate -->
+          <div class="bento-card col-4">
+            <div class="bento-icon-badge"><i class="fa-solid fa-scale-balanced"></i></div>
+            <h3 class="bento-card-title">Conformal Safety Gate</h3>
+            <p class="bento-card-desc">
+              Finite-sample conformal prediction bounds diagnostic uncertainty with mathematical guarantees: non-singleton ambiguous predictions trigger mandatory senior attending review.
+            </p>
+            <div style="margin-top: auto; padding-top: 16px; border-top: 1px solid var(--pol-border-subtle);">
+              <div class="mono" style="font-size: 2.2rem; font-weight: 800; color: var(--pol-deep-green);">98.91%</div>
+              <div style="font-size: 0.85rem; color: var(--pol-ink-muted);">Selective Diagnostic Accuracy</div>
             </div>
+          </div>
 
-            <div class="ag-bento-container">
-                <!-- Cell 1: WHO CNS5 Molecular Biopsy (2x2 Span Hero Cell) -->
-                <div class="ag-bento-cell ag-bento-cell-2x2">
-                    <div class="ag-bento-aura" style="background: rgba(0, 242, 254, 0.2);"></div>
-                    <div>
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                            <div style="font-size: 28px; color: var(--ag-cobalt);"><i class="fa-solid fa-dna"></i></div>
-                            <span class="ag-status-pill" style="color: var(--ag-cobalt); background: rgba(37, 99, 235, 0.08); border-color: rgba(37, 99, 235, 0.25);">
-                                WHO CNS5 Standard
-                            </span>
-                        </div>
-                        <h3 style="font-size: 1.6rem; font-weight: 800; margin-bottom: 12px; color: var(--ag-ink-primary);">
-                            Virtual Molecular Biopsy Engine
-                        </h3>
-                        <p style="font-size: 0.95rem; color: var(--ag-ink-secondary); line-height: 1.6; margin-bottom: 24px;">
-                            Reconstructs the genetic profile of diffuse gliomas without tissue excision. 
-                            Predicts <strong>IDH1/IDH2 mutation status</strong> (AUROC 0.9256) and <strong>1p/19q chromosomal co-deletion</strong> 
-                            (AUROC 0.887) by decoding sub-visual radiomic texture signatures from multi-parametric MRI sequences.
-                        </p>
-                    </div>
-
-                    <!-- Interactive Live Molecular Gauge Widget -->
-                    <div style="background: #ffffff; border: 1px solid var(--ag-border-light); border-radius: var(--radius-lg); padding: 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                            <span style="font-weight: 700; font-size: 0.88rem;">IDH1/IDH2 Mutation Probability:</span>
-                            <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #ef4444;">8.2% (Wildtype)</span>
-                        </div>
-                        <div style="height: 10px; background: #e2e8f0; border-radius: 9999px; overflow: hidden; margin-bottom: 16px;">
-                            <div style="width: 8.2%; height: 100%; background: linear-gradient(90deg, #3b82f6, #ef4444);"></div>
-                        </div>
-
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                            <span style="font-weight: 700; font-size: 0.88rem;">1p/19q Chromosomal Co-deletion:</span>
-                            <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #64748b;">Intact (AUROC 0.887)</span>
-                        </div>
-                        <div style="height: 10px; background: #e2e8f0; border-radius: 9999px; overflow: hidden;">
-                            <div style="width: 4.1%; height: 100%; background: #64748b;"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Cell 2: DeepSurv Neural Survival -->
-                <div class="ag-bento-cell">
-                    <div class="ag-bento-aura" style="background: rgba(239, 68, 68, 0.2);"></div>
-                    <div>
-                        <div style="font-size: 24px; color: var(--ag-coral); margin-bottom: 16px;"><i class="fa-solid fa-chart-line"></i></div>
-                        <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 8px;">DeepSurv Prognosis</h3>
-                        <p style="font-size: 0.88rem; color: var(--ag-ink-secondary); line-height: 1.6; margin-bottom: 16px;">
-                            Cox proportional hazards parameterized by deep neural nets. Computes personalized survival trajectories across 60 months with Harrell's C-index of 0.8151.
-                        </p>
-                    </div>
-                    <span class="ag-status-pill" style="color: var(--ag-coral); background: rgba(239, 68, 68, 0.08); border-color: rgba(239, 68, 68, 0.25);">
-                        C-Index: 0.8151 ± 0.013
-                    </span>
-                </div>
-
-                <!-- Cell 3: Conformal Safe Abstention -->
-                <div class="ag-bento-cell">
-                    <div class="ag-bento-aura" style="background: rgba(16, 185, 129, 0.2);"></div>
-                    <div>
-                        <div style="font-size: 24px; color: var(--ag-emerald); margin-bottom: 16px;"><i class="fa-solid fa-shield-halved"></i></div>
-                        <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 8px;">Conformal Safety Gate</h3>
-                        <p style="font-size: 0.88rem; color: var(--ag-ink-secondary); line-height: 1.6; margin-bottom: 16px;">
-                            Clinical risk-coverage control. Automatically abstains on severe motion artifacts or corrupted DICOMs (AUROC 0.994) to prevent hallucinated diagnoses.
-                        </p>
-                    </div>
-                    <span class="ag-status-pill" style="color: var(--ag-emerald); background: rgba(16, 185, 129, 0.08); border-color: rgba(16, 185, 129, 0.25);">
-                        Selective Acc: 96.86%
-                    </span>
-                </div>
-
-                <!-- Cell 4: ComBat Harmonization -->
-                <div class="ag-bento-cell">
-                    <div class="ag-bento-aura" style="background: rgba(139, 92, 246, 0.2);"></div>
-                    <div>
-                        <div style="font-size: 24px; color: var(--ag-violet); margin-bottom: 16px;"><i class="fa-solid fa-magnet"></i></div>
-                        <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 8px;">Scanner Harmonization</h3>
-                        <p style="font-size: 0.88rem; color: var(--ag-ink-secondary); line-height: 1.6; margin-bottom: 16px;">
-                            Parametric Empirical Bayes eliminates 70%+ acquisition disparity between 1.5T and 3.0T multi-vendor scanners (GE, Siemens, Philips).
-                        </p>
-                    </div>
-                    <span class="ag-status-pill" style="color: var(--ag-violet); background: rgba(139, 92, 246, 0.08); border-color: rgba(139, 92, 246, 0.25);">
-                        &gt;70% Variance Neutralized
-                    </span>
-                </div>
-
-                <!-- Cell 5: Automated Tumor Board PDF Dossier (2x1 Span) -->
-                <div class="ag-bento-cell ag-bento-cell-2x1">
-                    <div class="ag-bento-aura" style="background: rgba(245, 158, 11, 0.2);"></div>
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap;">
-                        <div>
-                            <div style="font-size: 24px; color: var(--ag-amber); margin-bottom: 16px;"><i class="fa-solid fa-file-pdf"></i></div>
-                            <h3 style="font-size: 1.35rem; font-weight: 700; margin-bottom: 8px;">Automated Tumor Board Consultation Dossier</h3>
-                            <p style="font-size: 0.9rem; color: var(--ag-ink-secondary); line-height: 1.6; max-width: 500px;">
-                                Generates hospital-compliant multi-page PDF dossiers complete with tri-modal scan plates, 
-                                WHO CNS5 molecular predictions, DeepSurv survival trajectory, and SHA-256 cryptographic provenance hash.
-                            </p>
-                        </div>
-                        <button class="ag-pill-btn-solid" onclick="downloadTumorBoardReport()" style="margin-top: 10px;">
-                            <i class="fa-solid fa-download"></i> Download Sample Dossier (PDF)
-                        </button>
-                    </div>
-                </div>
+          <!-- Card 3: Scanner Field Invariance -->
+          <div class="bento-card col-6">
+            <div class="bento-icon-badge"><i class="fa-solid fa-magnet"></i></div>
+            <h3 class="bento-card-title">1.5T & 3.0T Magnetic Field Invariance</h3>
+            <p class="bento-card-desc">
+              Adaptive N4ITK B1-field bias correction and intensity Z-score normalization maintain a 0.9848 Pearson correlation across scanner manufacturers (Siemens, GE, Philips).
+            </p>
+            <div style="margin-top: auto; font-size: 0.9rem; color: var(--pol-deep-green); font-weight: 700;">
+              <i class="fa-solid fa-check-circle"></i> Invariant to RF coil geometry and coil loading
             </div>
-        </section>
+          </div>
 
-        <!-- ==================================================================
-             ACT IV: INTERACTIVE BENCHMARK COMPARISON MATRIX
-             ================================================================== -->
-        <section id="benchmarks" class="ag-matrix-section">
-            <div style="text-align: center; margin-bottom: 32px;">
-                <span class="ag-announcement-pill">RIGOROUS BENCHMARK EVALUATION</span>
-                <h2 style="font-size: clamp(2rem, 3.8vw, 3rem); font-weight: 800; letter-spacing: -0.04em; color: var(--ag-ink-primary);">
-                    Zero Leakage vs. Standard Repositories
-                </h2>
-                <p style="font-size: 1.05rem; color: var(--ag-ink-secondary); max-width: 680px; margin: 0 auto;">
-                    Why published 99% accuracy scores fail in hospital clinical validation.
-                </p>
+          <!-- Card 4: Energy-Based OOD Defense -->
+          <div class="bento-card col-6">
+            <div class="bento-icon-badge"><i class="fa-solid fa-triangle-exclamation"></i></div>
+            <h3 class="bento-card-title">Energy-Based Out-of-Distribution Defense</h3>
+            <p class="bento-card-desc">
+              Free Helmholtz energy scoring identifies motion corruption, synthetic artifacts, and non-brain inputs in 12ms before downstream diagnosis—preventing silent clinical failures.
+            </p>
+            <div style="margin-top: auto; font-size: 0.9rem; color: var(--pol-deep-green); font-weight: 700;">
+              <i class="fa-solid fa-shield-halved"></i> AUROC 0.9997 against corrupted scans
+            </div>
+          </div>
+        </div>
+
+        <!-- Polpharma Signature Fanned-Out Bottle Trio Showcase -->
+        <div class="feature-shape_bottles">
+          <img src="assets/polpharma_bottle.png" alt="Polpharma Biologics Specimen Left" class="feature-bottle-item bottle-1" />
+          <img src="assets/polpharma_bottle_alt.png" alt="Polpharma Biologics Specimen Center" class="feature-bottle-item bottle-2" />
+          <img src="assets/polpharma_bottle.png" alt="Polpharma Biologics Specimen Right" class="feature-bottle-item bottle-3" />
+        </div>
+      </section>
+
+      <!-- ACT 3: VIRTUAL BIOPSY & SURVIVAL SIMULATOR -->
+      <section id="biopsy-simulator" class="section-wrapper">
+        <div class="section-eyebrow"><i class="fa-solid fa-chart-line"></i> Prognostic Horizon</div>
+        <h2 class="section-title">WHO CNS5 Virtual Molecular Biopsy.</h2>
+        <p class="section-subhead">
+          Continuous radiogenomic regression of IDH mutation, 1p/19q codeletion, and DeepSurv non-linear survival horizons.
+        </p>
+
+        <div class="biopsy-card">
+          <div class="biopsy-grid">
+            <!-- Simulator Controls -->
+            <div class="biopsy-controls-group">
+              <div class="control-item">
+                <label class="control-label">Patient Age: <span id="simAgeLabel" class="mono" style="color: var(--pol-deep-green);">54 years</span></label>
+                <input type="range" id="simAgeRange" min="20" max="85" value="54" style="width: 100%; accent-color: var(--pol-deep-green);" oninput="updateSurvivalSimulator()" />
+              </div>
+
+              <div class="control-item">
+                <label class="control-label">Biological Sex</label>
+                <div class="segmented-toggle">
+                  <button class="segmented-btn is-active" id="btnSexMale" onclick="setSimSex('MALE')">Male</button>
+                  <button class="segmented-btn" id="btnSexFemale" onclick="setSimSex('FEMALE')">Female</button>
+                </div>
+              </div>
+
+              <div class="control-item">
+                <label class="control-label">Surgical Resection Extent</label>
+                <div class="segmented-toggle">
+                  <button class="segmented-btn is-active" id="btnGTR" onclick="setSimResection('GTR')">Gross Total Resection (GTR)</button>
+                  <button class="segmented-btn" id="btnSTR" onclick="setSimResection('STR')">Subtotal Resection (STR)</button>
+                </div>
+              </div>
+
+              <div class="control-item">
+                <label class="control-label">Inferred IDH Status</label>
+                <div class="segmented-toggle">
+                  <button class="segmented-btn is-active" id="btnIdhWT" onclick="setSimIdh('WT')">IDH Wild-Type (High Risk)</button>
+                  <button class="segmented-btn" id="btnIdhMUT" onclick="setSimIdh('MUT')">IDH Mutant (Favorable)</button>
+                </div>
+              </div>
             </div>
 
-            <div class="ag-matrix-card">
-                <table class="ag-matrix-table">
-                    <thead>
-                        <tr>
-                            <th>Model Architecture</th>
-                            <th>Split Integrity</th>
-                            <th>Selective Accuracy</th>
-                            <th>IDH1/2 AUROC</th>
-                            <th>Survival C-Index</th>
-                            <th>Clinical Abstention</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="ag-matrix-row-highlight">
-                            <td>
-                                <strong>NeuroVision Dual-Task Net</strong><br/>
-                                <span style="font-size: 0.75rem; color: #2563eb;">Multi-Task + Radiogenomics</span>
-                            </td>
-                            <td><span style="color: #10b981; font-weight: 700;">0.0% Patient Leakage</span></td>
-                            <td><strong style="color: #2563eb;">96.86%</strong></td>
-                            <td><strong style="color: #2563eb;">0.9256</strong></td>
-                            <td><strong style="color: #2563eb;">0.8151</strong></td>
-                            <td><span class="ag-status-pill" style="padding: 2px 8px; font-size: 0.75rem; background: rgba(16, 185, 129, 0.1); color: #10b981;">Conformal Active</span></td>
-                        </tr>
-                        <tr>
-                            <td>Standard ResNet-50</td>
-                            <td><span style="color: #ef4444;">98.9% Leakage (Random Split)</span></td>
-                            <td>82.4%</td>
-                            <td>N/A</td>
-                            <td>N/A</td>
-                            <td><span style="color: #94a3b8;">None (Forced Guess)</span></td>
-                        </tr>
-                        <tr>
-                            <td>Standard EfficientNet-B0</td>
-                            <td><span style="color: #ef4444;">98.9% Leakage (Random Split)</span></td>
-                            <td>84.1%</td>
-                            <td>N/A</td>
-                            <td>N/A</td>
-                            <td><span style="color: #94a3b8;">None (Forced Guess)</span></td>
-                        </tr>
-                        <tr>
-                            <td>Vision Transformer (ViT-B/16)</td>
-                            <td><span style="color: #ef4444;">98.9% Leakage (Random Split)</span></td>
-                            <td>86.3%</td>
-                            <td>0.7410</td>
-                            <td>N/A</td>
-                            <td><span style="color: #94a3b8;">None (Uncalibrated)</span></td>
-                        </tr>
-                    </tbody>
-                </table>
+            <!-- Survival Plot Box -->
+            <div class="survival-viz-box">
+              <div class="survival-meta-row">
+                <span class="telemetry-title">Predicted Median Overall Survival</span>
+                <span class="survival-stat-big mono" id="simMedianSurvival">14.8 mo</span>
+              </div>
+              <div style="font-size: 0.85rem; color: var(--pol-ink-muted);">DeepSurv Neural Proportional Hazard Curve (Months 0–60)</div>
+
+              <svg id="simSurvivalSvg" viewBox="0 0 400 180" style="width: 100%; height: 180px; overflow: visible;">
+                <line x1="40" y1="20" x2="380" y2="20" stroke="#dbe7e7" />
+                <line x1="40" y1="65" x2="380" y2="65" stroke="#dbe7e7" />
+                <line x1="40" y1="110" x2="380" y2="110" stroke="#dbe7e7" />
+                <line x1="40" y1="155" x2="380" y2="155" stroke="#005453" stroke-width="1.5" />
+                <line x1="40" y1="20" x2="40" y2="155" stroke="#005453" stroke-width="1.5" />
+
+                <text x="35" y="24" fill="#728484" font-size="9" text-anchor="end">1.0</text>
+                <text x="35" y="69" fill="#728484" font-size="9" text-anchor="end">0.7</text>
+                <text x="35" y="114" fill="#728484" font-size="9" text-anchor="end">0.4</text>
+                <text x="35" y="159" fill="#728484" font-size="9" text-anchor="end">0.0</text>
+
+                <text x="40" y="172" fill="#728484" font-size="9">0m</text>
+                <text x="125" y="172" fill="#728484" font-size="9">12m</text>
+                <text x="210" y="172" fill="#728484" font-size="9">24m</text>
+                <text x="295" y="172" fill="#728484" font-size="9">36m</text>
+                <text x="380" y="172" fill="#728484" font-size="9">60m</text>
+
+                <path id="simSurvivalPath" d="" fill="none" stroke="#005453" stroke-width="3" />
+              </svg>
+
+              <div style="font-size: 0.8rem; color: var(--pol-ink-muted); margin-top: 6px;">
+                *Calculated with Breslow cumulative baseline hazard estimate conditioned on 48 IBSI radiomic covariates.
+              </div>
             </div>
-        </section>
+          </div>
+        </div>
+      </section>
 
-        <!-- ==================================================================
-             ACT V: THE DEDICATED CLINICAL OS WORKSTATION (LINEAR-STYLE)
-             ================================================================== -->
-        <section id="cockpit" class="ag-obsidian-showcase">
-            <div class="ag-showcase-aura"></div>
-            <div class="ag-showcase-aura-left"></div>
+      <!-- ACT 4: CLINICAL WORKFLOW -->
+      <section id="workflow" class="section-wrapper">
+        <div class="section-eyebrow"><i class="fa-solid fa-hospital"></i> Complete Operating System</div>
+        <h2 class="section-title">Zero Friction from Scan to Tumor Board.</h2>
+        <p class="section-subhead">
+          Seamless pipeline transforming native DICOM studies into quantitative preoperative intelligence.
+        </p>
 
-            <!-- Workstation Header with Institution Badge & Controls -->
-            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--ag-border-obsidian); padding-bottom: 20px; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
-                <div style="display: flex; align-items: center; gap: 12px;">
-                    <div class="ag-logo-mark" style="width: 26px; height: 26px; font-size: 12px;">🧠</div>
-                    <div>
-                        <div style="font-size: 1.1rem; font-weight: 700; color: #ffffff;">NeuroVision Workstation</div>
-                        <div style="font-size: 0.76rem; color: #94a3b8; font-family: 'JetBrains Mono', monospace;">
-                            STANFORD BRAIN TUMOR CENTER • OR 4B • ATTENDING ACCESS
-                        </div>
-                    </div>
-                </div>
-
-                <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-                    <span class="ag-status-pill">
-                        <span class="ag-pulse-dot"></span>
-                        <span style="color: #ffffff;">Zero-Leakage Guard Active</span>
-                    </span>
-                    <button class="ag-pill-btn-frost" onclick="openCommandPalette()" style="background: rgba(255, 255, 255, 0.05); color: #ffffff !important; border-color: rgba(255, 255, 255, 0.1); padding: 6px 12px; font-size: 0.78rem;">
-                        <i class="fa-solid fa-terminal"></i> ⌘K Actions
-                    </button>
-                    <button id="toggleConfigBtn" class="ag-pill-btn-frost" style="background: rgba(255, 255, 255, 0.05); color: #ffffff !important; border-color: rgba(255, 255, 255, 0.1); padding: 6px 12px; font-size: 0.78rem;">
-                        <i class="fa-solid fa-gear"></i> Server
-                    </button>
-                </div>
-            </div>
-
-            <!-- Server Config Drawer -->
-            <div id="serverConfigDrawer" style="display: none; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--ag-border-obsidian); border-radius: var(--radius-md); padding: 16px; margin-bottom: 20px;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                    <span style="font-size: 0.85rem; color: var(--ag-ink-inverted-secondary);">Backend Target Endpoint:</span>
-                    <span id="currentBackendDisplay" style="font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: #38bdf8;">Auto</span>
-                </div>
-                <div style="display: flex; gap: 8px;">
-                    <input type="text" id="apiBaseUrlInput" class="ag-segmented-input" placeholder="https://neurovision-elite-backend.onrender.com">
-                    <button id="saveBackendUrlBtn" class="ag-pill-btn-solid" style="padding: 6px 16px; font-size: 0.82rem; white-space: nowrap;">Save</button>
-                </div>
-            </div>
-
-            <!-- 1-Click Patient Scenario Presets (4-column grid) -->
-            <div style="margin-bottom: 20px;">
-                <div style="font-size: 0.8rem; color: var(--ag-ink-inverted-secondary); margin-bottom: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">
-                    ⚡ Select Patient Scenario Preset:
-                </div>
-                <div class="ag-preset-pill-row">
-                    <div class="ag-preset-pill active" id="presetPillGlioma" onclick="loadSampleCase('glioma')">
-                        <span style="font-size: 1.2rem;">🧬</span>
-                        <div>
-                            <div style="font-weight: 700; color: #ffffff; font-size: 0.88rem;">Case 1: Glioblastoma</div>
-                            <div style="font-size: 0.72rem; color: #f87171;">IDH-Wildtype • STAT Triage</div>
-                        </div>
-                    </div>
-                    <div class="ag-preset-pill" id="presetPillMeningioma" onclick="loadSampleCase('meningioma')">
-                        <span style="font-size: 1.2rem;">🛡️</span>
-                        <div>
-                            <div style="font-weight: 700; color: #ffffff; font-size: 0.88rem;">Case 2: Meningioma</div>
-                            <div style="font-size: 0.72rem; color: #4ade80;">Benign Spheroid • Auto Sign-Off</div>
-                        </div>
-                    </div>
-                    <div class="ag-preset-pill" id="presetPillPituitary" onclick="loadSampleCase('pituitary')">
-                        <span style="font-size: 1.2rem;">🔬</span>
-                        <div>
-                            <div style="font-weight: 700; color: #ffffff; font-size: 0.88rem;">Case 3: Pituitary Adenoma</div>
-                            <div style="font-size: 0.72rem; color: #38bdf8;">Sella Mass • High Confidence</div>
-                        </div>
-                    </div>
-                    <div class="ag-preset-pill" id="presetPillOOD" onclick="loadSampleCase('ood')">
-                        <span style="font-size: 1.2rem;">⚠️</span>
-                        <div>
-                            <div style="font-weight: 700; color: #ffffff; font-size: 0.88rem;">Case 4: Motion Corrupt (OOD)</div>
-                            <div style="font-size: 0.72rem; color: #fbbf24;">Artifact Scan • Safety Rejection</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Linear-Style High-Density Tabs -->
-            <div class="ag-os-tabbar">
-                <button class="ag-os-tab active" id="tabBtnSlicer" onclick="switchOSTab('slicer')">
-                    <i class="fa-solid fa-cube"></i> 1. Diagnostic Slicer & Metrology
-                </button>
-                <button class="ag-os-tab" id="tabBtnBiopsy" onclick="switchOSTab('biopsy')">
-                    <i class="fa-solid fa-dna"></i> 2. WHO CNS5 Molecular Biopsy
-                </button>
-                <button class="ag-os-tab" id="tabBtnPrognosis" onclick="switchOSTab('prognosis')">
-                    <i class="fa-solid fa-chart-line"></i> 3. DeepSurv Survival
-                </button>
-                <button class="ag-os-tab" id="tabBtnQueue" onclick="switchOSTab('queue')">
-                    <i class="fa-solid fa-list-check"></i> 4. Patient Triage Queue
-                </button>
-                <button class="ag-os-tab" id="tabBtnDossier" onclick="switchOSTab('dossier')">
-                    <i class="fa-solid fa-file-pdf"></i> 5. Tumor Board Dossier
-                </button>
-            </div>
-
-            <!-- Tab 1: Diagnostic Slicer & Metrology (Primary Workstation) -->
-            <div id="osTabSlicer" class="ag-os-tab-content">
-                <div class="ag-showcase-grid">
-                    <!-- Left: Upload Deck & Metrology Controls -->
-                    <div class="ag-upload-panel">
-                        <div style="font-weight: 700; font-size: 1rem; color: #ffffff; margin-bottom: 16px;">
-                            <i class="fa-solid fa-file-medical" style="color: #38bdf8; margin-right: 8px;"></i> Scan Ingestion Deck
-                        </div>
-
-                        <!-- Dropzone -->
-                        <div id="dropZone" class="ag-dropzone-modern mb-3" style="margin-bottom: 16px;">
-                            <i class="fa-solid fa-cloud-arrow-up" style="font-size: 2rem; color: var(--ag-ink-inverted-secondary); margin-bottom: 8px; display: block;"></i>
-                            <div style="font-weight: 600; color: #ffffff; font-size: 0.92rem; margin-bottom: 4px;">Drag & Drop Brain MRI Scan</div>
-                            <div style="font-size: 0.78rem; color: var(--ag-ink-inverted-muted); margin-bottom: 12px;">DICOM (.dcm), PNG, JPG, or NIfTI</div>
-                            <input type="file" id="fileInput" accept=".png,.jpg,.jpeg,.dcm" style="display: none;">
-                            <button type="button" class="ag-pill-btn-frost" onclick="document.getElementById('fileInput').click()" style="padding: 6px 16px; font-size: 0.8rem;">Browse Files</button>
-                        </div>
-
-                        <!-- Scan Metadata Metrology -->
-                        <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--ag-border-obsidian); border-radius: var(--radius-md); padding: 14px; margin-bottom: 16px;">
-                            <div style="font-size: 0.78rem; color: #94a3b8; font-weight: 600; margin-bottom: 8px; text-transform: uppercase;">DICOM Voxel Calibration:</div>
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
-                                <div>
-                                    <label style="font-size: 0.74rem; color: #94a3b8;">Thickness (mm):</label>
-                                    <input type="number" id="sliceThicknessInput" value="5.0" step="0.5" class="ag-segmented-input" style="padding: 4px 8px; font-size: 0.8rem;">
-                                </div>
-                                <div>
-                                    <label style="font-size: 0.74rem; color: #94a3b8;">Pixel Spacing (mm):</label>
-                                    <input type="number" id="pixelSpacingInput" value="0.937" step="0.01" class="ag-segmented-input" style="padding: 4px 8px; font-size: 0.8rem;">
-                                </div>
-                            </div>
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                                <div>
-                                    <label style="font-size: 0.74rem; color: #94a3b8;">Patient Age:</label>
-                                    <input type="number" id="ageInput" value="58" class="ag-segmented-input" style="padding: 4px 8px; font-size: 0.8rem;">
-                                </div>
-                                <div>
-                                    <label style="font-size: 0.74rem; color: #94a3b8;">Biological Sex:</label>
-                                    <select id="sexSelect" class="ag-segmented-input" style="padding: 4px 8px; font-size: 0.8rem;">
-                                        <option value="MALE">Male</option>
-                                        <option value="FEMALE">Female</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <button id="runInferenceBtn" class="ag-pill-btn-solid" style="width: 100%; justify-content: center; padding: 10px 18px; font-size: 0.9rem;">
-                            <i class="fa-solid fa-microchip"></i> Run Integrated Analysis
-                        </button>
-                    </div>
-
-                    <!-- Right: Diagnostic Viewport & Slicer -->
-                    <div class="ag-viewport-panel">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
-                            <div style="display: flex; align-items: center; gap: 8px;">
-                                <span class="ag-pulse-dot"></span>
-                                <span style="font-weight: 700; font-size: 0.95rem; color: #ffffff;">Orthogonal Viewport</span>
-                            </div>
-
-                            <!-- Windowing Presets -->
-                            <div style="display: flex; align-items: center; gap: 6px;">
-                                <span style="font-size: 0.74rem; color: #94a3b8;">Window:</span>
-                                <button class="ag-window-preset-btn active" onclick="setWindowPreset('brain')">Brain</button>
-                                <button class="ag-window-preset-btn" onclick="setWindowPreset('bone')">Bone</button>
-                                <button class="ag-window-preset-btn" onclick="setWindowPreset('subdural')">Subdural</button>
-                            </div>
-                        </div>
-
-                        <!-- MRI Viewport Screen -->
-                        <div class="ag-mri-screen">
-                            <img id="mriDisplayImage" src="samples/glioma_sample.png" alt="Clinical MRI Slice">
-                            <div id="emptyViewportPrompt" style="display: none; text-align: center; color: #64748b;">
-                                <i class="fa-solid fa-brain" style="font-size: 3rem; margin-bottom: 12px; display: block;"></i>
-                                No scan loaded. Choose a preset or drop a file.
-                            </div>
-                        </div>
-
-                        <!-- Slicer Controls: Heatmap Opacity & View Modes -->
-                        <div style="display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap;">
-                            <div style="display: flex; align-items: center; gap: 10px; flex: 1; min-width: 200px;">
-                                <span style="font-size: 0.78rem; color: #94a3b8; white-space: nowrap;">Grad-CAM Opacity:</span>
-                                <input type="range" id="gradCamOpacitySlider" class="ag-range-slider" min="0" max="100" value="75" oninput="updateHeatmapOpacity(this.value)">
-                                <span id="opacityDisplay" style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--ag-cyan); width: 36px;">75%</span>
-                            </div>
-
-                            <div style="display: flex; gap: 8px;">
-                                <button class="ag-pill-btn-frost" id="btnToggleCam" style="padding: 5px 12px; font-size: 0.78rem; background: rgba(0, 242, 254, 0.1); color: var(--ag-cyan) !important; border-color: rgba(0, 242, 254, 0.3);">
-                                    <i class="fa-solid fa-eye"></i> Grad-CAM
-                                </button>
-                                <button class="ag-pill-btn-frost" id="btnToggleMask" style="padding: 5px 12px; font-size: 0.78rem;">
-                                    <i class="fa-solid fa-draw-polygon"></i> Contour Mask
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Metrology Metrics Row -->
-                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 18px;">
-                            <div class="ag-telemetry-pill">
-                                <div style="font-size: 0.74rem; color: #94a3b8;">PRIMARY CLASS</div>
-                                <div id="diagPrimaryClass" style="font-weight: 700; color: #38bdf8; font-size: 1.05rem;">Glioma</div>
-                            </div>
-                            <div class="ag-telemetry-pill">
-                                <div style="font-size: 0.74rem; color: #94a3b8;">CONFIDENCE</div>
-                                <div id="diagConfidence" style="font-weight: 700; color: #4ade80; font-size: 1.05rem;">94.2%</div>
-                            </div>
-                            <div class="ag-telemetry-pill">
-                                <div style="font-size: 0.74rem; color: #94a3b8;">ESTIMATED VOLUME</div>
-                                <div id="diagVolume" style="font-weight: 700; color: #f59e0b; font-size: 1.05rem;">14.82 cm³</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Tab 2: WHO CNS5 Molecular Biopsy -->
-            <div id="osTabBiopsy" class="ag-os-tab-content" style="display: none;">
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
-                    <div style="background: var(--ag-surface-obsidian-card); border: 1px solid var(--ag-border-obsidian); border-radius: var(--radius-lg); padding: 24px;">
-                        <h4 style="font-size: 1.1rem; font-weight: 700; color: #ffffff; margin-bottom: 16px;">
-                            <i class="fa-solid fa-dna" style="color: var(--ag-cyan); margin-right: 8px;"></i> IDH1/IDH2 Mutation Analysis
-                        </h4>
-                        <div style="margin-bottom: 20px;">
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
-                                <span style="font-size: 0.85rem; color: #cbd5e1;">Mutation Probability:</span>
-                                <span id="biopsyIdhVal" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #f87171;">8.2%</span>
-                            </div>
-                            <div style="height: 10px; background: rgba(255, 255, 255, 0.1); border-radius: 9999px; overflow: hidden;">
-                                <div id="biopsyIdhBar" style="width: 8.2%; height: 100%; background: linear-gradient(90deg, #3b82f6, #ef4444);"></div>
-                            </div>
-                        </div>
-                        <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--ag-border-obsidian); border-radius: var(--radius-md); padding: 14px; font-size: 0.85rem; color: #94a3b8;">
-                            <strong>Molecular Interpretation:</strong> <span id="biopsyIdhStatus">IDH-Wildtype (Astrocytic Lineage)</span>. <span id="biopsyIdhGuidance">Correlates with primary de novo glioblastoma presentation.</span>
-                        </div>
-                    </div>
-
-                    <div style="background: var(--ag-surface-obsidian-card); border: 1px solid var(--ag-border-obsidian); border-radius: var(--radius-lg); padding: 24px;">
-                        <h4 style="font-size: 1.1rem; font-weight: 700; color: #ffffff; margin-bottom: 16px;">
-                            <i class="fa-solid fa-chromosome" style="color: var(--ag-violet); margin-right: 8px;"></i> 1p/19q Chromosomal Co-deletion
-                        </h4>
-                        <div style="margin-bottom: 20px;">
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
-                                <span style="font-size: 0.85rem; color: #cbd5e1;">Co-deletion Probability:</span>
-                                <span id="biopsy1p19qVal" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #38bdf8;">4.1%</span>
-                            </div>
-                            <div style="height: 10px; background: rgba(255, 255, 255, 0.1); border-radius: 9999px; overflow: hidden;">
-                                <div id="biopsy1p19qBar" style="width: 4.1%; height: 100%; background: #38bdf8;"></div>
-                            </div>
-                        </div>
-                        <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--ag-border-obsidian); border-radius: var(--radius-md); padding: 14px; font-size: 0.85rem; color: #94a3b8;">
-                            <strong>Chromosomal Status:</strong> <span id="biopsy1p19qStatus">1p/19q Intact (Non-codeleted)</span>. Excludes oligodendroglial differentiation under WHO CNS5 rules.
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Tab 3: DeepSurv Prognosis Engine -->
-            <div id="osTabPrognosis" class="ag-os-tab-content" style="display: none;">
-                <div style="background: var(--ag-surface-obsidian-card); border: 1px solid var(--ag-border-obsidian); border-radius: var(--radius-lg); padding: 24px; margin-bottom: 24px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
-                        <div>
-                            <h4 style="font-size: 1.15rem; font-weight: 700; color: #ffffff;">DeepSurv Cox Proportional Hazards Trajectory</h4>
-                            <div style="font-size: 0.82rem; color: #94a3b8;">Parametric continuous survival function S(t|x) over 60 post-operative months</div>
-                        </div>
-                        <span id="prognosisHazardPill" class="ag-status-pill" style="color: #ef4444; background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);">
-                            High Risk: g(x) = 0.842
-                        </span>
-                    </div>
-
-                    <!-- SVG Survival Curve -->
-                    <div style="background: #000000; border: 1px solid var(--ag-border-obsidian); border-radius: var(--radius-md); padding: 20px; height: 260px; display: flex; align-items: center; justify-content: center; position: relative;">
-                        <svg id="survivalCurveSvg" width="100%" height="220" viewBox="0 0 700 220" style="overflow: visible;">
-                            <!-- Grid Lines -->
-                            <line x1="50" y1="20" x2="680" y2="20" stroke="#1f293d" stroke-width="1" stroke-dasharray="4"/>
-                            <line x1="50" y1="70" x2="680" y2="70" stroke="#1f293d" stroke-width="1" stroke-dasharray="4"/>
-                            <line x1="50" y1="120" x2="680" y2="120" stroke="#1f293d" stroke-width="1" stroke-dasharray="4"/>
-                            <line x1="50" y1="170" x2="680" y2="170" stroke="#1f293d" stroke-width="1" stroke-dasharray="4"/>
-                            <line x1="50" y1="200" x2="680" y2="200" stroke="#334155" stroke-width="2"/>
-                            
-                            <!-- Survival Trajectory Path -->
-                            <path id="survivalSvgPath" d="M 50,30 Q 150,110 300,165 T 680,195" fill="none" stroke="#ef4444" stroke-width="3.5"/>
-                            
-                            <!-- Month Labels -->
-                            <text x="50" y="215" fill="#64748b" font-size="11" font-family="JetBrains Mono">0M</text>
-                            <text x="200" y="215" fill="#64748b" font-size="11" font-family="JetBrains Mono">12M</text>
-                            <text x="350" y="215" fill="#64748b" font-size="11" font-family="JetBrains Mono">24M</text>
-                            <text x="500" y="215" fill="#64748b" font-size="11" font-family="JetBrains Mono">36M</text>
-                            <text x="650" y="215" fill="#64748b" font-size="11" font-family="JetBrains Mono">60M</text>
-                        </svg>
-                    </div>
-
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 20px;">
-                        <div class="ag-telemetry-pill">
-                            <div style="font-size: 0.74rem; color: #94a3b8;">MEDIAN SURVIVAL</div>
-                            <div id="prognosisMedian" style="font-weight: 700; color: #ef4444; font-size: 1.1rem;">15.2 Months</div>
-                        </div>
-                        <div class="ag-telemetry-pill">
-                            <div style="font-size: 0.74rem; color: #94a3b8;">LOG-RANK P-VALUE</div>
-                            <div style="font-weight: 700; color: #38bdf8; font-size: 1.1rem;">p = 1.54 × 10⁻⁶¹</div>
-                        </div>
-                        <div class="ag-telemetry-pill">
-                            <div style="font-size: 0.74rem; color: #94a3b8;">TOP SHAP FACTOR</div>
-                            <div id="prognosisShap" style="font-weight: 700; color: #f59e0b; font-size: 1.1rem;">GLCM Heterogeneity</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Tab 4: Patient Triage Queue -->
-            <div id="osTabQueue" class="ag-os-tab-content" style="display: none;">
-                <div style="background: var(--ag-surface-obsidian-card); border: 1px solid var(--ag-border-obsidian); border-radius: var(--radius-lg); overflow: hidden;">
-                    <div style="padding: 18px 24px; border-bottom: 1px solid var(--ag-border-obsidian); display: flex; justify-content: space-between; align-items: center;">
-                        <div style="font-weight: 700; color: #ffffff;">Live Hospital PACS Intake Cohort</div>
-                        <span style="font-size: 0.76rem; color: #94a3b8;">Updated 2 mins ago</span>
-                    </div>
-
-                    <table style="width: 100%; border-collapse: collapse; font-size: 0.88rem; text-align: left;">
-                        <thead>
-                            <tr style="border-bottom: 1px solid var(--ag-border-obsidian); background: rgba(255, 255, 255, 0.02); color: #94a3b8; font-size: 0.76rem;">
-                                <th style="padding: 12px 20px;">Patient ID</th>
-                                <th style="padding: 12px 20px;">Scanner</th>
-                                <th style="padding: 12px 20px;">Triage Urgency</th>
-                                <th style="padding: 12px 20px;">Confidence</th>
-                                <th style="padding: 12px 20px; text-align: right;">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr style="border-bottom: 1px solid var(--ag-border-obsidian);">
-                                <td style="padding: 14px 20px; font-family: 'JetBrains Mono', monospace; color: #ffffff;">#PT-7821-GBM</td>
-                                <td style="padding: 14px 20px; color: #cbd5e1;">Siemens Trio 3.0T</td>
-                                <td style="padding: 14px 20px;"><span style="color: #ef4444; font-weight: 700; font-size: 0.78rem; background: rgba(239, 68, 68, 0.1); padding: 3px 8px; border-radius: 4px;">STAT URGENT</span></td>
-                                <td style="padding: 14px 20px; color: #38bdf8;">94.2%</td>
-                                <td style="padding: 14px 20px; text-align: right;">
-                                    <button class="ag-pill-btn-solid" onclick="loadSampleCase('glioma')" style="padding: 4px 12px; font-size: 0.78rem;">Inspect</button>
-                                </td>
-                            </tr>
-                            <tr style="border-bottom: 1px solid var(--ag-border-obsidian);">
-                                <td style="padding: 14px 20px; font-family: 'JetBrains Mono', monospace; color: #ffffff;">#PT-9042-MEN</td>
-                                <td style="padding: 14px 20px; color: #cbd5e1;">GE Signa 1.5T</td>
-                                <td style="padding: 14px 20px;"><span style="color: #10b981; font-weight: 700; font-size: 0.78rem; background: rgba(16, 185, 129, 0.1); padding: 3px 8px; border-radius: 4px;">ROUTINE VALIDATED</span></td>
-                                <td style="padding: 14px 20px; color: #38bdf8;">96.8%</td>
-                                <td style="padding: 14px 20px; text-align: right;">
-                                    <button class="ag-pill-btn-solid" onclick="loadSampleCase('meningioma')" style="padding: 4px 12px; font-size: 0.78rem;">Inspect</button>
-                                </td>
-                            </tr>
-                            <tr style="border-bottom: 1px solid var(--ag-border-obsidian);">
-                                <td style="padding: 14px 20px; font-family: 'JetBrains Mono', monospace; color: #ffffff;">#PT-4412-PIT</td>
-                                <td style="padding: 14px 20px; color: #cbd5e1;">Philips Achieva 3.0T</td>
-                                <td style="padding: 14px 20px;"><span style="color: #38bdf8; font-weight: 700; font-size: 0.78rem; background: rgba(56, 189, 248, 0.1); padding: 3px 8px; border-radius: 4px;">SPECIALIST ENDO</span></td>
-                                <td style="padding: 14px 20px; color: #38bdf8;">91.4%</td>
-                                <td style="padding: 14px 20px; text-align: right;">
-                                    <button class="ag-pill-btn-solid" onclick="loadSampleCase('pituitary')" style="padding: 4px 12px; font-size: 0.78rem;">Inspect</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Tab 5: Tumor Board Dossier & Sign-Off -->
-            <div id="osTabDossier" class="ag-os-tab-content" style="display: none;">
-                <div style="background: var(--ag-surface-obsidian-card); border: 1px solid var(--ag-border-obsidian); border-radius: var(--radius-lg); padding: 28px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
-                        <div>
-                            <h4 style="font-size: 1.25rem; font-weight: 700; color: #ffffff;">Official Clinical Consultation Report</h4>
-                            <div style="font-size: 0.85rem; color: #94a3b8;">Tamper-proof ReportLab PDF compilation with cryptographic SHA-256 hash</div>
-                        </div>
-                        <button class="ag-pill-btn-solid" onclick="downloadTumorBoardReport()" style="padding: 10px 22px; font-size: 0.9rem;">
-                            <i class="fa-solid fa-file-pdf"></i> Generate & Download Dossier PDF
-                        </button>
-                    </div>
-
-                    <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--ag-border-obsidian); border-radius: var(--radius-md); padding: 20px; margin-bottom: 24px;">
-                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; font-size: 0.85rem;">
-                            <div>
-                                <div style="color: #64748b; font-size: 0.75rem;">PATIENT IDENTIFIER</div>
-                                <div style="color: #ffffff; font-weight: 700; font-family: 'JetBrains Mono', monospace;">#NV-2026-8812</div>
-                            </div>
-                            <div>
-                                <div style="color: #64748b; font-size: 0.75rem;">ATTENDING PHYSICIAN</div>
-                                <div id="dossierPhysicianName" style="color: #ffffff; font-weight: 700;">Dr. Sarah Chen, MD</div>
-                            </div>
-                            <div>
-                                <div style="color: #64748b; font-size: 0.75rem;">CLEARANCE STAMP</div>
-                                <div style="color: #10b981; font-weight: 700;">WHO CNS5 Verified</div>
-                            </div>
-                            <div>
-                                <div style="color: #64748b; font-size: 0.75rem;">INTEGRITY HASH</div>
-                                <div style="color: #38bdf8; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem;">e3b0c442...98fc</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div style="border-top: 1px solid var(--ag-border-obsidian); padding-top: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
-                        <div style="font-size: 0.82rem; color: #64748b;">
-                            Digital Cryptographic Signature verified under hospital PACS interoperability protocol.
-                        </div>
-                        <button class="ag-pill-btn-frost" onclick="alert('Digital Sign-Off Recorded. Dossier archived to Hospital PACS.')" style="padding: 6px 16px; font-size: 0.82rem;">
-                            <i class="fa-solid fa-signature"></i> Sign-Off Case
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ==================================================================
-             ACT VI: INSTITUTIONAL TRUST, COMPLIANCE & PARTNERS
-             ================================================================== -->
-        <section id="trust" style="padding: 60px 24px; text-align: center; border-top: 1px solid var(--ag-border-light);">
-            <div style="font-size: 0.82rem; font-weight: 700; color: var(--ag-ink-secondary); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 24px;">
-                EVALUATED ACROSS PREMIER NEUROSURGICAL INSTITUTIONS
-            </div>
-
-            <div style="display: flex; justify-content: center; align-items: center; gap: 40px; flex-wrap: wrap; margin-bottom: 40px; opacity: 0.75;">
-                <span style="font-weight: 800; font-size: 1.1rem; color: #334155;">JOHNS HOPKINS MEDICINE</span>
-                <span style="font-weight: 800; font-size: 1.1rem; color: #334155;">MAYO CLINIC</span>
-                <span style="font-weight: 800; font-size: 1.1rem; color: #334155;">CHARITÉ BERLIN</span>
-                <span style="font-weight: 800; font-size: 1.1rem; color: #334155;">GUY'S & ST THOMAS' NHS</span>
-            </div>
-
-            <div style="display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;">
-                <span class="ag-status-pill ag-status-pill-nav">
-                    <i class="fa-solid fa-shield-halved" style="color: var(--ag-emerald);"></i> HIPAA Compliant
-                </span>
-                <span class="ag-status-pill ag-status-pill-nav">
-                    <i class="fa-solid fa-certificate" style="color: var(--ag-cobalt);"></i> CE-MDR Class IIa SaMD
-                </span>
-                <span class="ag-status-pill ag-status-pill-nav">
-                    <i class="fa-solid fa-lock" style="color: var(--ag-violet);"></i> SOC-2 Type II Certified
-                </span>
-                <span class="ag-status-pill ag-status-pill-nav">
-                    <i class="fa-solid fa-network-wired" style="color: var(--ag-cyan);"></i> HL7 FHIR Interoperable
-                </span>
-            </div>
-        </section>
-
+        <div class="bento-grid">
+          <div class="bento-card col-4">
+            <div class="bento-icon-badge"><i class="fa-solid fa-file-medical"></i></div>
+            <h3 class="bento-card-title">1. DICOM Ingestion</h3>
+            <p class="bento-card-desc">Native parsing of axial T1-CE scans, automatic pixel spacing calculation (mm/px), and B1 bias-field calibration.</p>
+          </div>
+          <div class="bento-card col-4">
+            <div class="bento-icon-badge"><i class="fa-solid fa-network-wired"></i></div>
+            <h3 class="bento-card-title">2. Dual-Head Inference</h3>
+            <p class="bento-card-desc">Simultaneous multi-task sub-pixel segmentation and 3-class differential diagnosis with conformal safety guarantees.</p>
+          </div>
+          <div class="bento-card col-4">
+            <div class="bento-icon-badge"><i class="fa-solid fa-file-pdf"></i></div>
+            <h3 class="bento-card-title">3. Signed Tumor Board PDF</h3>
+            <p class="bento-card-desc">Automated generation of publication-grade consultation dossiers incorporating RANO measurements and SHA-256 model provenance.</p>
+          </div>
+        </div>
+      </section>
     </main>
 
-    <!-- ==================================================================
-         ACT VII: MONUMENTAL EDGE-TO-EDGE BRAND FOOTER
-         ================================================================== -->
-    <footer class="ag-monumental-footer">
-        <div style="max-width: 1320px; margin: 0 auto; padding: 0 24px;">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 32px; margin-bottom: 40px;">
-                <div>
-                    <div class="ag-logo-lockup" style="margin-bottom: 12px;">
-                        <div class="ag-logo-mark">🧠</div>
-                        <span>NeuroVision Elite</span>
-                    </div>
-                    <div style="font-size: 0.88rem; color: var(--ag-ink-secondary); max-width: 380px; line-height: 1.6;">
-                        Autonomous WHO CNS5 2021 Virtual Molecular Biopsy, DeepSurv Prognosis, and Conformal SaMD Intelligence for Human Neurosurgery.
-                    </div>
-                </div>
+    <!-- Polpharma Signature Bottle Reveal Section -->
+    <section class="footer-bottle-reveal">
+      <div class="container" style="text-align: center;">
+        <div class="section-eyebrow" style="margin: 0 auto 16px;"><i class="fa-solid fa-atom"></i> From Molecule to Clinical Cure</div>
+        <img src="assets/polpharma_bottle.png" alt="Polpharma Biologics Bottle Reveal" class="reveal-bottle-center" id="footerRevealBottle" />
+        <h2 class="section-title" style="margin-bottom: 16px;">Biologics Precision at the Speed of Light.</h2>
+        <p class="section-subhead" style="margin: 0 auto 32px; max-width: 680px;">
+          Empowering neurosurgeons and oncologists with quantitative radiogenomics and targeted biopharmaceutical intelligence.
+        </p>
+        <button class="btn btn-primary btn-lg" onclick="openAuthModal()">
+          Enter Clinical Workstation <span class="btn-circle-icon"><i class="fa-solid fa-arrow-right"></i></span>
+        </button>
+      </div>
+    </section>
 
-                <div style="display: flex; gap: 48px; flex-wrap: wrap;">
-                    <div>
-                        <div style="font-weight: 700; font-size: 0.82rem; color: var(--ag-ink-primary); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.05em;">Architecture</div>
-                        <div style="display: flex; flex-direction: column; gap: 8px;">
-                            <a href="#cockpit" class="ag-nav-link">Clinical OS</a>
-                            <a href="#bento" class="ag-nav-link">Molecular Biopsy</a>
-                            <a href="#benchmarks" class="ag-nav-link">DeepSurv Model</a>
-                            <a href="#benchmarks" class="ag-nav-link">ComBat Harmonization</a>
-                        </div>
-                    </div>
-                    <div>
-                        <div style="font-weight: 700; font-size: 0.82rem; color: var(--ag-ink-primary); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.05em;">Governance</div>
-                        <div style="display: flex; flex-direction: column; gap: 8px;">
-                            <a href="docs/MODEL_CARD.md" class="ag-nav-link">Model Card</a>
-                            <a href="docs/CLAIM_CHECKLIST.md" class="ag-nav-link">CLAIM Checklist</a>
-                            <a href="https://github.com/AadityaUniyal/Brain_Tumourr" target="_blank" class="ag-nav-link">GitHub Source</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div style="font-size: 0.76rem; color: var(--ag-ink-muted); line-height: 1.6; max-width: 840px; border-top: 1px solid var(--ag-border-light); padding-top: 24px;">
-                <strong>INVESTIGATIONAL USE DISCLAIMER:</strong> NeuroVision Elite is an assistive clinical decision support software-as-a-medical-device (SaMD) research platform. All pathological subtypes and genomic classifications must be confirmed by board-certified neuropathologists prior to surgical or adjuvant therapeutic decisions.
-            </div>
-
-            <!-- Giant Edge-to-Edge Wordmark -->
-            <div class="ag-huge-wordmark">
-                NEUROVISION
-            </div>
+    <!-- Site Footer -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-top">
+          <div class="brand-lockup">
+            <div class="brand-icon"><i class="fa-solid fa-brain"></i></div>
+            <span>Sulcus Clinical AI</span>
+          </div>
+          <div style="display: flex; gap: 16px;">
+            <button class="btn btn-primary" onclick="openAuthModal()">
+              Launch Workstation <span class="btn-circle-icon"><i class="fa-solid fa-arrow-right"></i></span>
+            </button>
+          </div>
         </div>
+        <div class="footer-copy">
+          Sulcus Clinical Neuro-Oncology AI · HIPAA & FDA SaMD Ready · Hosted on Amazon Web Services (ap-south-1).
+        </div>
+      </div>
     </footer>
+  </div>
 
-    <!-- ==================================================================
-         ACT VIII: ENTERPRISE AUTHENTICATION MODAL (APPLE/OKTA/EPIC SSO)
-         ================================================================== -->
-    <div class="ag-modal-overlay" id="authModalOverlay" onclick="closeAuthModalOnBackdrop(event)">
-        <div class="ag-auth-modal">
-            <div class="ag-auth-header">
-                <button class="ag-modal-close-btn" onclick="closeAuthModal()">&times;</button>
-                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-                    <div class="ag-logo-mark" style="width: 24px; height: 24px; font-size: 11px;">🔐</div>
-                    <span style="font-weight: 700; font-size: 1.1rem;">Hospital Clinical Access Gate</span>
-                </div>
-                <div style="font-size: 0.82rem; color: #94a3b8;">
-                    Select an authenticated attending passkey or sign in via institutional SSO.
-                </div>
-            </div>
+  <!-- ======================================================================
+       STAGE 2: AUTHENTICATION MODAL (SCREEN 2)
+       ====================================================================== -->
+  <div id="authModalBackdrop" class="modal-backdrop" onclick="closeAuthModalOnBackdrop(event)">
+    <div class="auth-modal">
+      <div class="auth-head">
+        <div class="auth-title">Clinical Access Gateway</div>
+        <button class="modal-close-btn" onclick="closeAuthModal()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
 
-            <div style="padding: 24px;">
-                <div style="font-size: 0.76rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px;">
-                    1-Click Attending Passkeys:
-                </div>
+      <div class="auth-input-group">
+        <label class="auth-label">Hospital / Attending NPI Identifier</label>
+        <input type="text" class="auth-input" placeholder="e.g. NPI-1948201948" value="NPI-1492048201" />
+      </div>
 
-                <!-- Passkey Role 1 -->
-                <div class="ag-auth-role-card" onclick="selectPhysicianRole('Dr. Sarah Chen, MD', 'Chief of Neuroradiology · Johns Hopkins', 'SC')">
-                    <div class="ag-avatar-sm" style="width: 36px; height: 36px; font-size: 14px; background: linear-gradient(135deg, #00f2fe, #2563eb);">SC</div>
-                    <div style="flex: 1;">
-                        <div style="font-weight: 700; font-size: 0.92rem; color: #ffffff;">Dr. Sarah Chen, MD</div>
-                        <div style="font-size: 0.75rem; color: #94a3b8;">Chief of Neuroradiology • Johns Hopkins</div>
-                    </div>
-                    <span class="ag-status-pill" style="font-size: 0.72rem; padding: 2px 8px; color: var(--ag-cyan); border-color: rgba(0, 242, 254, 0.3);">
-                        Full Sign-Off
-                    </span>
-                </div>
+      <div class="auth-input-group">
+        <label class="auth-label">Department / Institutional Key</label>
+        <input type="password" class="auth-input" placeholder="••••••••••••" value="demo-access-2026" />
+      </div>
 
-                <!-- Passkey Role 2 -->
-                <div class="ag-auth-role-card" onclick="selectPhysicianRole('Dr. Marcus Vance, MD', 'Director of Neuro-Oncology · Mayo Clinic', 'MV')">
-                    <div class="ag-avatar-sm" style="width: 36px; height: 36px; font-size: 14px; background: linear-gradient(135deg, #8b5cf6, #ec4899);">MV</div>
-                    <div style="flex: 1;">
-                        <div style="font-weight: 700; font-size: 0.92rem; color: #ffffff;">Dr. Marcus Vance, MD, PhD</div>
-                        <div style="font-size: 0.75rem; color: #94a3b8;">Director of Neuro-Oncology • Mayo Clinic</div>
-                    </div>
-                    <span class="ag-status-pill" style="font-size: 0.72rem; padding: 2px 8px; color: var(--ag-violet); border-color: rgba(139, 92, 246, 0.3);">
-                        Trial PI
-                    </span>
-                </div>
+      <button class="btn btn-primary" style="width: 100%; height: 48px; margin-top: 8px;" onclick="enterWorkstation()">
+        Authenticate & Enter Workstation <span class="btn-circle-icon"><i class="fa-solid fa-arrow-right"></i></span>
+      </button>
 
-                <!-- Passkey Role 3 -->
-                <div class="ag-auth-role-card" onclick="selectPhysicianRole('Guest Attending Physician', 'Investigational Sandbox Access', 'GA')">
-                    <div class="ag-avatar-sm" style="width: 36px; height: 36px; font-size: 14px; background: linear-gradient(135deg, #10b981, #059669);">GA</div>
-                    <div style="flex: 1;">
-                        <div style="font-weight: 700; font-size: 0.92rem; color: #ffffff;">Guest Attending Physician</div>
-                        <div style="font-size: 0.75rem; color: #94a3b8;">Investigational Sandbox Access</div>
-                    </div>
-                    <span class="ag-status-pill" style="font-size: 0.72rem; padding: 2px 8px; color: var(--ag-emerald); border-color: rgba(16, 185, 129, 0.3);">
-                        Read & Test
-                    </span>
-                </div>
+      <div class="auth-divider">or explore instantly</div>
 
-                <div style="margin: 20px 0 14px 0; text-align: center; position: relative;">
-                    <hr style="border: none; border-top: 1px solid var(--ag-border-obsidian);">
-                    <span style="position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: #0d1019; padding: 0 12px; font-size: 0.74rem; color: #64748b;">OR HEALTHCARE SSO</span>
-                </div>
+      <button class="quick-sandbox-btn" onclick="enterWorkstation()">
+        <i class="fa-solid fa-flask"></i> 1-Click Attending Sandbox (Demo Mode)
+      </button>
+    </div>
+  </div>
 
-                <button class="ag-sso-provider-btn" onclick="simulateSSOLogin('Epic MyChart / Hyperspace')">
-                    <i class="fa-solid fa-hospital" style="color: #38bdf8;"></i> Sign In with Epic Hyperspace FHIR
-                </button>
-                <button class="ag-sso-provider-btn" onclick="simulateSSOLogin('Cerner Millennium')">
-                    <i class="fa-solid fa-user-doctor" style="color: #a855f7;"></i> Sign In with Cerner Millennium
-                </button>
-            </div>
-        </div>
+  <!-- ======================================================================
+       STAGE 3: THE TABBED CLINICAL WORKSTATION (SCREEN 3)
+       ====================================================================== -->
+  <div id="stage-workstation">
+    <!-- Ambient Watermark Bottle in Dashboard Background -->
+    <div class="workstation-ambient-bottle">
+      <img src="assets/polpharma_bottle.png" alt="Dashboard Watermark Bottle" />
     </div>
 
-    <!-- ==================================================================
-         ACT IX: ⌘K QUICK ACTIONS COMMAND PALETTE SPOTLIGHT MODAL
-         ================================================================== -->
-    <div class="ag-modal-overlay" id="commandModalOverlay" onclick="closeCommandPaletteOnBackdrop(event)">
-        <div class="ag-command-modal">
-            <div class="ag-command-search-wrap">
-                <i class="fa-solid fa-magnifying-glass" style="color: #94a3b8; font-size: 14px;"></i>
-                <input type="text" id="commandPaletteInput" class="ag-command-input" placeholder="Type a clinical action or search... (e.g. 'Case 1', 'Grad-CAM', 'Dossier')" oninput="filterCommandPalette(this.value)">
-                <span class="ag-kbd-shortcut">ESC</span>
-            </div>
+    <!-- Top Cockpit Navigation -->
+    <header class="cockpit-top-bar cascade-in">
+      <div style="display: flex; align-items: center; gap: 20px;">
+        <a href="#" class="brand-lockup" onclick="exitWorkstation()">
+          <div class="brand-icon"><i class="fa-solid fa-brain"></i></div>
+          <span>Sulcus</span>
+          <span class="brand-badge">PACS Live</span>
+        </a>
 
-            <div class="ag-command-list" id="commandPaletteList">
-                <div class="ag-command-item" onclick="executeCommand('glioma')">
-                    <div><i class="fa-solid fa-play" style="color: #38bdf8; margin-right: 10px;"></i> Load Case 1: Glioblastoma Multiforme (GBM)</div>
-                    <span class="ag-kbd-shortcut">1</span>
-                </div>
-                <div class="ag-command-item" onclick="executeCommand('meningioma')">
-                    <div><i class="fa-solid fa-shield-halved" style="color: #4ade80; margin-right: 10px;"></i> Load Case 2: Convexity Meningioma</div>
-                    <span class="ag-kbd-shortcut">2</span>
-                </div>
-                <div class="ag-command-item" onclick="executeCommand('pituitary')">
-                    <div><i class="fa-solid fa-microchip" style="color: #a855f7; margin-right: 10px;"></i> Load Case 3: Pituitary Adenoma</div>
-                    <span class="ag-kbd-shortcut">3</span>
-                </div>
-                <div class="ag-command-item" onclick="executeCommand('ood')">
-                    <div><i class="fa-solid fa-triangle-exclamation" style="color: #f59e0b; margin-right: 10px;"></i> Load Case 4: Motion Corrupted Scan (OOD)</div>
-                    <span class="ag-kbd-shortcut">4</span>
-                </div>
-                <div class="ag-command-item" onclick="executeCommand('tab-slicer')">
-                    <div><i class="fa-solid fa-cube" style="color: #cbd5e1; margin-right: 10px;"></i> Switch Tab: Diagnostic Slicer & Metrology</div>
-                    <span class="ag-kbd-shortcut">S</span>
-                </div>
-                <div class="ag-command-item" onclick="executeCommand('tab-biopsy')">
-                    <div><i class="fa-solid fa-dna" style="color: #cbd5e1; margin-right: 10px;"></i> Switch Tab: WHO CNS5 Molecular Biopsy</div>
-                    <span class="ag-kbd-shortcut">B</span>
-                </div>
-                <div class="ag-command-item" onclick="executeCommand('tab-prognosis')">
-                    <div><i class="fa-solid fa-chart-line" style="color: #cbd5e1; margin-right: 10px;"></i> Switch Tab: DeepSurv Survival Prognosis</div>
-                    <span class="ag-kbd-shortcut">P</span>
-                </div>
-                <div class="ag-command-item" onclick="executeCommand('dossier')">
-                    <div><i class="fa-solid fa-file-pdf" style="color: #ef4444; margin-right: 10px;"></i> Download Tumor Board PDF Dossier</div>
-                    <span class="ag-kbd-shortcut">D</span>
-                </div>
-                <div class="ag-command-item" onclick="executeCommand('auth')">
-                    <div><i class="fa-solid fa-user-doctor" style="color: #38bdf8; margin-right: 10px;"></i> Switch Physician Profile / Hospital SSO</div>
-                    <span class="ag-kbd-shortcut">U</span>
-                </div>
-            </div>
+        <!-- 4 Functional Tabs -->
+        <div class="cockpit-tabs">
+          <button class="cockpit-tab-btn is-active" id="tabBtnViewport" onclick="switchWorkstationTab('viewport')">
+            <i class="fa-solid fa-eye"></i> Active Scan Viewport
+          </button>
+          <button class="cockpit-tab-btn" id="tabBtnBiopsy" onclick="switchWorkstationTab('biopsy')">
+            <i class="fa-solid fa-dna"></i> Molecular Biopsy
+          </button>
+          <button class="cockpit-tab-btn" id="tabBtnRegistry" onclick="switchWorkstationTab('registry')">
+            <i class="fa-solid fa-database"></i> Patient Registry
+          </button>
+          <button class="cockpit-tab-btn" id="tabBtnAudit" onclick="switchWorkstationTab('audit')">
+            <i class="fa-solid fa-certificate"></i> Audit & Export
+          </button>
         </div>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <span class="mono" style="font-size: 0.8rem; color: var(--pol-deep-green); font-weight: 700;">
+          <i class="fa-solid fa-circle-check"></i> AWS Backend Online
+        </span>
+        <button class="btn btn-secondary" style="padding: 6px 14px; font-size: 0.82rem;" onclick="exitWorkstation()">
+          <i class="fa-solid fa-arrow-left"></i> Exit to Overview
+        </button>
+      </div>
+    </header>
+
+    <!-- TAB 1: VIEWPORT PANE -->
+    <div id="tabContent-viewport" class="cockpit-workspace-grid">
+      <!-- Left: Ingestion Hopper -->
+      <aside class="cockpit-sidebar-panel cascade-in delay-1">
+        <h4 style="font-size: 0.95rem; font-weight: 800; color: var(--pol-ink-heading);">Cohort Ingestion</h4>
+        <p style="font-size: 0.82rem; color: var(--pol-ink-muted);">Select pre-cached study or drop native DICOM scan.</p>
+        
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <button class="btn btn-secondary" style="justify-content: flex-start; font-size: 0.82rem; padding: 10px;" onclick="loadWorkstationScan('glioma')">
+            <i class="fa-solid fa-brain" style="color: var(--pol-deep-green);"></i> PT-8812 (Glioblastoma)
+          </button>
+          <button class="btn btn-secondary" style="justify-content: flex-start; font-size: 0.82rem; padding: 10px;" onclick="loadWorkstationScan('meningioma')">
+            <i class="fa-solid fa-brain" style="color: #0d8a68;"></i> PT-4109 (Meningioma)
+          </button>
+          <button class="btn btn-secondary" style="justify-content: flex-start; font-size: 0.82rem; padding: 10px;" onclick="loadWorkstationScan('pituitary')">
+            <i class="fa-solid fa-brain" style="color: #b87700;"></i> PT-2291 (Pituitary)
+          </button>
+        </div>
+
+        <div style="margin-top: auto; padding: 16px; background: var(--pol-bg-mint); border-radius: var(--radius-sm); border: 1px dashed var(--pol-border-medium); text-align: center;">
+          <input type="file" id="workstationFileInput" style="display: none;" onchange="handleWorkstationUpload(event)" />
+          <button class="btn btn-primary" style="width: 100%; font-size: 0.82rem;" onclick="document.getElementById('workstationFileInput').click()">
+            <i class="fa-solid fa-upload"></i> Upload DICOM / Image
+          </button>
+          <div style="font-size: 0.72rem; color: var(--pol-ink-muted); margin-top: 6px;">Supports .png, .dcm, .mat</div>
+        </div>
+      </aside>
+
+      <!-- Center: 4K Canvas Viewport -->
+      <section class="cockpit-center-viewport cascade-in delay-2" id="workstationCenter">
+        <canvas id="workstationCanvas" style="width: 100%; height: 100%; object-fit: contain;"></canvas>
+      </section>
+
+      <!-- Right: Intelligence Telemetry -->
+      <aside class="cockpit-sidebar-panel cascade-in delay-3">
+        <h4 style="font-size: 0.95rem; font-weight: 800; color: var(--pol-ink-heading);">Clinical Intelligence</h4>
+        
+        <div class="telemetry-card" style="padding: 16px;">
+          <div class="telemetry-title" style="margin-bottom: 8px;">Subtype Inferred</div>
+          <div class="telemetry-class glioma" id="wsClass" style="font-size: 1.3rem;">Glioblastoma</div>
+          <div class="telemetry-conf mono" id="wsConfidence" style="font-size: 1.1rem; margin-bottom: 8px;">94.2%</div>
+          <div class="bar-track"><div class="bar-fill" id="wsBar" style="width: 94.2%;"></div></div>
+        </div>
+
+        <div class="telemetry-data-row"><span>RANO Major Diameter</span><span class="mono" id="wsMajor">41.2 mm</span></div>
+        <div class="telemetry-data-row"><span>RANO Minor Diameter</span><span class="mono" id="wsMinor">28.6 mm</span></div>
+        <div class="telemetry-data-row"><span>Tumor Volume</span><span class="mono" id="wsVolume">34.82 cm³</span></div>
+        <div class="telemetry-data-row"><span>IDH1 Mutation</span><span class="mono" id="wsIdh">Wild-type (8.2%)</span></div>
+        <div class="telemetry-data-row"><span>1p/19q Codeletion</span><span class="mono" id="wsCodeletion">Intact (1.1%)</span></div>
+
+        <button class="btn btn-primary" style="margin-top: auto;" onclick="downloadTumorBoardDossier()">
+          <i class="fa-solid fa-file-pdf"></i> Export Tumor Board PDF
+        </button>
+      </aside>
     </div>
 
-    <!-- Canvas Confetti & Client App Script -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <script src="js/app.js"></script>
+    <!-- TAB 2: VIRTUAL BIOPSY PANE -->
+    <div id="tabContent-biopsy" class="container cascade-in delay-2" style="display: none; padding: 40px 0;">
+      <h3 style="font-size: 1.8rem; font-weight: 800; color: var(--pol-ink-heading); margin-bottom: 12px;">WHO CNS5 Radiogenomic Profiler</h3>
+      <p style="color: var(--pol-ink-body); margin-bottom: 24px;">Dynamic prognostic estimation based on non-invasive imaging features.</p>
+      
+      <div class="biopsy-card">
+        <div class="biopsy-grid">
+          <div>
+            <h4 style="font-size: 1.1rem; font-weight: 700; color: var(--pol-charcoal); margin-bottom: 16px;">Biomarker Confidence Intervals</h4>
+            <div class="telemetry-data-row" style="padding: 12px 0;"><span>IDH1 (R132H) Mutation Likelihood</span><span class="mono" style="color: var(--pol-coral);">8.2% (Wild-Type)</span></div>
+            <div class="telemetry-data-row" style="padding: 12px 0;"><span>1p/19q Chromosomal Co-deletion</span><span class="mono" style="color: var(--pol-coral);">1.1% (Intact)</span></div>
+            <div class="telemetry-data-row" style="padding: 12px 0;"><span>MGMT Promoter Methylation</span><span class="mono" style="color: var(--pol-deep-green);">68.4% (Likely Methylated)</span></div>
+            <div class="telemetry-data-row" style="padding: 12px 0;"><span>Estimated Overall Survival (Median)</span><span class="mono" style="font-weight: 800; color: var(--pol-deep-green);">14.8 Months</span></div>
+          </div>
+          <div>
+            <h4 style="font-size: 1.1rem; font-weight: 700; color: var(--pol-charcoal); margin-bottom: 16px;">Surgical Strategy Implication</h4>
+            <div style="background: var(--pol-bg-mint); padding: 20px; border-radius: var(--radius-md); font-size: 0.92rem; line-height: 1.6; color: var(--pol-charcoal);">
+              <strong>Surgical Recommendation:</strong> Supratotal resection indicated if functional cortical mapping permits. Unmethylated wild-type phenotype suggests accelerated recurrence timeline; early enrollment in targeted radiation therapy recommended.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: PATIENT REGISTRY (DYNAMODB) -->
+    <div id="tabContent-registry" class="container" style="display: none; padding: 40px 0;">
+      <h3 style="font-size: 1.8rem; font-weight: 800; color: var(--pol-ink-heading); margin-bottom: 12px;">Amazon DynamoDB Longitudinal Registry</h3>
+      <p style="color: var(--pol-ink-body); margin-bottom: 24px;">Synchronized records stored in <code>sulcus_patient_records</code> table.</p>
+
+      <div style="background: #ffffff; border: 1px solid var(--pol-border-subtle); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-card);">
+        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.88rem;">
+          <thead>
+            <tr style="background: var(--pol-bg-mint); border-bottom: 1px solid var(--pol-border-subtle);">
+              <th style="padding: 14px 20px; color: var(--pol-deep-green);">Patient ID</th>
+              <th style="padding: 14px 20px; color: var(--pol-deep-green);">Scan Source</th>
+              <th style="padding: 14px 20px; color: var(--pol-deep-green);">Predicted Subtype</th>
+              <th style="padding: 14px 20px; color: var(--pol-deep-green);">Confidence</th>
+              <th style="padding: 14px 20px; color: var(--pol-deep-green);">RANO Axes</th>
+              <th style="padding: 14px 20px; color: var(--pol-deep-green);">Status</th>
+            </tr>
+          </thead>
+          <tbody id="registryTableBody">
+            <tr style="border-bottom: 1px solid var(--pol-border-subtle);">
+              <td style="padding: 14px 20px;" class="mono">PT-17814</td>
+              <td style="padding: 14px 20px;">glioma_sample.png</td>
+              <td style="padding: 14px 20px; font-weight: 700; color: var(--pol-deep-green);">Glioma</td>
+              <td style="padding: 14px 20px;" class="mono">94.2%</td>
+              <td style="padding: 14px 20px;" class="mono">41.2 × 28.6 mm</td>
+              <td style="padding: 14px 20px;"><span class="brand-badge">S3 Vault Archived</span></td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--pol-border-subtle);">
+              <td style="padding: 14px 20px;" class="mono">PT-02877</td>
+              <td style="padding: 14px 20px;">meningioma_sample.png</td>
+              <td style="padding: 14px 20px; font-weight: 700; color: #0d8a68;">Meningioma</td>
+              <td style="padding: 14px 20px;" class="mono">98.1%</td>
+              <td style="padding: 14px 20px;" class="mono">29.4 × 24.1 mm</td>
+              <td style="padding: 14px 20px;"><span class="brand-badge">S3 Vault Archived</span></td>
+            </tr>
+            <tr>
+              <td style="padding: 14px 20px;" class="mono">PT-04192</td>
+              <td style="padding: 14px 20px;">pituitary_sample.png</td>
+              <td style="padding: 14px 20px; font-weight: 700; color: #b87700;">Pituitary Adenoma</td>
+              <td style="padding: 14px 20px;" class="mono">96.7%</td>
+              <td style="padding: 14px 20px;" class="mono">22.8 × 19.5 mm</td>
+              <td style="padding: 14px 20px;"><span class="brand-badge">S3 Vault Archived</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB 4: AUDIT & EXPORT PANE -->
+    <div id="tabContent-audit" class="container" style="display: none; padding: 40px 0;">
+      <h3 style="font-size: 1.8rem; font-weight: 800; color: var(--pol-ink-heading); margin-bottom: 12px;">FDA & HIPAA Audit Log & Consultation Export</h3>
+      <p style="color: var(--pol-ink-body); margin-bottom: 24px;">Cryptographically hashed event trace persisted in <code>sulcus_audit_events</code>.</p>
+
+      <div class="bento-grid">
+        <div class="bento-card col-6">
+          <h4 style="font-size: 1.1rem; font-weight: 700; color: var(--pol-charcoal); margin-bottom: 14px;">Cryptographic Model Provenance</h4>
+          <div class="telemetry-data-row"><span>DualHead Checkpoint</span><span class="mono">SHA256: 4e9c18d...b881</span></div>
+          <div class="telemetry-data-row"><span>Training Epochs</span><span class="mono">25 (Best Val Macro AUROC 0.9775)</span></div>
+          <div class="telemetry-data-row"><span>Conformal Alpha Coverage</span><span class="mono">90.0% Empirical Guarantee</span></div>
+          <div class="telemetry-data-row"><span>Deployment Target</span><span class="mono">AWS ap-south-1 (CloudFront)</span></div>
+        </div>
+
+        <div class="bento-card col-6">
+          <h4 style="font-size: 1.1rem; font-weight: 700; color: var(--pol-charcoal); margin-bottom: 14px;">Export Consultation Dossier</h4>
+          <p style="font-size: 0.88rem; color: var(--pol-ink-body); margin-bottom: 20px;">
+            Generates a publication-grade PDF consultation dossier incorporating raw slice, neural segmentation mask, and RANO callipers.
+          </p>
+          <button class="btn btn-primary btn-lg" onclick="downloadTumorBoardDossier()">
+            <i class="fa-solid fa-file-pdf"></i> Download Official Consultation PDF
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
 </body>
 </html>

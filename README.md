@@ -1,20 +1,24 @@
 <div align="center">
 
-# 🧠 NeuroVision Elite: Radiogenomics & Survival Engine
+# 🧠 Sulcus Clinical AI: Multimodal Neuro-Oncology & Survival Engine
 ### WHO 2021 Virtual Molecular Biopsy, Deep Multimodal Survival Prognosis & Dual-Task Clinical AI
 
+[![AWS CloudFront](https://img.shields.io/badge/AWS%20CloudFront-Live%20Production-orange.svg?style=for-the-badge&logo=amazon-aws)](https://d2j24vbx45dlcs.cloudfront.net)
 [![Python](https://img.shields.io/badge/Python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue.svg?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white)](https://pytorch.org/)
-[![Harrell's C-Index](https://img.shields.io/badge/DeepSurv%20C--Index-0.8151-brightgreen.svg?style=for-the-badge)](reports/metrics/deep_radiogenomics_results.json)
-[![IDH AUROC](https://img.shields.io/badge/IDH%20AUROC-0.9256-blue.svg?style=for-the-badge)](reports/metrics/deep_radiogenomics_results.json)
-[![Macro AUROC](https://img.shields.io/badge/Morphology%20AUROC-0.9631-green.svg?style=for-the-badge)](reports/metrics/benchmark_results.json)
-[![Vercel Frontend](https://img.shields.io/badge/Frontend-Live%20on%20Vercel-black?style=for-the-badge&logo=vercel&logoColor=white)](https://neurovision-elite-cockpit.vercel.app)
+[![Harrell's C-Index](https://img.shields.io/badge/DeepSurv%20C--Index-0.8192-brightgreen.svg?style=for-the-badge)](reports/metrics/deep_radiogenomics_results.json)
+[![IDH AUROC](https://img.shields.io/badge/IDH%20AUROC-0.9184-blue.svg?style=for-the-badge)](reports/metrics/deep_radiogenomics_results.json)
+[![Morphology AUROC](https://img.shields.io/badge/Morphology%20AUROC-0.9775-green.svg?style=for-the-badge)](reports/metrics/benchmark_results.json)
+[![Selective Accuracy](https://img.shields.io/badge/Selective%20Accuracy-98.91%25-darkgreen.svg?style=for-the-badge)](reports/metrics/selective_risk_coverage_calibration.json)
 
 <p align="center">
-  <b>A production-grade medical AI system adhering to WHO CNS5 2021 criteria: Non-invasive Virtual Molecular Biopsy (IDH1/2 mutation & 1p/19q co-deletion), DeepSurv time-to-event survival modeling with Cox Partial Likelihood, high-throughput IBSI radiomic extraction, and zero-patient-leakage cross-validation.</b>
+  <b>A hospital-grade clinical AI workstation adhering strictly to WHO CNS5 2021 criteria: Non-invasive Virtual Molecular Biopsy (IDH1/2 mutation & 1p/19q co-deletion), DeepSurv time-to-event survival modeling with GroupDRO age-stratified Cox loss, neural attention U-Net segmentation, 48 IBSI radiomic features, RANO 2D orthogonal calliper metrology, and mathematically certified zero-patient-leakage cross-validation.</b>
 </p>
 
-[✨ Live Web Cockpit](https://neurovision-elite-cockpit.vercel.app) • [🧬 WHO 2021 Radiogenomics](#-who-2021-virtual-molecular-biopsy--deepsurv) • [📊 Real Benchmarks](#-verified-clinical-benchmarks-on-unseen-patients) • [🔬 Leakage Audit](#-scientific-rigor-the-patient-leakage-audit) • [🏗️ Architecture](#-system-architecture) • [📋 CLAIM Checklist](docs/CLAIM_CHECKLIST.md) • [📄 Model Card](docs/MODEL_CARD.md)
+### 🌐 Live Production Deployment
+**Edge Workstation URL:** [https://d2j24vbx45dlcs.cloudfront.net](https://d2j24vbx45dlcs.cloudfront.net)
+
+[✨ Live Workstation](https://d2j24vbx45dlcs.cloudfront.net) • [🏗️ System Architecture](docs/SYSTEM_ARCHITECTURE.md) • [🔬 Clinical Validation](docs/CLINICAL_VALIDATION.md) • [📡 API Reference](docs/API_REFERENCE.md) • [📋 CLAIM Checklist](docs/CLAIM_CHECKLIST.md) • [📄 Model Card](docs/MODEL_CARD.md)
 
 </div>
 
@@ -126,20 +130,22 @@ Evaluated across 474 held-out test scans from 35 unseen patients:
 To safeguard patient safety and guarantee production-grade reliability, NeuroVision Elite incorporates continuous clinical regression gating, model registry tracking, and reproducibility pipelines:
 
 ### 1. Automated Performance Regression Gate (`scripts/ci_regression_gate.py`)
-Triggered automatically on every Pull Request via GitHub Actions (`.github/workflows/mlops_eval_gate.yml`). The gate enforces **8 strict, zero-tolerance clinical thresholds**:
+Triggered automatically on every Pull Request via continuous machine learning CI. The gate enforces **10 strict, zero-tolerance clinical thresholds**:
 
 | Quality & Safety Domain | Objective Metric | Target Threshold | Evaluated Production Value | Gate Status |
 | :--- | :--- | :---: | :---: | :---: |
 | **Leakage Isolation** | Patient Test Leakage Rate | $\le 0.00\%$ | **0.00%** | ✅ **PASS** |
-| **Multi-class Discrimination** | Dual-Task Macro AUROC | $\ge 0.9500$ | **0.9631** | ✅ **PASS** |
-| **Generalization Accuracy** | Dual-Task Test Accuracy | $\ge 85.00\%$ | **86.29%** | ✅ **PASS** |
-| **Uncertainty Calibration** | Expected Calibration Error (ECE) | $\le 0.0500$ | **0.0187** | ✅ **PASS** |
-| **Multimodal Survival** | DeepSurv Harrell's C-Index | $\ge 0.8000$ | **0.8151** | ✅ **PASS** |
-| **Virtual Biopsy** | IDH1/2 Mutation AUROC | $\ge 0.9000$ | **0.9256** | ✅ **PASS** |
-| **Fairness Parity** | Gender Disparity ($\Delta$ C-Index) | $\le 0.0500$ | **0.0011** | ✅ **PASS** |
-| **Conformal Safety** | Selective Accuracy (Accepted Scans) | $\ge 95.00\%$ | **96.86%** | ✅ **PASS** |
+| **Multi-class Discrimination** | Dual-Task Macro AUROC | $\ge 0.9500$ | **0.9775** | ✅ **PASS** |
+| **Generalization Accuracy** | Dual-Task Test Accuracy | $\ge 85.00\%$ | **88.19%** | ✅ **PASS** |
+| **Uncertainty Calibration** | Expected Calibration Error (ECE) | $\le 0.0500$ | **0.0390** | ✅ **PASS** |
+| **Multimodal Survival** | DeepSurv Harrell's C-Index | $\ge 0.8000$ | **0.8192** | ✅ **PASS** |
+| **Virtual Biopsy** | IDH1/2 Mutation AUROC | $\ge 0.9000$ | **0.9184** | ✅ **PASS** |
+| **Subtype Recovery** | 1p/19q Co-deletion F1 Score | $\ge 0.4500$ | **0.4976** | ✅ **PASS** |
+| **Fairness Parity** | Gender Disparity ($\Delta$ C-Index) | $\le 0.0500$ | **0.0245** | ✅ **PASS** |
+| **Conformal Safety** | Selective Accuracy (Accepted Scans) | $\ge 95.00\%$ | **98.91%** | ✅ **PASS** |
+| **Scanner Invariance** | B1 Bias Field Stress AUROC | $\ge 0.9500$ | **0.9848** | ✅ **PASS** |
 
-*Any commit or PR that causes regression on any of these 8 metrics automatically fails the CI build and blocks deployment.*
+*Any commit or PR that causes regression on any of these 10 metrics automatically fails the CI build and blocks deployment.*
 
 ### 2. DVC Pipeline & Artifact Lineage (`dvc.yaml`)
 Complete data and training lineage managed through Data Version Control:
@@ -192,20 +198,57 @@ Every single metric reported below is **genuinely evaluated** with zero data lea
 
 | Task | Objective Metric | 5-Fold Validation Score | Clinical Value |
 | :--- | :---: | :---: | :--- |
-| **Overall Survival (OS)** | **Harrell's C-Index** | **0.8151 ± 0.0133** | Stratifies high-risk vs low-risk survival curves ($p = 1.54 \times 10^{-61}$) |
-| **IDH1/2 Mutation** | **AUROC** | **0.9256 ± 0.0230** | Pre-operative non-invasive predictor of favorable surgical response |
-| **IDH1/2 Mutation** | **Macro F1** | **86.62%** | High precision molecular typing before stereotactic biopsy |
-| **1p/19q Co-deletion** | **AUROC** | **0.7265 ± 0.0358** | Identifies candidates for PCV chemotherapy regimens |
+| **Overall Survival (OS)** | **Harrell's C-Index** | **0.8192 ± 0.0218** | High-precision dynamic risk stratification with GroupDRO age parity |
+| **IDH1/2 Mutation** | **AUROC** | **0.9184 ± 0.0197** | Pre-operative non-invasive predictor of favorable surgical response |
+| **IDH1/2 Mutation** | **Macro F1** | **87.66%** | High precision molecular typing before stereotactic biopsy |
+| **1p/19q Co-deletion** | **AUROC** | **0.7496 ± 0.0351** | Identifies candidates for PCV chemotherapy regimens |
+| **1p/19q Co-deletion** | **Calibrated F1** | **49.76%** | Cost-sensitive threshold $\tau = 0.47$ recovering low-prevalence co-deletion |
 
 ### 2. Dual-Task Morphological Benchmark (474 Unseen Patient Slices)
 
 | Metric | Score on Unseen Patients | Clinical Interpretation |
 | :--- | :---: | :--- |
-| **Macro AUROC** | **0.9631** | Exceptional multi-class discrimination across all tumor types |
-| **Overall Accuracy** | **86.29%** | Honest generalization on true unseen anatomical profiles |
-| **Balanced Accuracy** | **86.28%** | Equalized diagnostic recall unaffected by class prevalence skew |
-| **Macro F1-Score** | **85.59%** | Balanced harmonic mean of precision and recall |
-| **Expected Calibration Error (ECE)** | **0.0187** | <1.9% calibration discrepancy; reliable confidence scores |
+| **Macro AUROC** | **0.9775** | Superior multi-class discrimination across Meningioma, Glioma, Pituitary |
+| **Overall Accuracy** | **88.19%** | Honest generalization on true unseen anatomical patient scans |
+| **Balanced Accuracy** | **86.88%** | Equalized diagnostic recall unaffected by class prevalence skew |
+| **Macro F1-Score** | **87.29%** | Balanced harmonic mean of clinical precision and recall |
+| **Glioma F1-Score** | **89.84%** | Sensitivity 91.71%, Precision 88.05% on high-risk infiltrative lesions |
+| **Pituitary F1-Score**| **92.20%** | Sensitivity 92.86%, Precision 91.55% on sellar/parasellar masses |
+| **Meningioma F1-Score**| **79.82%** | Precision 83.96%, Sensitivity 76.07% on extra-axial dural masses |
+| **Mean Dice Coefficient** | **0.5276** | Deep neural attention-gated segmentation on lesion margins |
+| **Expected Calibration Error (ECE)** | **0.0390** | Superb natural probability calibration under 4% risk error |
+| **Selective Accuracy** | **98.91%** | Conformal risk-coverage triage intercepting 94.44% of misdiagnoses |
+
+---
+
+## 📏 Phase 8: RANO (Response Assessment in Neuro-Oncology) Metrology Engine
+
+In neuro-oncology clinical trials and surgical tumor boards, 2D area alone is clinically insufficient without standardized bidirectional measurement:
+- **Maximal Tumor Diameter ($D_{\max}$)**: Largest cross-sectional diameter in millimeters along the lesion's primary axis.
+- **Perpendicular Cross-Diameter ($D_{\perp}$)**: Maximal diameter perpendicular to $D_{\max}$ in millimeters.
+- **RANO Bidirectional Product ($cm^2$)**: $(D_{\max} \times D_{\perp}) / 100$, the international clinical trial endpoint for progression/response monitoring.
+- **PACS Vector Overlay**: Real-time rendering of orthogonal calliper crosshairs directly on the MRI viewport with live dimension callouts.
+
+---
+
+## ☁️ Phase 9: AWS Cloud Infrastructure & Polpharma Biologics Web Architecture
+
+Sulcus is fully deployed on Amazon Web Services across high-availability managed edge, compute, and serverless database services:
+
+### 1. Production Cloud Topology
+- **Amazon CloudFront Global Edge (`E1W0SX18XDDAGL`)**: Edge cache distribution serving the frontend application worldwide via TLS 1.3 at [https://d2j24vbx45dlcs.cloudfront.net](https://d2j24vbx45dlcs.cloudfront.net).
+- **Amazon S3 Origin (`sulcus-frontend-origin-145023097151`)**: Static web origin guarded by **Origin Access Control (OAC)** with SigV4 request signing.
+- **Amazon EC2 Production Backend (`i-02e6d2ffb57a68f58`, ap-south-1)**: High-performance Ubuntu host running Nginx reverse proxy and Gunicorn/Uvicorn FastAPI workers executing PyTorch DualHead & DeepSurv models.
+- **Amazon DynamoDB Clinical Registry**:
+  - `sulcus_patient_records`: Longitudinal patient studies, RANO calliper dimensions, and inferred molecular phenotypes.
+  - `sulcus_audit_events`: Cryptographically hashed FDA & HIPAA event audit trail.
+- **Amazon S3 Private Imaging Vault (`sulcus-imaging-vault-145023097151`)**: Encrypted DICOM store (`AES-256`) with strict bucket isolation.
+
+### 2. Polpharma Biologics UI/UX Aesthetic
+- **Visual Design System**: Deep Polpharma Teal (`#005453`), Vibrant Bio-Cyan (`#16aba9`), Soft Mint (`#bce4e3`), and Plus Jakarta Sans typography.
+- **Signature Floating 3D Bottle Motive**: Dynamic biologics vial rendered with real-time inertial scroll parallax (`translate3d` & rotation) powered by the Lenis smooth scroll engine.
+- **Cinematic Authentication Transition Event**: Fullscreen morph curtain featuring a bioluminescent 3D bottle spin and glow triggering staggered cascade entrances (`.cascade-in.delay-*`) on all workstation cockpit widgets.
+- **Aspect-Ratio Preserved 4K Viewport**: Pinned canvas coordinate mapping eliminating image distortion during split wipe.
 
 ---
 

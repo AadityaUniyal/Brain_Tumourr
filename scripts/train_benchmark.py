@@ -53,9 +53,10 @@ def load_compact_dataset(df_subset, prep):
     return items
 
 
-def run_training(epochs=5, batch_size=16, lr=5e-4, val_fold=0):
+def run_training(epochs=8, batch_size=16, lr=5e-4, val_fold=0):
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    print(f"\n=== Launching High-Performance Multi-Task Benchmark Training on {device} ===")
+    torch.set_num_threads(min(8, os.cpu_count() or 4))
+    print(f"\n=== Launching Elite Multi-Task Training on {device} ({torch.get_num_threads()} threads) ===")
 
     df = pd.read_csv(SPLITS_CSV)
     prep = MedicalImagePreprocessor(target_size=TARGET_SIZE)
@@ -90,27 +91,46 @@ def run_training(epochs=5, batch_size=16, lr=5e-4, val_fold=0):
         shuffle=False
     )
 
-    # Initialize model with frozen low-level stages for fast CPU transfer learning
     model = DualHeadBrainTumorNet(num_classes=3, pretrained=True).to(device)
 
-    # Freeze stages 0-2 (ImageNet low-level edge filters)
+    # Stage 1: Freeze stages 0-2 to preserve ImageNet low-level edge filters & BatchNorm stats
     for p in list(model.encoder_stage0.parameters()) + list(model.encoder_stage1.parameters()) + list(model.encoder_stage2.parameters()):
         p.requires_grad = False
 
-    trainable_params = [p for p in model.parameters() if p.requires_grad]
-    print(f"Trainable Parameters: {sum(p.numel() for p in trainable_params):,} / {sum(p.numel() for p in model.parameters()):,}")
+    encoder_params = [p for n, p in model.named_parameters() if p.requires_grad and "encoder_" in n]
+    head_params = [p for n, p in model.named_parameters() if p.requires_grad and "encoder_" not in n]
+    trainable_params = encoder_params + head_params
+    print(f"Stage 1 Trainable Parameters: {sum(p.numel() for p in trainable_params):,} / {sum(p.numel() for p in model.parameters()):,}")
 
-    criterion = DualTaskCompoundLoss(ce_weight=1.0, dice_weight=1.0, focal_weight=0.5)
-    optimizer = torch.optim.AdamW(trainable_params, lr=lr, weight_decay=1e-4)
+    criterion = DualTaskCompoundLoss(ce_weight=1.0, dice_weight=2.8, focal_weight=0.5, label_smoothing=0.04)
+    optimizer = torch.optim.AdamW([
+        {"params": encoder_params, "lr": lr * 0.25},
+        {"params": head_params, "lr": lr},
+    ], weight_decay=1e-4)
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=epochs)
 
+    best_joint_score = -1.0
     best_val_f1 = -1.0
+    best_val_dice = -1.0
     history = []
 
     os.makedirs(os.path.dirname(OUTPUT_MODEL), exist_ok=True)
     os.makedirs(os.path.dirname(METRICS_OUT), exist_ok=True)
 
+    unfreeze_epoch = 4
     for epoch in range(1, epochs + 1):
+        if epoch == unfreeze_epoch:
+            for p in model.encoder_stage2.parameters():
+                p.requires_grad = True
+            encoder_params = [p for n, p in model.named_parameters() if p.requires_grad and "encoder_" in n]
+            head_params = [p for n, p in model.named_parameters() if p.requires_grad and "encoder_" not in n]
+            trainable_params = encoder_params + head_params
+            optimizer = torch.optim.AdamW([
+                {"params": encoder_params, "lr": lr * 0.2},
+                {"params": head_params, "lr": lr * 0.7},
+            ], weight_decay=1e-4)
+            scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=max(1, epochs - unfreeze_epoch + 1))
+            print(f"🔓 Epoch {epoch}: Unfroze ResNet stage2 ({sum(p.numel() for p in trainable_params):,} trainable params)")
         epoch_start = time.time()
         model.train()
         train_loss = 0.0
@@ -186,14 +206,23 @@ def run_training(epochs=5, batch_size=16, lr=5e-4, val_fold=0):
             "val_dice": round(dice, 4)
         })
 
-        if macro_f1 > best_val_f1:
+        joint_score = 0.45 * macro_f1 + 0.55 * dice
+        if joint_score > best_joint_score:
+            best_joint_score = joint_score
             best_val_f1 = macro_f1
-            torch.save(model.state_dict(), OUTPUT_MODEL)
-            print(f"  ⭐ Checkpoint saved! New Best Validation Macro-F1: {best_val_f1:.4f}")
+            best_val_dice = dice
+            torch.save({
+                "model_state_dict": model.state_dict(),
+                "val_macro_f1": round(macro_f1, 4),
+                "val_dice": round(dice, 4),
+                "target_size": TARGET_SIZE,
+            }, OUTPUT_MODEL)
+            print(f"  ⭐ Checkpoint saved! Joint={joint_score:.4f} (F1={macro_f1:.4f}, Dice={dice:.4f})")
 
     # Final Evaluation on Pure Held-Out Test Set (Patients model has NEVER seen)
     print("\n=== Evaluating Best Model on Pure Held-Out Test Set (Unseen Patients) ===")
-    model.load_state_dict(torch.load(OUTPUT_MODEL, map_location=device))
+    ckpt = torch.load(OUTPUT_MODEL, map_location=device)
+    model.load_state_dict(ckpt["model_state_dict"] if "model_state_dict" in ckpt else ckpt)
     model.eval()
 
     test_labels, test_preds, test_probs = [], [], []
@@ -249,4 +278,4 @@ def run_training(epochs=5, batch_size=16, lr=5e-4, val_fold=0):
 
 
 if __name__ == "__main__":
-    run_training(epochs=5, batch_size=16)
+    run_training(epochs=8, batch_size=16, lr=5e-4)

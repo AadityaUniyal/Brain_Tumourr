@@ -20,10 +20,19 @@ class DiagnosticDetails(BaseModel):
     coverage_guarantee: float = 0.95
 
 
+class RanoBidirectionalCallipers(BaseModel):
+    major_axis_mm: float = Field(..., description="Maximal perpendicular diameter D_max in mm")
+    minor_axis_mm: float = Field(..., description="Largest perpendicular cross-diameter D_perp in mm")
+    product_cm2: float = Field(..., description="RANO cross-product (D_max * D_perp) in cm^2")
+    major_line: List[List[float]] = Field(default=[], description="[[x1, y1], [x2, y2]] coordinates in pixel space")
+    minor_line: List[List[float]] = Field(default=[], description="[[u1, v1], [u2, v2]] coordinates in pixel space")
+
+
 class TumorQuantification(BaseModel):
     tumor_pixel_count: int
     tumor_area_mm2: float
     estimated_volume_cm3: float
+    rano_callipers: Optional[RanoBidirectionalCallipers] = None
 
 
 class SelectiveTriageDetails(BaseModel):

@@ -13,26 +13,32 @@ from src.inference.explainability import GradCAM
 from src.inference.ood_detector import EnergyOODDetector
 from src.inference.conformal import ConformalPredictor
 from src.inference.selective_classifier import SelectiveClassifier
+from src.inference.tumor_quantification import compute_rano_callipers
 
 CLASS_NAMES = ["Meningioma", "Glioma", "Pituitary"]
+
+
+DEFAULT_CHECKPOINT = "models/checkpoints/neurovision_dualhead_best.pt"
 
 
 class ClinicalPredictor:
     def __init__(
         self,
         model=None,
-        checkpoint_path=None,
+        checkpoint_path=DEFAULT_CHECKPOINT,
         device=None,
         ood_threshold=-6.5,
         conformal_alpha=0.05,
     ):
+        import os
         self.device = device or ("cuda" if torch.cuda.is_available() else "cpu")
-        self.preprocessor = MedicalImagePreprocessor(target_size=(256, 256))
+        self.preprocessor = MedicalImagePreprocessor(target_size=(128, 128))
 
         if model is None:
             self.model = DualHeadBrainTumorNet(num_classes=len(CLASS_NAMES), pretrained=True)
-            if checkpoint_path is not None:
-                state_dict = torch.load(checkpoint_path, map_location=self.device)
+            if checkpoint_path is not None and os.path.exists(checkpoint_path):
+                ckpt = torch.load(checkpoint_path, map_location=self.device)
+                state_dict = ckpt["model_state_dict"] if isinstance(ckpt, dict) and "model_state_dict" in ckpt else ckpt
                 self.model.load_state_dict(state_dict)
         else:
             self.model = model
@@ -89,6 +95,8 @@ class ClinicalPredictor:
         tumor_area_mm2 = pixel_count * pixel_area_mm2
         # Estimated slice volume in cm^3: Area (mm^2) * thickness (mm) / 1000
         tumor_volume_cm3 = (tumor_area_mm2 * slice_thickness_mm) / 1000.0
+        # RANO Bidirectional Callipers (D_max, D_perp)
+        rano_callipers = compute_rano_callipers(binary_mask, pixel_spacing_mm=pixel_spacing_mm)
 
         # Grad-CAM Heatmap
         heatmap, _ = self.grad_cam.generate_heatmap(tensor, target_class=pred_idx)
@@ -124,6 +132,7 @@ class ClinicalPredictor:
                 "tumor_pixel_count": pixel_count,
                 "tumor_area_mm2": round(tumor_area_mm2, 2),
                 "estimated_volume_cm3": round(tumor_volume_cm3, 3),
+                "rano_callipers": rano_callipers,
             },
             "selective_triage": selective_res,
             "visualizations": {

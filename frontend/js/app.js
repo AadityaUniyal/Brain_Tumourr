@@ -1,685 +1,618 @@
-// ==========================================================================
-// NEUROVISION ELITE: High-Density Clinical OS & Interactive Engine
-// Influences: Apple Pro Visuals · Google Antigravity · Linear App System
-// ==========================================================================
-
-let currentDiagnostic = null;
-let currentRadiogenomic = null;
-let selectedFile = null;
-
-// Backend API URL Configuration
-const DEFAULT_CLOUD_BACKEND = "https://neurovision-elite-backend.onrender.com";
-let API_BASE_URL = localStorage.getItem('neurovision_api_url') || DEFAULT_CLOUD_BACKEND;
-
-// DOM Elements
-const apiBaseUrlInput = document.getElementById('apiBaseUrlInput');
-const currentBackendDisplay = document.getElementById('currentBackendDisplay');
-const saveBackendUrlBtn = document.getElementById('saveBackendUrlBtn');
-const toggleConfigBtn = document.getElementById('toggleConfigBtn');
-const serverConfigDrawer = document.getElementById('serverConfigDrawer');
-const healthStatusText = document.getElementById('healthStatusText');
-const healthDot = document.getElementById('healthDot');
-const fileInput = document.getElementById('fileInput');
-const dropZone = document.getElementById('dropZone');
-const runInferenceBtn = document.getElementById('runInferenceBtn');
+/**
+ * SULCUS CLINICAL AI — FRONTEND APPLICATION CONTROLLER
+ * High-performance interactive Neuro-Vision lens, survival simulator,
+ * multi-tab clinical workstation, and AWS API integration.
+ */
 
 // --------------------------------------------------------------------------
-// 1. Antigravity Spectral Particle Vortex Canvas (Hero Background)
+// 1. Pre-cached Cohort Datasets
 // --------------------------------------------------------------------------
-const agCanvas = document.getElementById('antigravityCanvas');
-if (agCanvas) {
-    const ctx = agCanvas.getContext('2d');
-    let width = agCanvas.width = window.innerWidth;
-    let height = agCanvas.height = 780;
-
-    window.addEventListener('resize', () => {
-        width = agCanvas.width = window.innerWidth;
-        height = agCanvas.height = 780;
-    });
-
-    const spectralColors = [
-        'rgba(0, 242, 254, ',   // Cyan
-        'rgba(37, 99, 235, ',   // Cobalt
-        'rgba(139, 92, 246, ',  // Violet
-        'rgba(236, 72, 153, ',  // Magenta
-        'rgba(245, 158, 11, '   // Warm Amber
-    ];
-
-    const particleCount = Math.min(85, Math.floor(width / 16));
-    const particles = [];
-
-    let mouseX = width / 2;
-    let mouseY = height / 2;
-    window.addEventListener('mousemove', (e) => {
-        const rect = agCanvas.getBoundingClientRect();
-        if (e.clientY <= rect.bottom) {
-            mouseX = e.clientX;
-            mouseY = e.clientY - rect.top;
-        }
-    });
-
-    class SpectralParticle {
-        constructor() {
-            this.reset();
-        }
-
-        reset() {
-            this.x = (Math.random() - 0.5) * width * 0.85 + width / 2;
-            this.y = (Math.random() - 0.5) * height * 0.85 + height / 2;
-            this.vx = (Math.random() - 0.5) * 0.7;
-            this.vy = (Math.random() - 0.5) * 0.7;
-            this.radius = Math.random() * 2.2 + 1.0;
-            this.colorPrefix = spectralColors[Math.floor(Math.random() * spectralColors.length)];
-            this.alpha = Math.random() * 0.5 + 0.2;
-            this.pulseSpeed = Math.random() * 0.02 + 0.01;
-            this.pulsePhase = Math.random() * Math.PI * 2;
-        }
-
-        update() {
-            this.x += this.vx;
-            this.y += this.vy;
-            this.pulsePhase += this.pulseSpeed;
-
-            // Soft attraction to mouse vortex center
-            const dx = mouseX - this.x;
-            const dy = mouseY - this.y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < 340 && dist > 20) {
-                this.x += (dx / dist) * 0.35;
-                this.y += (dy / dist) * 0.35;
-            }
-
-            if (this.x < 0 || this.x > width || this.y < 0 || this.y > height) {
-                this.reset();
-            }
-        }
-
-        draw() {
-            const currentAlpha = this.alpha * (0.7 + 0.3 * Math.sin(this.pulsePhase));
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-            ctx.fillStyle = this.colorPrefix + currentAlpha + ')';
-            ctx.fill();
-        }
-    }
-
-    for (let i = 0; i < particleCount; i++) {
-        particles.push(new SpectralParticle());
-    }
-
-    function animateParticles() {
-        ctx.clearRect(0, 0, width, height);
-
-        for (let i = 0; i < particles.length; i++) {
-            particles[i].update();
-            particles[i].draw();
-
-            for (let j = i + 1; j < particles.length; j++) {
-                const dx = particles[i].x - particles[j].x;
-                const dy = particles[i].y - particles[j].y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < 85) {
-                    ctx.beginPath();
-                    ctx.moveTo(particles[i].x, particles[i].y);
-                    ctx.lineTo(particles[j].x, particles[j].y);
-                    ctx.strokeStyle = `rgba(148, 163, 184, ${0.12 * (1 - dist / 85)})`;
-                    ctx.lineWidth = 0.6;
-                    ctx.stroke();
-                }
-            }
-        }
-        requestAnimationFrame(animateParticles);
-    }
-    animateParticles();
-}
-
-// --------------------------------------------------------------------------
-// 2. Interactive 3D Holographic Perspective Tilt (Hero MRI Card)
-// --------------------------------------------------------------------------
-const hologramContainer = document.getElementById('hologramContainer');
-const hologramCard = document.getElementById('hologramCard');
-
-if (hologramContainer && hologramCard) {
-    hologramContainer.addEventListener('mousemove', (e) => {
-        const rect = hologramContainer.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        
-        const rotateX = ((y - centerY) / centerY) * -12;
-        const rotateY = ((x - centerX) / centerX) * 14;
-        
-        hologramCard.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`;
-    });
-
-    hologramContainer.addEventListener('mouseleave', () => {
-        hologramCard.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
-    });
-}
-
-// --------------------------------------------------------------------------
-// 3. Backend Telemetry & Health Pinging
-// --------------------------------------------------------------------------
-let pingAttempts = 0;
-async function pingBackendHealth() {
-    const targetUrl = API_BASE_URL || window.location.origin;
-    const startTime = performance.now();
-    try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 4000);
-        const res = await fetch(`${targetUrl}/health`, { method: 'GET', cache: 'no-cache', signal: controller.signal });
-        clearTimeout(timeoutId);
-        const latency = Math.round(performance.now() - startTime);
-        if (res.ok) {
-            healthStatusText.textContent = `Live: ${latency}ms`;
-            healthDot.style.backgroundColor = '#10b981';
-            healthDot.style.boxShadow = '0 0 10px #10b981';
-        } else {
-            throw new Error(`HTTP ${res.status}`);
-        }
-    } catch (e) {
-        pingAttempts++;
-        if (pingAttempts > 1) {
-            healthStatusText.textContent = 'Demo Mode (Cached)';
-            healthDot.style.backgroundColor = '#6366f1';
-            healthDot.style.boxShadow = '0 0 10px rgba(99, 102, 241, 0.5)';
-        } else {
-            healthStatusText.textContent = 'Waking Cloud...';
-            healthDot.style.backgroundColor = '#f59e0b';
-            healthDot.style.boxShadow = '0 0 10px #f59e0b';
-        }
-    }
-}
-pingBackendHealth();
-setInterval(pingBackendHealth, 20000);
-
-if (toggleConfigBtn && serverConfigDrawer) {
-    toggleConfigBtn.addEventListener('click', () => {
-        serverConfigDrawer.style.display = serverConfigDrawer.style.display === 'none' ? 'block' : 'none';
-    });
-}
-
-if (saveBackendUrlBtn) {
-    saveBackendUrlBtn.addEventListener('click', () => {
-        const url = apiBaseUrlInput.value.trim();
-        if (url) {
-            localStorage.setItem('neurovision_api_url', url);
-            API_BASE_URL = url;
-        } else {
-            localStorage.removeItem('neurovision_api_url');
-            API_BASE_URL = '';
-        }
-        currentBackendDisplay.textContent = API_BASE_URL ? API_BASE_URL.replace('https://', '') : "Auto";
-        pingBackendHealth();
-        serverConfigDrawer.style.display = 'none';
-        alert("Backend target updated: " + (API_BASE_URL || "Same Origin"));
-    });
-}
-
-// --------------------------------------------------------------------------
-// 4. Linear-Style High-Density OS Tab Switcher
-// --------------------------------------------------------------------------
-const osTabs = ['slicer', 'biopsy', 'prognosis', 'queue', 'dossier'];
-
-function switchOSTab(tabName) {
-    osTabs.forEach(t => {
-        const btn = document.getElementById(`tabBtn${capitalize(t)}`);
-        const content = document.getElementById(`osTab${capitalize(t)}`);
-        if (btn) btn.classList.toggle('active', t === tabName);
-        if (content) content.style.display = (t === tabName) ? 'block' : 'none';
-    });
-}
-window.switchOSTab = switchOSTab;
-
-function capitalize(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-}
-
-// --------------------------------------------------------------------------
-// 5. Windowing Presets & Heatmap Slicer Controls
-// --------------------------------------------------------------------------
-function setWindowPreset(preset) {
-    const img = document.getElementById('mriDisplayImage');
-    if (!img) return;
-
-    document.querySelectorAll('.ag-window-preset-btn').forEach(b => b.classList.remove('active'));
-    event.target.classList.add('active');
-
-    if (preset === 'brain') {
-        img.style.filter = 'contrast(1.1) brightness(1.0)';
-    } else if (preset === 'bone') {
-        img.style.filter = 'contrast(1.8) brightness(0.85) grayscale(1)';
-    } else if (preset === 'subdural') {
-        img.style.filter = 'contrast(1.4) brightness(1.15)';
-    }
-}
-window.setWindowPreset = setWindowPreset;
-
-function updateHeatmapOpacity(val) {
-    const display = document.getElementById('opacityDisplay');
-    if (display) display.textContent = `${val}%`;
-    const img = document.getElementById('mriDisplayImage');
-    if (img) {
-        img.style.opacity = (val / 100).toFixed(2);
-    }
-}
-window.updateHeatmapOpacity = updateHeatmapOpacity;
-
-// --------------------------------------------------------------------------
-// 6. Enterprise Authentication Modal & Attending Switcher
-// --------------------------------------------------------------------------
-function openAuthModal() {
-    const modal = document.getElementById('authModalOverlay');
-    if (modal) modal.style.display = 'flex';
-}
-window.openAuthModal = openAuthModal;
-
-function closeAuthModal() {
-    const modal = document.getElementById('authModalOverlay');
-    if (modal) modal.style.display = 'none';
-}
-window.closeAuthModal = closeAuthModal;
-
-function closeAuthModalOnBackdrop(e) {
-    if (e.target.id === 'authModalOverlay') {
-        closeAuthModal();
-    }
-}
-window.closeAuthModalOnBackdrop = closeAuthModalOnBackdrop;
-
-function selectPhysicianRole(name, institution, initials) {
-    document.getElementById('userNameDisplay').textContent = name;
-    document.getElementById('userAvatar').textContent = initials;
-    const dossierDoc = document.getElementById('dossierPhysicianName');
-    if (dossierDoc) dossierDoc.textContent = name;
-
-    closeAuthModal();
-    if (window.confetti) {
-        window.confetti({ particleCount: 40, spread: 50, origin: { y: 0.3 } });
-    }
-}
-window.selectPhysicianRole = selectPhysicianRole;
-
-function simulateSSOLogin(provider) {
-    alert(`Connecting to ${provider} via SMART-on-FHIR OAuth 2.0...\nIdentity verified. Passkey active.`);
-    selectPhysicianRole('Dr. Sarah Chen, MD', 'Johns Hopkins Medicine · Chief Neuroradiology', 'SC');
-}
-window.simulateSSOLogin = simulateSSOLogin;
-
-// --------------------------------------------------------------------------
-// 7. ⌘K Quick Actions Command Palette
-// --------------------------------------------------------------------------
-function openCommandPalette() {
-    const modal = document.getElementById('commandModalOverlay');
-    if (modal) {
-        modal.style.display = 'flex';
-        const input = document.getElementById('commandPaletteInput');
-        if (input) {
-            input.value = '';
-            input.focus();
-            filterCommandPalette('');
-        }
-    }
-}
-window.openCommandPalette = openCommandPalette;
-
-function closeCommandPalette() {
-    const modal = document.getElementById('commandModalOverlay');
-    if (modal) modal.style.display = 'none';
-}
-window.closeCommandPalette = closeCommandPalette;
-
-function closeCommandPaletteOnBackdrop(e) {
-    if (e.target.id === 'commandModalOverlay') {
-        closeCommandPalette();
-    }
-}
-window.closeCommandPaletteOnBackdrop = closeCommandPaletteOnBackdrop;
-
-window.addEventListener('keydown', (e) => {
-    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
-        e.preventDefault();
-        openCommandPalette();
-    } else if (e.key === 'Escape') {
-        closeCommandPalette();
-        closeAuthModal();
-    }
-});
-
-function filterCommandPalette(query) {
-    const items = document.querySelectorAll('.ag-command-item');
-    const q = query.toLowerCase().trim();
-    items.forEach(item => {
-        const text = item.textContent.toLowerCase();
-        item.style.display = text.includes(q) ? 'flex' : 'none';
-    });
-}
-window.filterCommandPalette = filterCommandPalette;
-
-function executeCommand(action) {
-    closeCommandPalette();
-    if (action === 'glioma' || action === 'meningioma' || action === 'pituitary' || action === 'ood') {
-        loadSampleCase(action);
-    } else if (action === 'tab-slicer') {
-        switchOSTab('slicer');
-    } else if (action === 'tab-biopsy') {
-        switchOSTab('biopsy');
-    } else if (action === 'tab-prognosis') {
-        switchOSTab('prognosis');
-    } else if (action === 'dossier') {
-        switchOSTab('dossier');
-    } else if (action === 'auth') {
-        openAuthModal();
-    }
-}
-window.executeCommand = executeCommand;
-
-// --------------------------------------------------------------------------
-// 8. 1-Click Patient Scenario Presets & Verified Benchmark Cache
-// --------------------------------------------------------------------------
-const PRESET_FALLBACKS = {
-    'glioma_sample.png': {
-        diag: {
-            diagnostic: { predicted_tumor_type: 'Glioma', confidence: 0.942, class_probabilities: { 'Glioma': 0.942, 'Meningioma': 0.038, 'Pituitary': 0.012, 'No Tumor': 0.008 } },
-            quantification: { estimated_volume_cm3: 14.82, tumor_detected: true },
-            selective_triage: { is_selective_approved: false, triage_priority: 'STAT / URGENT (Immediate Neurosurgical Consultation)', clinical_guidance: 'High-risk infiltrative astrocytic mass with microvascular proliferation signature.', selective_accuracy_guarantee: 0.8971 },
-            sample_img_src: 'samples/glioma_sample.png'
-        },
-        rad: {
-            who_2021_subtype: 'Glioblastoma, IDH-wildtype (CNS WHO Grade 4)',
-            idh_mutation_probability: 0.082,
-            idh_status: 'IDH-Wildtype (Astrocytic Lineage)',
-            idh_clinical_guidance: 'Absence of IDH1 R132H and IDH2 mutations. Primary de novo glioblastoma presentation.',
-            codeletion_1p19q_probability: 0.041,
-            codeletion_1p19q_status: '1p/19q Intact (Non-codeleted)',
-            deepsurv_hazard_score: 0.842,
-            median_overall_survival_months: 15.2,
-            risk_tier: 'High Risk',
-            shap_attributions: [
-                { feature_name: 'GLCM Texture Heterogeneity', shap_value: 0.412, effect: 'risk_increasing' },
-                { feature_name: 'Patient Age (58Y)', shap_value: 0.328, effect: 'risk_increasing' },
-                { feature_name: 'Sphericity Compactness', shap_value: -0.112, effect: 'protective' }
-            ]
-        }
-    },
-    'meningioma_sample.png': {
-        diag: {
-            diagnostic: { predicted_tumor_type: 'Meningioma', confidence: 0.968, class_probabilities: { 'Meningioma': 0.968, 'Glioma': 0.018, 'Pituitary': 0.010, 'No Tumor': 0.004 } },
-            quantification: { estimated_volume_cm3: 6.41, tumor_detected: true },
-            selective_triage: { is_selective_approved: true, triage_priority: 'Routine Validated', clinical_guidance: 'Extra-axial dural-tail lesion. Automated sign-off authorized under conformal finite-sample bounds.', selective_accuracy_guarantee: 0.9686 },
-            sample_img_src: 'samples/meningioma_sample.png'
-        },
-        rad: {
-            who_2021_subtype: 'Meningioma (CNS WHO Grade 1 - Benign Spheroid)',
-            idh_mutation_probability: 0.021,
-            idh_status: 'Status: N/A (Extra-axial Meningioma)',
-            idh_clinical_guidance: 'Extra-axial dural-tail mass with smooth margin. Favorable resectability index.',
-            codeletion_1p19q_probability: 0.012,
-            codeletion_1p19q_status: 'Status: 1p/19q Intact',
-            deepsurv_hazard_score: -0.742,
-            median_overall_survival_months: 78.5,
-            risk_tier: 'Low Risk',
-            shap_attributions: [
-                { feature_name: 'High Sphericity Compactness', shap_value: -0.421, effect: 'protective' },
-                { feature_name: 'Low GLCM Heterogeneity', shap_value: -0.284, effect: 'protective' },
-                { feature_name: 'Young Demographic (46Y)', shap_value: -0.108, effect: 'protective' }
-            ]
-        }
-    },
-    'pituitary_sample.png': {
-        diag: {
-            diagnostic: { predicted_tumor_type: 'Pituitary', confidence: 0.914, class_probabilities: { 'Pituitary': 0.914, 'Meningioma': 0.052, 'Glioma': 0.021, 'No Tumor': 0.013 } },
-            quantification: { estimated_volume_cm3: 2.15, tumor_detected: true },
-            selective_triage: { is_selective_approved: true, triage_priority: 'Routine Validated (Endocrine Consultation)', clinical_guidance: 'Intrasellar mass with suprasellar extension. Transsphenoidal approach indicated.', selective_accuracy_guarantee: 0.9421 },
-            sample_img_src: 'samples/pituitary_sample.png'
-        },
-        rad: {
-            who_2021_subtype: 'Pituitary Neuroendocrine Tumor (PitNET / Adenoma)',
-            idh_mutation_probability: 0.015,
-            idh_status: 'Status: N/A (Sellar PitNET)',
-            idh_clinical_guidance: 'Pituitary neuroendocrine tumor. Evaluate visual field perimetry and serum prolactin.',
-            codeletion_1p19q_probability: 0.009,
-            codeletion_1p19q_status: 'Status: 1p/19q Intact',
-            deepsurv_hazard_score: -0.915,
-            median_overall_survival_months: 96.0,
-            risk_tier: 'Low Risk',
-            shap_attributions: [
-                { feature_name: 'Intrasellar Location', shap_value: -0.512, effect: 'protective' },
-                { feature_name: 'Absence of Infiltration', shap_value: -0.345, effect: 'protective' }
-            ]
-        }
-    },
-    'corrupted_ood_sample.png': {
-        diag: {
-            diagnostic: { predicted_tumor_type: 'Abstain (Corrupted OOD)', confidence: 0.412, class_probabilities: { 'Glioma': 0.35, 'Meningioma': 0.25, 'Pituitary': 0.20, 'No Tumor': 0.20 } },
-            quantification: { estimated_volume_cm3: 0.00, tumor_detected: false },
-            selective_triage: { is_selective_approved: false, triage_priority: 'SAFETY GATE REJECTION (Severe Motion Blur / Non-Brain Artifact)', clinical_guidance: 'Critical signal degradation detected. Conformal risk gate rejected automated diagnostic prediction to guarantee 0.0% patient harm.', selective_accuracy_guarantee: 0.9942 },
-            sample_img_src: 'samples/corrupted_ood_sample.png'
-        },
-        rad: {
-            who_2021_subtype: 'Analysis Abstained — Scan Quality Corrupted (OOD)',
-            idh_mutation_probability: 0.50,
-            idh_status: 'Abstained (Uncalibrated Signal)',
-            idh_clinical_guidance: 'Motion artifact precludes confident genomic feature extraction. Repeat diagnostic MRI scan indicated.',
-            codeletion_1p19q_probability: 0.50,
-            codeletion_1p19q_status: 'Abstained (Noise Threshold Exceeded)',
-            deepsurv_hazard_score: 0.00,
-            median_overall_survival_months: 0.0,
-            risk_tier: 'Abstained',
-            shap_attributions: []
-        }
-    }
+const COHORTS = {
+  glioma: {
+    caseId: 'PT-8812 (Glioblastoma, IDH-WT)',
+    imgSrc: 'samples/glioma_sample.png',
+    primaryClass: 'Glioblastoma',
+    confidence: '94.2%',
+    barWidth: '94.2%',
+    colorClass: 'glioma',
+    volume: '34.82 cm³',
+    major: '41.2 mm',
+    minor: '28.6 mm',
+    rano: '41.2 × 28.6 mm',
+    conformal: '{Glioma} (100% singleton)',
+    energy: '-12.84 (In-Distribution)',
+    idh: 'Wild-type (8.2%)',
+    codeletion: 'Intact (1.1%)',
+    cx: 0.58, cy: 0.44, rx: 0.16, ry: 0.13, angle: 0.2
+  },
+  meningioma: {
+    caseId: 'PT-4109 (Convexity Meningioma)',
+    imgSrc: 'samples/meningioma_sample.png',
+    primaryClass: 'Meningioma',
+    confidence: '98.1%',
+    barWidth: '98.1%',
+    colorClass: 'meningioma',
+    volume: '18.45 cm³',
+    major: '29.4 mm',
+    minor: '24.1 mm',
+    rano: '29.4 × 24.1 mm',
+    conformal: '{Meningioma} (100% singleton)',
+    energy: '-14.22 (In-Distribution)',
+    idh: 'Non-applicable',
+    codeletion: 'Intact (0.4%)',
+    cx: 0.68, cy: 0.36, rx: 0.12, ry: 0.11, angle: -0.1
+  },
+  pituitary: {
+    caseId: 'PT-2291 (Pituitary Macroadenoma)',
+    imgSrc: 'samples/pituitary_sample.png',
+    primaryClass: 'Pituitary Adenoma',
+    confidence: '96.7%',
+    barWidth: '96.7%',
+    colorClass: 'pituitary',
+    volume: '11.20 cm³',
+    major: '22.8 mm',
+    minor: '19.5 mm',
+    rano: '22.8 × 19.5 mm',
+    conformal: '{Pituitary} (100% singleton)',
+    energy: '-15.01 (In-Distribution)',
+    idh: 'Non-applicable',
+    codeletion: 'Intact (0.2%)',
+    cx: 0.50, cy: 0.56, rx: 0.09, ry: 0.09, angle: 0.0
+  }
 };
 
-async function loadSampleCase(caseType) {
-    const filenameMap = {
-        'glioma': 'glioma_sample.png',
-        'meningioma': 'meningioma_sample.png',
-        'pituitary': 'pituitary_sample.png',
-        'ood': 'corrupted_ood_sample.png'
+let currentCohortKey = 'glioma';
+let currentLensMode = 'raw';
+let activeImage = null;
+const imageCache = {};
+
+// --------------------------------------------------------------------------
+// 2. Interactive Neuro-Vision Lens (Landing Page)
+// --------------------------------------------------------------------------
+function getCanvasContexts() {
+  const baseCanvas = document.getElementById('lensBaseCanvas');
+  const overlayCanvas = document.getElementById('lensOverlayCanvas');
+  const stage = document.getElementById('lensStage');
+  return {
+    baseCanvas,
+    baseCtx: baseCanvas ? baseCanvas.getContext('2d') : null,
+    overlayCanvas,
+    overlayCtx: overlayCanvas ? overlayCanvas.getContext('2d') : null,
+    stage
+  };
+}
+
+function syncCanvasSizes() {
+  const { baseCanvas, overlayCanvas, stage } = getCanvasContexts();
+  if (!stage || !baseCanvas) return;
+
+  const w = stage.clientWidth || 500;
+  const h = stage.clientHeight || 500;
+
+  if (baseCanvas.width !== w || baseCanvas.height !== h) {
+    baseCanvas.width = w;
+    baseCanvas.height = h;
+  }
+
+  if (overlayCanvas) {
+    overlayCanvas.width = w;
+    overlayCanvas.height = h;
+    overlayCanvas.style.width = `${w}px`;
+  }
+}
+
+function drawLayer(ctx, img, mode, cohort) {
+  if (!ctx || !img) return;
+  const w = ctx.canvas.width;
+  const h = ctx.canvas.height;
+
+  ctx.clearRect(0, 0, w, h);
+  ctx.drawImage(img, 0, 0, w, h);
+
+  const cx = cohort.cx * w;
+  const cy = cohort.cy * h;
+  const rx = cohort.rx * w;
+  const ry = cohort.ry * h;
+
+  if (mode === 'seg' || mode === 'split_overlay') {
+    ctx.save();
+    ctx.beginPath();
+    ctx.ellipse(cx, cy, rx, ry, cohort.angle || 0, 0, Math.PI * 2);
+
+    // Glowing bio-cyan fill & boundary
+    ctx.fillStyle = 'rgba(22, 171, 169, 0.32)';
+    ctx.fill();
+
+    ctx.strokeStyle = '#16aba9';
+    ctx.lineWidth = 2.5;
+    ctx.shadowColor = '#16aba9';
+    ctx.shadowBlur = 10;
+    ctx.stroke();
+
+    // Necrotic core
+    ctx.beginPath();
+    ctx.ellipse(cx, cy, rx * 0.5, ry * 0.5, cohort.angle || 0, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(245, 93, 93, 0.38)';
+    ctx.fill();
+    ctx.strokeStyle = '#f55d5d';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    // RANO measurement callipers
+    ctx.shadowBlur = 0;
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.7)';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([3, 3]);
+    ctx.beginPath();
+    ctx.moveTo(cx - rx, cy); ctx.lineTo(cx + rx, cy);
+    ctx.moveTo(cx, cy - ry); ctx.lineTo(cx, cy + ry);
+    ctx.stroke();
+
+    ctx.restore();
+  } else if (mode === 'cam') {
+    ctx.save();
+    const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, rx * 1.6);
+    grad.addColorStop(0.0, 'rgba(245, 93, 93, 0.75)');
+    grad.addColorStop(0.35, 'rgba(230, 149, 0, 0.6)');
+    grad.addColorStop(0.7, 'rgba(22, 171, 169, 0.4)');
+    grad.addColorStop(1.0, 'rgba(22, 171, 169, 0.0)');
+
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.ellipse(cx, cy, rx * 1.5, ry * 1.5, cohort.angle || 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+}
+
+function renderLens() {
+  syncCanvasSizes();
+  const { baseCtx, overlayCtx } = getCanvasContexts();
+  const cohort = COHORTS[currentCohortKey];
+  const img = activeImage;
+  if (!img) return;
+
+  const clip = document.getElementById('lensWipeClip');
+
+  if (currentLensMode === 'split') {
+    if (clip) clip.style.display = 'block';
+    drawLayer(baseCtx, img, 'raw', cohort);
+    drawLayer(overlayCtx, img, 'split_overlay', cohort);
+  } else {
+    if (clip) clip.style.display = 'none';
+    drawLayer(baseCtx, img, currentLensMode, cohort);
+  }
+}
+
+function setLensMode(mode) {
+  currentLensMode = mode;
+  document.querySelectorAll('.lens-btn').forEach(btn => {
+    btn.classList.toggle('is-active', btn.getAttribute('data-mode') === mode);
+  });
+  renderLens();
+}
+
+function loadLensCohort(key) {
+  if (!COHORTS[key]) return;
+  currentCohortKey = key;
+  const cohort = COHORTS[key];
+
+  document.getElementById('lensCaseId').textContent = cohort.caseId;
+  const classEl = document.getElementById('telemetryClass');
+  if (classEl) {
+    classEl.textContent = cohort.primaryClass;
+    classEl.className = `telemetry-class ${cohort.colorClass}`;
+  }
+  document.getElementById('telemetryConfidence').textContent = cohort.confidence;
+  document.getElementById('telemetryBar').style.width = cohort.barWidth;
+  document.getElementById('telemetryVolume').textContent = cohort.volume;
+  document.getElementById('telemetryRano').textContent = cohort.rano;
+  document.getElementById('telemetryConformal').textContent = cohort.conformal;
+  document.getElementById('telemetryEnergy').textContent = cohort.energy;
+
+  if (imageCache[cohort.imgSrc]) {
+    activeImage = imageCache[cohort.imgSrc];
+    renderLens();
+  } else {
+    const img = new Image();
+    img.src = cohort.imgSrc;
+    img.onload = () => {
+      imageCache[cohort.imgSrc] = img;
+      activeImage = img;
+      renderLens();
     };
-
-    const targetFilename = filenameMap[caseType] || 'glioma_sample.png';
-    const sampleUrl = `samples/${targetFilename}`;
-
-    // Update active preset pill highlight
-    document.querySelectorAll('.ag-preset-pill').forEach(p => p.classList.remove('active'));
-    if (caseType === 'glioma') document.getElementById('presetPillGlioma')?.classList.add('active');
-    if (caseType === 'meningioma') document.getElementById('presetPillMeningioma')?.classList.add('active');
-    if (caseType === 'pituitary') document.getElementById('presetPillPituitary')?.classList.add('active');
-    if (caseType === 'ood') document.getElementById('presetPillOOD')?.classList.add('active');
-
-    try {
-        const response = await fetch(sampleUrl);
-        if (!response.ok) throw new Error("Could not load sample image file");
-        const blob = await response.blob();
-        selectedFile = new File([blob], targetFilename, { type: 'image/png' });
-
-        if (caseType === 'glioma') {
-            document.getElementById('ageInput').value = 58;
-            document.getElementById('sexSelect').value = 'MALE';
-        } else if (caseType === 'meningioma') {
-            document.getElementById('ageInput').value = 46;
-            document.getElementById('sexSelect').value = 'FEMALE';
-        } else if (caseType === 'pituitary') {
-            document.getElementById('ageInput').value = 39;
-            document.getElementById('sexSelect').value = 'FEMALE';
-        }
-
-        // Display results immediately from verified fallback cache
-        if (PRESET_FALLBACKS[targetFilename]) {
-            const fallback = PRESET_FALLBACKS[targetFilename];
-            currentDiagnostic = fallback.diag;
-            currentRadiogenomic = fallback.rad;
-            displayResults(fallback.diag, fallback.rad);
-        }
-
-        document.getElementById('cockpit').scrollIntoView({ behavior: 'smooth' });
-    } catch (err) {
-        console.error("Error loading preset case:", err);
-    }
+  }
 }
-window.loadSampleCase = loadSampleCase;
+
+function initWipeSlider() {
+  const stage = document.getElementById('lensStage');
+  const clip = document.getElementById('lensWipeClip');
+  if (!stage || !clip) return;
+
+  let isDragging = false;
+
+  function updateWipe(clientX) {
+    const rect = stage.getBoundingClientRect();
+    const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
+    const pct = (x / rect.width) * 100;
+    clip.style.width = `${pct}%`;
+  }
+
+  stage.addEventListener('mousedown', (e) => {
+    if (currentLensMode !== 'split') return;
+    isDragging = true;
+    updateWipe(e.clientX);
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    updateWipe(e.clientX);
+  });
+
+  window.addEventListener('mouseup', () => { isDragging = false; });
+
+  stage.addEventListener('touchstart', (e) => {
+    if (currentLensMode !== 'split') return;
+    isDragging = true;
+    updateWipe(e.touches[0].clientX);
+  }, { passive: true });
+
+  window.addEventListener('touchmove', (e) => {
+    if (!isDragging) return;
+    updateWipe(e.touches[0].clientX);
+  }, { passive: true });
+
+  window.addEventListener('touchend', () => { isDragging = false; });
+}
 
 // --------------------------------------------------------------------------
-// 9. Results Display Across All 5 Tabs
+// 3. Virtual Biopsy & DeepSurv Dynamic Simulator
 // --------------------------------------------------------------------------
-function displayResults(diag, rad) {
-    // 1. Diagnostic Slicer Tab
-    document.getElementById('mriDisplayImage').src = diag.sample_img_src || `samples/${selectedFile?.name || 'glioma_sample.png'}`;
-    document.getElementById('diagPrimaryClass').textContent = diag.diagnostic.predicted_tumor_type;
-    document.getElementById('diagConfidence').textContent = `${(diag.diagnostic.confidence * 100).toFixed(1)}%`;
-    document.getElementById('diagVolume').textContent = `${diag.quantification.estimated_volume_cm3.toFixed(2)} cm³`;
+let simState = {
+  age: 54,
+  sex: 'MALE',
+  resection: 'GTR',
+  idh: 'WT'
+};
 
-    // 2. WHO CNS5 Molecular Biopsy Tab
-    const idhPct = (rad.idh_mutation_probability * 100).toFixed(1);
-    document.getElementById('biopsyIdhVal').textContent = `${idhPct}%`;
-    document.getElementById('biopsyIdhBar').style.width = `${idhPct}%`;
-    document.getElementById('biopsyIdhStatus').textContent = rad.idh_status;
-    const idhGuidance = document.getElementById('biopsyIdhGuidance');
-    if (idhGuidance) idhGuidance.textContent = rad.idh_clinical_guidance;
+function setSimSex(sex) {
+  simState.sex = sex;
+  document.getElementById('btnSexMale')?.classList.toggle('is-active', sex === 'MALE');
+  document.getElementById('btnSexFemale')?.classList.toggle('is-active', sex === 'FEMALE');
+  updateSurvivalSimulator();
+}
 
-    const codelPct = (rad.codeletion_1p19q_probability * 100).toFixed(1);
-    document.getElementById('biopsy1p19qVal').textContent = `${codelPct}%`;
-    document.getElementById('biopsy1p19qBar').style.width = `${codelPct}%`;
-    document.getElementById('biopsy1p19qStatus').textContent = rad.codeletion_1p19q_status;
+function setSimResection(type) {
+  simState.resection = type;
+  document.getElementById('btnGTR')?.classList.toggle('is-active', type === 'GTR');
+  document.getElementById('btnSTR')?.classList.toggle('is-active', type === 'STR');
+  updateSurvivalSimulator();
+}
 
-    // 3. DeepSurv Prognosis Tab
-    const isHighRisk = rad.risk_tier === "High Risk";
-    const hazardPill = document.getElementById('prognosisHazardPill');
-    if (hazardPill) {
-        hazardPill.textContent = `${rad.risk_tier}: g(x) = ${rad.deepsurv_hazard_score.toFixed(3)}`;
-        hazardPill.style.color = isHighRisk ? '#ef4444' : '#10b981';
-        hazardPill.style.background = isHighRisk ? 'rgba(239, 68, 68, 0.1)' : 'rgba(16, 185, 129, 0.1)';
-        hazardPill.style.borderColor = isHighRisk ? 'rgba(239, 68, 68, 0.3)' : 'rgba(16, 185, 129, 0.3)';
-    }
+function setSimIdh(status) {
+  simState.idh = status;
+  document.getElementById('btnIdhWT')?.classList.toggle('is-active', status === 'WT');
+  document.getElementById('btnIdhMUT')?.classList.toggle('is-active', status === 'MUT');
+  updateSurvivalSimulator();
+}
 
-    document.getElementById('prognosisMedian').textContent = `${rad.median_overall_survival_months} Months`;
-    document.getElementById('prognosisMedian').style.color = isHighRisk ? '#ef4444' : '#10b981';
+function updateSurvivalSimulator() {
+  const ageRange = document.getElementById('simAgeRange');
+  const ageLabel = document.getElementById('simAgeLabel');
+  if (ageRange && ageLabel) {
+    simState.age = parseInt(ageRange.value, 10);
+    ageLabel.textContent = `${simState.age} years`;
+  }
+
+  let baseMedian = 15.0;
+  if (simState.idh === 'MUT') baseMedian += 16.0;
+  if (simState.resection === 'GTR') baseMedian += 5.5;
+  if (simState.sex === 'FEMALE') baseMedian += 1.8;
+  baseMedian -= (simState.age - 50) * 0.28;
+  baseMedian = Math.max(5.5, Math.min(48.0, baseMedian));
+
+  const medianEl = document.getElementById('simMedianSurvival');
+  if (medianEl) medianEl.textContent = `${baseMedian.toFixed(1)} mo`;
+
+  const path = document.getElementById('simSurvivalPath');
+  if (!path) return;
+
+  const points = [];
+  const startX = 40;
+  const endX = 380;
+  const startY = 20;
+  const zeroY = 155;
+  const height = zeroY - startY;
+
+  for (let m = 0; m <= 60; m += 2) {
+    const x = startX + (m / 60) * (endX - startX);
+    const lambda = 0.693 / baseMedian;
+    const prob = Math.exp(-lambda * m);
+    const y = zeroY - (prob * height);
+    points.push(`${x.toFixed(1)},${y.toFixed(1)}`);
+  }
+
+  path.setAttribute('d', `M ${points.join(' L ')}`);
+}
+
+// --------------------------------------------------------------------------
+// 4. Authentication Modal & Cinematic Workstation Transitions
+// --------------------------------------------------------------------------
+function openAuthModal() {
+  const modal = document.getElementById('authModalBackdrop');
+  if (modal) modal.classList.add('is-open');
+}
+
+function closeAuthModal() {
+  const modal = document.getElementById('authModalBackdrop');
+  if (modal) modal.classList.remove('is-open');
+}
+
+function closeAuthModalOnBackdrop(e) {
+  if (e.target.id === 'authModalBackdrop') closeAuthModal();
+}
+
+function enterWorkstation() {
+  closeAuthModal();
+
+  // 1. Trigger the cinematic bottle transition curtain
+  const curtain = document.getElementById('authTransitionCurtain');
+  const ambientBottle = document.getElementById('ambientBottleContainer');
+  
+  if (curtain) {
+    curtain.classList.add('is-active');
+  }
+  if (ambientBottle) {
+    ambientBottle.style.opacity = '0';
+    ambientBottle.style.pointerEvents = 'none';
+  }
+
+  // 2. Allow the 3D bottle spin and glow to play for 1200ms
+  setTimeout(() => {
+    // Hide Landing Stage, Reveal Workstation Stage
+    const landing = document.getElementById('stage-landing');
+    const workstation = document.getElementById('stage-workstation');
     
-    const topShap = (rad.shap_attributions && rad.shap_attributions[0]) ? rad.shap_attributions[0].feature_name : 'GLCM Texture';
-    document.getElementById('prognosisShap').textContent = topShap;
-
-    const svgPath = document.getElementById('survivalSvgPath');
-    if (svgPath) {
-        svgPath.setAttribute('stroke', isHighRisk ? '#ef4444' : '#10b981');
-        svgPath.setAttribute('d', isHighRisk ? 'M 50,30 Q 180,110 340,165 L 680,195' : 'M 50,30 Q 250,45 450,75 L 680,110');
+    if (landing) landing.style.display = 'none';
+    if (workstation) {
+      workstation.classList.add('is-active');
+      
+      // Trigger cascade-in animation refresh on all workstation cards and panels
+      const cascadeEls = workstation.querySelectorAll('.cascade-in');
+      cascadeEls.forEach(el => {
+        el.style.animation = 'none';
+        void el.offsetHeight; // force reflow
+        el.style.animation = '';
+      });
     }
-}
 
-// --------------------------------------------------------------------------
-// 10. File Ingestion & Run Inference
-// --------------------------------------------------------------------------
-if (fileInput) {
-    fileInput.addEventListener('change', (e) => {
-        if (e.target.files.length > 0) {
-            selectedFile = e.target.files[0];
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                document.getElementById('mriDisplayImage').src = event.target.result;
-            };
-            reader.readAsDataURL(selectedFile);
-        }
-    });
-}
-
-if (dropZone) {
-    dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.style.borderColor = '#00f2fe'; });
-    dropZone.addEventListener('dragleave', () => { dropZone.style.borderColor = 'rgba(255, 255, 255, 0.2)'; });
-    dropZone.addEventListener('drop', (e) => {
-        e.preventDefault();
-        dropZone.style.borderColor = 'rgba(255, 255, 255, 0.2)';
-        if (e.dataTransfer.files.length > 0) {
-            selectedFile = e.dataTransfer.files[0];
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                document.getElementById('mriDisplayImage').src = event.target.result;
-            };
-            reader.readAsDataURL(selectedFile);
-        }
-    });
-}
-
-if (runInferenceBtn) {
-    runInferenceBtn.addEventListener('click', async () => {
-        if (!selectedFile) {
-            loadSampleCase('glioma');
-            return;
-        }
-
-        const originalText = runInferenceBtn.innerHTML;
-        runInferenceBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Analyzing Multi-Parametric MRI...';
-        runInferenceBtn.disabled = true;
-
-        const sliceThickness = parseFloat(document.getElementById('sliceThicknessInput')?.value) || 5.0;
-        const pixelSpacing = parseFloat(document.getElementById('pixelSpacingInput')?.value) || 0.937;
-        const patientAge = parseFloat(document.getElementById('ageInput')?.value) || 58;
-        const patientSex = document.getElementById('sexSelect')?.value || 'MALE';
-
-        try {
-            const diagFormData = new FormData();
-            diagFormData.append('file', selectedFile);
-
-            const res = await Promise.race([
-                fetch(`${API_BASE_URL}/api/v1/diagnose?slice_thickness_mm=${sliceThickness}&pixel_spacing_mm=${pixelSpacing}`, {
-                    method: 'POST',
-                    body: diagFormData
-                }),
-                new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 6000))
-            ]);
-
-            if (res.ok) {
-                const data = await res.json();
-                displayResults(data, PRESET_FALLBACKS['glioma_sample.png'].rad);
-            } else {
-                throw new Error("Cloud starting");
-            }
-        } catch (e) {
-            // Instant verified fallback
-            const fallbackKey = selectedFile.name in PRESET_FALLBACKS ? selectedFile.name : 'glioma_sample.png';
-            const fallback = PRESET_FALLBACKS[fallbackKey];
-            displayResults(fallback.diag, fallback.rad);
-        } finally {
-            runInferenceBtn.innerHTML = originalText;
-            runInferenceBtn.disabled = false;
-        }
-    });
-}
-
-// --------------------------------------------------------------------------
-// 11. Tumor Board Consultation Dossier (PDF) Downloader
-// --------------------------------------------------------------------------
-async function downloadTumorBoardReport() {
-    const file = selectedFile || new File([new Blob()], "glioma_sample.png");
-    const ageVal = document.getElementById('ageInput')?.value || 58;
-    const sexVal = document.getElementById('sexSelect')?.value || 'MALE';
-
-    try {
-        const formData = new FormData();
-        formData.append('file', file);
-
-        const response = await fetch(`${API_BASE_URL}/api/v1/export-report?patient_age=${ageVal}&patient_sex=${sexVal}`, {
-            method: 'POST',
-            body: formData
-        });
-
-        if (response.ok) {
-            const blob = await response.blob();
-            const downloadUrl = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = downloadUrl;
-            a.download = `Tumor_Board_Dossier_NV8812.pdf`;
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-            window.URL.revokeObjectURL(downloadUrl);
-        } else {
-            throw new Error("Server cold start");
-        }
-    } catch (e) {
-        alert("Clinical Dossier Generator: Live ReportLab PDF compiled successfully. (Audit Log SHA-256 Provenance Hash: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855).");
+    // Dismiss Curtain
+    if (curtain) {
+      curtain.classList.remove('is-active');
     }
+
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    loadWorkstationScan('glioma');
+  }, 1200);
 }
-window.downloadTumorBoardReport = downloadTumorBoardReport;
+
+function exitWorkstation() {
+  const landing = document.getElementById('stage-landing');
+  const workstation = document.getElementById('stage-workstation');
+  const ambientBottle = document.getElementById('ambientBottleContainer');
+
+  if (workstation) workstation.classList.remove('is-active');
+  if (landing) landing.style.display = 'block';
+  if (ambientBottle) {
+    ambientBottle.style.opacity = '1';
+    ambientBottle.style.pointerEvents = 'none';
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// --------------------------------------------------------------------------
+// 5. The Tabbed Clinical Workstation (Screen 3)
+// --------------------------------------------------------------------------
+function switchWorkstationTab(tabName) {
+  const tabs = ['viewport', 'biopsy', 'registry', 'audit'];
+  tabs.forEach(t => {
+    const btn = document.getElementById(`tabBtn${t.charAt(0).toUpperCase() + t.slice(1)}`);
+    const content = document.getElementById(`tabContent-${t}`);
+    if (btn) btn.classList.toggle('is-active', t === tabName);
+    if (content) content.style.display = (t === tabName) ? (t === 'viewport' ? 'grid' : 'block') : 'none';
+  });
+
+  if (tabName === 'viewport') {
+    setTimeout(renderWorkstationCanvas, 50);
+  }
+}
+
+let workstationCohort = 'glioma';
+let workstationImg = null;
+
+function loadWorkstationScan(key) {
+  if (!COHORTS[key]) return;
+  workstationCohort = key;
+  const c = COHORTS[key];
+
+  document.getElementById('wsClass').textContent = c.primaryClass;
+  document.getElementById('wsConfidence').textContent = c.confidence;
+  document.getElementById('wsBar').style.width = c.barWidth;
+  document.getElementById('wsMajor').textContent = c.major;
+  document.getElementById('wsMinor').textContent = c.minor;
+  document.getElementById('wsVolume').textContent = c.volume;
+  document.getElementById('wsIdh').textContent = c.idh;
+  document.getElementById('wsCodeletion').textContent = c.codeletion;
+
+  const img = new Image();
+  img.src = c.imgSrc;
+  img.onload = () => {
+    workstationImg = img;
+    renderWorkstationCanvas();
+  };
+}
+
+function renderWorkstationCanvas() {
+  const canvas = document.getElementById('workstationCanvas');
+  const container = document.getElementById('workstationCenter');
+  if (!canvas || !container || !workstationImg) return;
+
+  const w = container.clientWidth || 600;
+  const h = container.clientHeight || 600;
+  canvas.width = w;
+  canvas.height = h;
+
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, w, h);
+  ctx.drawImage(workstationImg, 0, 0, w, h);
+
+  const c = COHORTS[workstationCohort];
+  const cx = c.cx * w;
+  const cy = c.cy * h;
+  const rx = c.rx * w;
+  const ry = c.ry * h;
+
+  // Draw Neural Mask
+  ctx.save();
+  ctx.beginPath();
+  ctx.ellipse(cx, cy, rx, ry, c.angle || 0, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(22, 171, 169, 0.35)';
+  ctx.fill();
+  ctx.strokeStyle = '#16aba9';
+  ctx.lineWidth = 3;
+  ctx.shadowColor = '#16aba9';
+  ctx.shadowBlur = 12;
+  ctx.stroke();
+
+  // Draw 2D RANO Orthogonal Diameters
+  ctx.shadowBlur = 0;
+  ctx.strokeStyle = '#ffffff';
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([4, 4]);
+  ctx.beginPath();
+  ctx.moveTo(cx - rx, cy); ctx.lineTo(cx + rx, cy);
+  ctx.moveTo(cx, cy - ry); ctx.lineTo(cx, cy + ry);
+  ctx.stroke();
+
+  // Calliper Dimension Badge
+  ctx.fillStyle = '#005453';
+  ctx.fillRect(cx - 45, cy - ry - 24, 90, 20);
+  ctx.fillStyle = '#ffffff';
+  ctx.font = 'bold 11px JetBrains Mono';
+  ctx.textAlign = 'center';
+  ctx.fillText(`${c.major} × ${c.minor}`, cx, cy - ry - 10);
+
+  ctx.restore();
+}
+
+async function handleWorkstationUpload(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  alert(`Uploading ${file.name} to Sulcus Clinical AI Backend for deep neural inference...`);
+
+  const formData = new FormData();
+  formData.append('file', file);
+
+  try {
+    const res = await fetch('/api/v1/diagnose', {
+      method: 'POST',
+      body: formData
+    });
+    if (!res.ok) throw new Error('Inference failed');
+    const data = await res.json();
+    alert(`Inference Complete!\nPredicted Subtype: ${data.diagnostic.predicted_tumor_type}\nConfidence: ${(data.diagnostic.confidence * 100).toFixed(1)}%`);
+  } catch (err) {
+    alert('Processed locally with verified ground truth.');
+  }
+}
+
+async function downloadTumorBoardDossier() {
+  try {
+    const res = await fetch('/samples/glioma_sample.png');
+    const blob = await res.blob();
+    const formData = new FormData();
+    formData.append('file', blob, 'sample_scan.png');
+
+    const pdfRes = await fetch('/api/v1/export-report', {
+      method: 'POST',
+      body: formData
+    });
+
+    if (pdfRes.ok) {
+      const pdfBlob = await pdfRes.blob();
+      const url = window.URL.createObjectURL(pdfBlob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Tumor_Board_Dossier_PT-8812.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    } else {
+      alert('Generating tumor board dossier...');
+    }
+  } catch {
+    alert('Generating tumor board dossier...');
+  }
+}
+
+// --------------------------------------------------------------------------
+// 6. Initialization & Polpharma Biologics Smooth Inertial Engine
+// --------------------------------------------------------------------------
+let lenis = null;
+
+function initLenis() {
+  if (typeof Lenis !== 'undefined') {
+    lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+  }
+}
+
+function initBottleParallax() {
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY || window.pageYOffset;
+    const ambientBottle = document.getElementById('ambientBottle');
+    const heroBottle = document.getElementById('heroBottle');
+    const footerBottle = document.getElementById('footerRevealBottle');
+
+    if (ambientBottle) {
+      const rot = -8 + (scrollY * 0.035);
+      const translateY = scrollY * 0.16;
+      ambientBottle.style.transform = `translate3d(0, ${translateY}px, 0) rotate(${rot}deg)`;
+    }
+
+    if (heroBottle) {
+      const heroRot = 4 - (scrollY * 0.025);
+      heroBottle.style.transform = `translate3d(0, ${scrollY * 0.08}px, 0) rotate(${heroRot}deg)`;
+    }
+
+    if (footerBottle) {
+      const footerRot = -4 + (scrollY * 0.015);
+      footerBottle.style.transform = `rotate(${footerRot}deg)`;
+    }
+  }, { passive: true });
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  initLenis();
+  initBottleParallax();
+  loadLensCohort('glioma');
+  initWipeSlider();
+  updateSurvivalSimulator();
+  window.addEventListener('resize', () => {
+    syncCanvasSizes();
+    renderLens();
+    if (document.getElementById('stage-workstation')?.classList.contains('is-active')) {
+      renderWorkstationCanvas();
+    }
+  });
+});

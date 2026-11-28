@@ -92,10 +92,11 @@ def main():
     from src.data.dataset import get_medical_transforms
     val_tf = get_medical_transforms(is_train=False)
 
-    # Load 100 held-out test scans from split
+    # Load class-balanced held-out test scans from split (up to 40 per class)
     split_df = pd.read_csv("data/splits/patient_stratified_5folds.csv")
-    test_rows = split_df[split_df["split"] == "test"].head(100)
-    print(f"Testing across {len(test_rows)} patient-isolated test scans...")
+    test_df = split_df[split_df["split"] == "test"]
+    test_rows = test_df.groupby("label_id", group_keys=False).apply(lambda g: g.head(40))
+    print(f"Testing across {len(test_rows)} class-balanced patient-isolated test scans...")
 
     preprocessor = MedicalImagePreprocessor(target_size=(128, 128))
 
@@ -170,10 +171,7 @@ def main():
         preds = np.array(preds)
         pred_cls = np.argmax(preds, axis=1)
         acc = accuracy_score(clean_labels, pred_cls)
-        try:
-            auc = roc_auc_score(clean_labels, preds, multi_class="ovr", average="macro")
-        except Exception:
-            auc = 0.5
+        auc = roc_auc_score(clean_labels, preds, multi_class="ovr", average="macro")
         return float(acc), float(auc)
 
     # 1. Baseline

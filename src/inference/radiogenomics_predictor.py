@@ -32,36 +32,58 @@ class RadiogenomicsPredictor:
         else:
             print("Warning: Radiogenomics weights not found. Running initialized network.")
 
+        self.scalers = None
+        scaler_path = Path("models/multimodal_radiogenomics_scalers.json")
+        if scaler_path.exists():
+            import json
+            with open(scaler_path) as f:
+                self.scalers = json.load(f)
+
         # Baseline cumulative hazard and median points from TCGA Kaplan-Meier baseline
         self.time_points = np.array([0, 6, 12, 18, 24, 36, 48, 60], dtype=float)
         # S_0(t) baseline survival probabilities
         self.base_survival = np.array([1.0, 0.88, 0.72, 0.58, 0.46, 0.32, 0.24, 0.18], dtype=float)
 
-    def extract_features_from_source(self, file_source: bytes, filename: str):
-        """Extracts 2D MRI slice and computes mask if needed."""
+    def extract_features_from_source(self, file_source: bytes, filename: str, mask: np.ndarray = None):
+        """Extracts 2D MRI slice and computes mask using neural attention segmentation if not provided."""
         img = None
-        mask = None
         lower = filename.lower()
 
         if lower.endswith(".mat"):
             with h5py.File(io.BytesIO(file_source), 'r') as f:
                 cj = f['cjdata']
                 img = np.array(cj['image'], dtype=np.float32)
-                mask = np.array(cj['tumorMask'], dtype=np.uint8)
+                if mask is None:
+                    mask = np.array(cj['tumorMask'], dtype=np.uint8)
         else:
             # Standard image or DICOM fallback
             pil_img = Image.open(io.BytesIO(file_source)).convert("L")
             img = np.array(pil_img, dtype=np.float32)
-            # Automatic Otsu threshold for high-intensity tumor candidate if no ground truth mask
-            norm = ((img - img.min()) / (img.max() - img.min() + 1e-6) * 255).astype(np.uint8)
-            _, mask = cv2.threshold(norm, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-            # Retain largest central component
-            contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-            clean_mask = np.zeros_like(mask)
-            if contours:
-                c = max(contours, key=cv2.contourArea)
-                cv2.drawContours(clean_mask, [c], -1, 1, -1)
-            mask = clean_mask
+            if mask is None:
+                # Use neural segmentation from ClinicalPredictor to extract lesion contours
+                try:
+                    from src.inference.predictor import ClinicalPredictor
+                    cli_pred = ClinicalPredictor()
+                    diag = cli_pred.predict(file_source, filename)
+                    p_mask = diag.get("visualizations", {}).get("seg_mask")
+                    if p_mask is not None and p_mask.max() > 0:
+                        if p_mask.shape != img.shape:
+                            mask = cv2.resize(p_mask.astype(np.float32), (img.shape[1], img.shape[0]), interpolation=cv2.INTER_NEAREST)
+                        else:
+                            mask = (p_mask > 0.5).astype(np.uint8)
+                except Exception:
+                    mask = None
+
+            if mask is None:
+                # Automatic Otsu threshold fallback if neural prediction unavailable
+                norm = ((img - img.min()) / (img.max() - img.min() + 1e-6) * 255).astype(np.uint8)
+                _, mask = cv2.threshold(norm, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+                contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                clean_mask = np.zeros_like(mask)
+                if contours:
+                    c = max(contours, key=cv2.contourArea)
+                    cv2.drawContours(clean_mask, [c], -1, 1, -1)
+                mask = clean_mask
 
         feats = extract_slice_radiomics(img, mask)
         if feats is None:
@@ -75,8 +97,8 @@ class RadiogenomicsPredictor:
             ]}
         return img, mask, feats
 
-    def predict(self, file_source: bytes, filename: str, age: float = 52.0, sex: str = "MALE", is_gbm: bool = False):
-        _, _, raw_feats = self.extract_features_from_source(file_source, filename)
+    def predict(self, file_source: bytes, filename: str, age: float = 52.0, sex: str = "MALE", is_gbm: bool = False, mask: np.ndarray = None):
+        _, _, raw_feats = self.extract_features_from_source(file_source, filename, mask=mask)
 
         # Build feature vectors
         # Mean and variance proxy (48 features)
@@ -85,15 +107,27 @@ class RadiogenomicsPredictor:
         rad_vector = np.array(feature_vals + [v * 0.1 for v in feature_vals], dtype=np.float32)
         rad_vector = np.nan_to_num(rad_vector)
 
-        # Standardize using scaling
-        rad_norm = (rad_vector - np.mean(rad_vector)) / (np.std(rad_vector) + 1e-6)
+        # Standardize using cohort scaler if available, else per-sample fallback
+        if self.scalers is not None:
+            rad_mean = np.array(self.scalers["rad_mean"], dtype=np.float32)
+            rad_scale = np.array(self.scalers["rad_scale"], dtype=np.float32)
+            rad_norm = (rad_vector - rad_mean) / (rad_scale + 1e-6)
+        else:
+            rad_norm = (rad_vector - np.mean(rad_vector)) / (np.std(rad_vector) + 1e-6)
         x_rad_t = torch.tensor(rad_norm, dtype=torch.float32).unsqueeze(0)
 
-        # Clinical covariates: [age_norm, is_male, is_gbm]
-        age_norm = (age - 50.0) / 15.0
+        # Clinical covariates: [age, is_male, is_gbm]
         is_male_val = 1.0 if sex.upper().startswith("M") else 0.0
         is_gbm_val = 1.0 if is_gbm else 0.0
-        x_clin_t = torch.tensor([[age_norm, is_male_val, is_gbm_val]], dtype=torch.float32)
+        if self.scalers is not None:
+            clin_raw = np.array([age, is_male_val, is_gbm_val], dtype=np.float32)
+            clin_mean = np.array(self.scalers["clin_mean"], dtype=np.float32)
+            clin_scale = np.array(self.scalers["clin_scale"], dtype=np.float32)
+            clin_norm = (clin_raw - clin_mean) / (clin_scale + 1e-6)
+            x_clin_t = torch.tensor(clin_norm, dtype=torch.float32).unsqueeze(0)
+        else:
+            age_norm = (age - 50.0) / 15.0
+            x_clin_t = torch.tensor([[age_norm, is_male_val, is_gbm_val]], dtype=torch.float32)
 
         with torch.no_grad():
             logit_idh, logit_1p19q, log_hazard = self.model(x_rad_t, x_clin_t)
@@ -110,8 +144,9 @@ class RadiogenomicsPredictor:
         else:
             idh_guidance = "Aggressive molecular biology characteristic of Glioblastoma (WHO Grade 4). Consider early aggressive chemo-radiation."
 
-        # 1p/19q codeletion
-        is_codeleted = prob_1p19q >= 0.35  # Cost-sensitive calibrated threshold
+        # 1p/19q codeletion (Using calibrated decision threshold from cross-validation)
+        threshold_1p19q = float(self.scalers.get("optimal_1p19q_threshold", 0.35)) if self.scalers else 0.35
+        is_codeleted = prob_1p19q >= threshold_1p19q
         codeletion_status = "1p/19q Co-deleted" if is_codeleted else "1p/19q Intact (Non-codeleted)"
 
         # Integrated WHO 2021 Subtype
